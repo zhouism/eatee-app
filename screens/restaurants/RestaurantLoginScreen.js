@@ -13,7 +13,7 @@ const config = {
   }
 };
 
-export default class RestaurantLogin extends React.Component {
+export default class RestaurantLoginScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
