@@ -16,12 +16,24 @@ import RestaurantLoginScreen from '../screens/restaurants/RestaurantLoginScreen'
 const UserStack = UserNavigator;
 const RestaurantStack = RestaurantNavigator;
 
+const UserAuthSwitch = createSwitchNavigator({
+  User: UserLoginScreen,
+  UserNav: UserStack,
+})
+
+const RestaurantAuthSwitch = createSwitchNavigator({
+  Restaurant: RestaurantLoginScreen,
+  RestaurantNav: RestaurantStack,
+})
+
 export default createStackNavigator(
   {
     // AuthLoading: AuthLoadingScreen,
     Home: HomeScreen,
     User: UserLoginScreen,
-    Restaurant: RestaurantLoginScreen, //this has to be changed to RestaurantLogin
+    Restaurant: RestaurantLoginScreen, 
+    UserAU: UserAuthSwitch,
+    RestaurantAU: RestaurantAuthSwitch,
   },
   {
     initialRouteName: 'Home',

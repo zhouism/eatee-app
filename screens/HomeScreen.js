@@ -16,11 +16,11 @@ export default class HomeScreen extends Component {
   }
 
   _showUserLogin = () => {
-    this.props.navigation.navigate('User');
+    this.props.navigation.navigate('UserAU');
   };
 
   _showRestaurantLogin = () => {
-    this.props.navigation.navigate('Restaurant');
+    this.props.navigation.navigate('RestaurantAU');
   };
 }
 

@@ -19,8 +19,7 @@ export default class UserLogin extends React.Component {
   }
 
   _signInAsync = async () => {
-    await AsyncStorage.setItem('userToken', 'abc');
-    this.props.navigation.navigate('App');
+    this.props.navigation.navigate('UserNav');
   };
 }
 
