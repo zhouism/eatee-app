@@ -1,33 +1,31 @@
 import React from "react";
 import { FlatList, ActivityIndicator, Text, View } from "react-native";
 import axios from "axios";
-import { SearchBar } from "react-native-elements";
+import { SearchBar, Button } from "react-native-elements";
 
 const authToken =
   "Bearer JIba6FRPuS1u8_G-7HeYFxOEn1hP8OiBz8SNySU0VlWpzKY8hx0E9hJulfTId43tLaDk-0inreQzymHn54GF5wGULtbEUy8yggF0564R5ESptLfg4X9m_mA0FJ6mW3Yx";
-const config = {
-  headers: {
-    Authorization: authToken
-  },
-  params: {
-    phone: "+16046858817"
-  }
-};
 
 export default class RestaurantLoginScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
+      isLoading: false,
       data: {},
       query: ""
     };
   }
 
-  componentWillMount() {
+  getRestaurantData(phoneNumber) {
     axios
-      .get("https://api.yelp.com/v3/businesses/search/phone", config)
-      // .then(response => console.log(response.data.businesses[0]))
+      .get("https://api.yelp.com/v3/businesses/search/phone", {
+        headers: {
+          Authorization: authToken
+        },
+        params: {
+          phone: phoneNumber
+        }
+      })
       .then(response => {
         this.setState({
           isLoading: false,
@@ -60,6 +58,21 @@ export default class RestaurantLoginScreen extends React.Component {
           onCancel={this._handleSearchCancel}
           onClear={this._handleSearchClear}
           value={this.state.query}
+        />
+        <Button
+          onPress={() => this.getRestaurantData(this.state.query)}
+          title="Look for my restaurant"
+        />
+        <FlatList
+          data={this.state.data}
+          renderItem={({ item }) => (
+            <Text>
+              Restaurant: {item.name}, Phone: {item.display_phone}, Price Range:{" "}
+              {item.price}, Address: {item.location.address1}, City:{" "}
+              {item.location.city}
+            </Text>
+          )}
+          keyExtractor={item => item.name}
         />
       </View>
     );
