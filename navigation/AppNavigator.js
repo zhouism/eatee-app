@@ -5,6 +5,7 @@ import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import UserNavigator from './UserNavigator';
 import HomeScreen from '../screens/HomeScreen';
 import UserLogin from '../screens/users/UserLogin';
+import SettingsScreen from '../screens/users/SettingsScreen';
 
 // Implementation of HomeScreen, OtherScreen, SignInScreen, AuthLoadingScreen
 // goes here.
@@ -21,6 +22,7 @@ export default createSwitchNavigator(
     Home: HomeScreen,
     User: UserLogin,
     Restaurant: RestaurantStack, //this has to be changed to RestaurantLogin
+    Settings: SettingsScreen
   },
   {
     initialRouteName: 'Home',
