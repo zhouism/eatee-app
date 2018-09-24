@@ -1,26 +1,34 @@
 import React, { Component } from "react";
 import { Text, View, Image, Button, StyleSheet } from "react-native";
+import UserLogin from '../screens/users/UserLogin';
 
 export default class HomeScreen extends Component {
   static navigationOptions = {
-    title: 'HOME SCREEN',
+    title: 'Welcome to the app!',
   };
-
 
   render() {
     return (
-      <View>
-        <Image style={styles.image} source={require('../assets/images/icon.png')} />
-        <Button onPress={} title="User Login Button"></Button>
-        <Button onPress={} title="Restaurant Owner Login Button"></Button>
+      <View style={styles.container}>
+        <Button title="User Login" onPress={this._showUserLogin} />
+        <Button title="Restaurant Login" onPress={this._showRestaurantLogin} />
       </View>
-    )
+    );
   }
+
+  _showUserLogin = () => {
+    this.props.navigation.navigate('User');
+  };
+
+  _showRestaurantLogin = () => {
+    this.props.navigation.navigate('Restaurant');
+  };
 }
 
 const styles = StyleSheet.create({
-  image: {
-    width: 200, 
-    height: 200
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

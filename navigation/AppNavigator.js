@@ -1,10 +1,28 @@
 import React from 'react';
-import { createSwitchNavigator } from 'react-navigation';
+import { createSwitchNavigator, createStackNavigator } from 'react-navigation';
+import RestaurantNavigator from './RestaurantNavigator';
+import AuthLoadingScreen from '../screens/AuthLoadingScreen';
+import UserNavigator from './UserNavigator';
+import HomeScreen from '../screens/HomeScreen';
+import UserLogin from '../screens/users/UserLogin';
 
-import MainTabNavigator from './MainTabNavigator';
+// Implementation of HomeScreen, OtherScreen, SignInScreen, AuthLoadingScreen
+// goes here.
 
-export default createSwitchNavigator({
-  // You could add another route here for authentication.
-  // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-  Main: MainTabNavigator,
-});
+// const AppStack = createStackNavigator({ Home: HomeScreen, User: UserNavigator, Restaurant: RestaurantNavigator });
+// const AuthStack = createStackNavigator({ SignIn: UserLogin });
+
+const UserStack = UserNavigator;
+const RestaurantStack = RestaurantNavigator;
+
+export default createSwitchNavigator(
+  {
+    // AuthLoading: AuthLoadingScreen,
+    Home: HomeScreen,
+    User: UserLogin,
+    Restaurant: RestaurantStack, //this has to be changed to RestaurantLogin
+  },
+  {
+    initialRouteName: 'Home',
+  }
+);
