@@ -4,8 +4,9 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import CouponListScreen from '../screens/users/CouponListScreen';
+import SettingsScreen from '../screens/users/SettingsScreen';
+import SwipeScreen2 from '../screens/users/SwipeScreen2';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -25,16 +26,16 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+const CouponListStack = createStackNavigator({
+  Links: CouponListScreen,
 });
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+CouponListStack.navigationOptions = {
+  tabBarLabel: 'CouponList',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link'}
+      name={Platform.OS === 'ios' ? `ios-list${focused ? '' : '-outline'}` : 'md-list'}
     />
   ),
 };
@@ -53,8 +54,23 @@ SettingsStack.navigationOptions = {
   ),
 };
 
+const SwipeStack = createStackNavigator({
+  Swipes: SwipeScreen2,
+});
+
+SwipeStack.navigationOptions = {
+  tabBarLabel: 'Swipe',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? `ios-arrow-down${focused ? '' : '-outline'}` : 'md-arrow-down'}
+    />
+  ),
+};
+
 export default createBottomTabNavigator({
   HomeStack,
-  LinksStack,
   SettingsStack,
+  SwipeStack,
+  CouponListStack
 });
