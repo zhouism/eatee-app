@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Text, View, Image, Button, StyleSheet } from "react-native";
-import UserLogin from '../screens/users/UserLogin';
 
 export default class HomeScreen extends Component {
   static navigationOptions = {

@@ -1,23 +1,18 @@
-import React from 'react';
+import React, { Component } from "react";
 import { Text, View, Image, Button, StyleSheet } from "react-native";
 
-export default class UserLogin extends React.Component {
+export default class CouponBatchesScreen extends Component {
   static navigationOptions = {
-    title: 'Please sign in',
+    title: 'CouponBatchesScreen!',
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <Button title="Sign in!" onPress={this._signInAsync} />
+        <Text>Hello</Text>
       </View>
     );
   }
-
-  _signInAsync = async () => {
-    await AsyncStorage.setItem('userToken', 'abc');
-    this.props.navigation.navigate('App');
-  };
 }
 
 const styles = StyleSheet.create({
