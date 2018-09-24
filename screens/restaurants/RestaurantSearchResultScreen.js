@@ -1,7 +1,6 @@
 import React from "react";
 import { FlatList, ActivityIndicator, Text, View } from "react-native";
 import axios from "axios";
-import { SearchBar } from "react-native-elements";
 
 const authToken =
   "Bearer JIba6FRPuS1u8_G-7HeYFxOEn1hP8OiBz8SNySU0VlWpzKY8hx0E9hJulfTId43tLaDk-0inreQzymHn54GF5wGULtbEUy8yggF0564R5ESptLfg4X9m_mA0FJ6mW3Yx";
@@ -14,13 +13,12 @@ const config = {
   }
 };
 
-export default class RestaurantLoginScreen extends React.Component {
+export default class RestaurantSearchResultScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
-      data: {},
-      query: ""
+      data: {}
     };
   }
 
@@ -39,12 +37,6 @@ export default class RestaurantLoginScreen extends React.Component {
       });
   }
 
-  _handleQueryChange = query =>
-    this.setState(state => ({ ...state, query: query || "" }));
-
-  _handleSearchCancel = () => this._handleQueryChange("");
-  _handleSearchClear = () => this._handleQueryChange("");
-
   render() {
     if (this.state.isLoading) {
       return (
@@ -54,12 +46,18 @@ export default class RestaurantLoginScreen extends React.Component {
       );
     }
     return (
-      <View>
-        <SearchBar
-          onChangeText={this._handleQueryChange}
-          onCancel={this._handleSearchCancel}
-          onClear={this._handleSearchClear}
-          value={this.state.query}
+      // console.log(this.state.data)
+      <View style={{ flex: 1, paddingTop: 20 }}>
+        <FlatList
+          data={this.state.data}
+          renderItem={({ item }) => (
+            <Text>
+              Restaurant: {item.name}, Phone: {item.display_phone}, Price Range:{" "}
+              {item.price}, Address: {item.location.address1}, City:{" "}
+              {item.location.city}
+            </Text>
+          )}
+          keyExtractor={item => item.phone}
         />
       </View>
     );
