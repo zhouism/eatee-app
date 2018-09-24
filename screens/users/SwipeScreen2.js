@@ -4,22 +4,39 @@ import {
   View,
 } from 'react-native';
 import Swiper from 'react-native-swiper-animated';
+import { connect } from 'react-redux';
+import * as actions from '../../actions'
 
-export default () => <Swiper
-  style={styles.wrapper}
-  smoothTransition
-  loop
->
-  <View style={styles.slide1}>
-    <Text style={styles.text}>Hello Swiper</Text>
-  </View>
-  <View style={styles.slide2}>
-    <Text style={styles.text}>Beautiful</Text>
-  </View>
-  <View style={styles.slide3}>
-    <Text style={styles.text}>And simple</Text>
-  </View>
-</Swiper>;
+class SwipeScreen2 extends React.Component {
+  static navigationOptions = {
+    title: 'SwipeScreen',
+  };
+
+  componentDidMount() {
+    this.props.facebookLogin();
+  }
+
+  render() {
+    return (
+
+      <Swiper
+          style={styles.wrapper}
+          smoothTransition
+          loop
+        >
+          <View style={styles.slide1}>
+            <Text style={styles.text}>Hello Swiper</Text>
+          </View>
+          <View style={styles.slide2}>
+            <Text style={styles.text}>Beautiful</Text>
+          </View>
+          <View style={styles.slide3}>
+            <Text style={styles.text}>And simple</Text>
+          </View>
+        </Swiper>
+    )
+  }
+}
 
 const styles = {
   wrapper: {
@@ -49,3 +66,5 @@ const styles = {
     fontWeight: 'bold',
   },
 };
+
+export default connect(null, actions)(SwipeScreen2);
