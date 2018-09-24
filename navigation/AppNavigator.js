@@ -4,8 +4,9 @@ import RestaurantNavigator from './RestaurantNavigator';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import UserNavigator from './UserNavigator';
 import HomeScreen from '../screens/HomeScreen';
-import UserLogin from '../screens/users/UserLogin';
-import SettingsScreen from '../screens/users/SettingsScreen';
+import UserLoginScreen from '../screens/users/UserLoginScreen';
+import RestaurantLoginScreen from '../screens/restaurants/RestaurantLoginScreen';
+
 
 // Implementation of HomeScreen, OtherScreen, SignInScreen, AuthLoadingScreen
 // goes here.
@@ -16,13 +17,25 @@ import SettingsScreen from '../screens/users/SettingsScreen';
 const UserStack = UserNavigator;
 const RestaurantStack = RestaurantNavigator;
 
-export default createSwitchNavigator(
+const UserAuthSwitch = createSwitchNavigator({
+  User: UserLoginScreen,
+  UserNav: UserStack,
+})
+
+const RestaurantAuthSwitch = createSwitchNavigator({
+  Restaurant: RestaurantLoginScreen,
+  RestaurantNav: RestaurantStack,
+})
+
+export default createStackNavigator(
   {
     // AuthLoading: AuthLoadingScreen,
     Home: HomeScreen,
-    User: UserLogin,
-    Restaurant: RestaurantStack, //this has to be changed to RestaurantLogin
-    Settings: SettingsScreen
+    User: UserLoginScreen,
+    Restaurant: RestaurantLoginScreen,
+    UserAU: UserAuthSwitch,
+    RestaurantAU: RestaurantAuthSwitch,
+
   },
   {
     initialRouteName: 'Home',
