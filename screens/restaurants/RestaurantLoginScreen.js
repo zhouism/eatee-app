@@ -74,7 +74,7 @@ export default class RestaurantLoginScreen extends React.PureComponent {
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => (
-            <TouchableHighlight onPress={() => Alert.alert({"clicked"})}>
+            <TouchableHighlight onPress={() => Alert.alert("click working")}>
               <View>
                 <Text>Restaurant: {item.name}</Text>
                 <Text>Phone: {item.display_phone}</Text>
