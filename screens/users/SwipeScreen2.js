@@ -5,34 +5,11 @@ import {
   AsyncStorage
 } from 'react-native';
 import Swiper from 'react-native-swiper-animated';
-import { connect } from 'react-redux';
-import * as actions from '../../actions'
 
-class SwipeScreen2 extends React.Component {
+export default class SwipeScreen2 extends React.Component {
   static navigationOptions = {
     title: 'SwipeScreen',
   };
-i
-  componentDidMount() {
-    this.props.facebookLogin();
-
-    //use AsyncStorage.removeItem('fb_token') for testing logging in again, otherwise it stays login 4ever after first try
-    AsyncStorage.removeItem('fb_token');
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.onAuthComplete(nextProps);
-  }
-
-  onAuthComplete(props) {
-    if (props.token) {
-      // if it succeeds, it will navigate to somewhere ~ SwipeScreen?
-      // this.props.navigation.navigate('User');
-      console.log("navigated");
-    } else {
-      this.props.navigation.navigate('User');
-    }
-  }
 
   render() {
     return (
@@ -83,8 +60,3 @@ const styles = {
     fontWeight: 'bold',
   },
 };
-function mapStateToProps({ auth }) {
-  return { token: auth.token };
-}
-
-export default connect(mapStateToProps, actions)(SwipeScreen2);
