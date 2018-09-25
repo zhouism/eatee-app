@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Text, View, Image, Button, StyleSheet } from "react-native";
+import { Text, View, Image, StyleSheet } from "react-native";
+import { Button } from 'react-native-elements';
 
 export default class HomeScreen extends Component {
   static navigationOptions = {

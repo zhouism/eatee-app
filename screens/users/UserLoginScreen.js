@@ -1,19 +1,30 @@
 import React from 'react';
-import { Text, View, Image, Button, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  AsyncStorage
+} from "react-native";
+import { Button } from 'react-native-elements';
+import { connect } from 'react-redux';
+import * as actions from '../../actions'
 
-export default class UserLogin extends React.Component {
+class UserLogin extends React.Component {
   static navigationOptions = {
     title: 'Please sign in',
   };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Button title="User Sign in!" onPress={this._signInAsync} />
-        <Button title="Go Back" onPress={this._showHomeScreen} />
-      </View>
-    );
+  componentDidMount() {
+    //use AsyncStorage.removeItem('fb_token') for testing logging in again, otherwise it stays login 4ever after first try
+    AsyncStorage.removeItem('fb_token');
   }
+
+  componentWillReceiveProps(nextProps) {
+    this.onAuthComplete(nextProps);
+  }
+
+
   _showHomeScreen = async () => {
     this.props.navigation.navigate('Home')
   }
@@ -21,9 +32,24 @@ export default class UserLogin extends React.Component {
   _signInAsync = async () => {
     this.props.navigation.navigate('UserNav');
   };
+
+  onAuthComplete(props) {
+      if (props.token) {
+        // if it succeeds, it will navigate to SwipeScreen?
+        this.props.navigation.navigate('UserNav');
+        console.log("navigated");
+      }
+    }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Button title="User Sign in!" onPress={ () => { this.props.facebookLogin() }} />
+        <Button title="Go Back" onPress={this._showHomeScreen} />
+      </View>
+    );
+  }
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -32,4 +58,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+function mapStateToProps({ auth }) {
+  return { token: auth.token };
+}
+
+export default connect(mapStateToProps, actions)(UserLogin);
 
