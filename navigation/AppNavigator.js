@@ -7,6 +7,7 @@ import HomeScreen from '../screens/HomeScreen';
 import UserLoginScreen from '../screens/users/UserLoginScreen';
 import RestaurantLoginScreen from '../screens/restaurants/RestaurantLoginScreen';
 
+
 // Implementation of HomeScreen, OtherScreen, SignInScreen, AuthLoadingScreen
 // goes here.
 
@@ -31,11 +32,15 @@ export default createStackNavigator(
     // AuthLoading: AuthLoadingScreen,
     Home: HomeScreen,
     User: UserLoginScreen,
-    Restaurant: RestaurantLoginScreen, 
+    Restaurant: RestaurantLoginScreen,
     UserAU: UserAuthSwitch,
     RestaurantAU: RestaurantAuthSwitch,
+
   },
   {
     initialRouteName: 'Home',
+  },
+  {
+    lazy: true
   }
 );
