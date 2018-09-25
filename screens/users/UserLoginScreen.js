@@ -3,10 +3,10 @@ import {
   Text,
   View,
   Image,
-  Button,
   StyleSheet,
   AsyncStorage
 } from "react-native";
+import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import * as actions from '../../actions'
 
