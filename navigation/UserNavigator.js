@@ -5,7 +5,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import CouponListScreen from '../screens/users/CouponListScreen';
 import SettingsScreen from '../screens/users/SettingsScreen';
-import SwipeScreen2 from '../screens/users/SwipeScreen2';
+import SwipeScreen from '../screens/users/SwipeScreen';
 
 const SettingsStack = createStackNavigator({
   Settings: SettingsScreen,
@@ -22,7 +22,7 @@ SettingsStack.navigationOptions = {
 };
 
 const SwipeStack = createStackNavigator({
-  Swipes: SwipeScreen2,
+  Swipes: SwipeScreen,
 });
 
 SwipeStack.navigationOptions = {
