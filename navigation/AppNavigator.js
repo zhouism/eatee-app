@@ -39,5 +39,8 @@ export default createStackNavigator(
   },
   {
     initialRouteName: 'Home',
+  },
+  {
+    lazy: true
   }
 );

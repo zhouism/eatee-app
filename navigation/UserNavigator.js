@@ -50,7 +50,7 @@ CouponListStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  SettingsStack,
   SwipeStack,
+  SettingsStack,
   CouponListStack
 });
