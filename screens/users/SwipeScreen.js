@@ -1,6 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Card, Button } from 'react-native-elements';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import * as actions from '../../actions';
 import Deck from '../../components/Deck.js';
 
 const DATA = [
@@ -14,7 +17,27 @@ const DATA = [
   { id: 8, text: 'Card #8', uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-01.jpg' },
 ];
 
-export default class SwipeScreen extends React.Component {
+class SwipeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: {},
+    };
+  }
+  componentDidMount(){
+    axios.get('http://192.168.88.17:3001/api/coupon_batches')
+      .then(response => {
+        const datas = response.data
+        console.log(datas);
+        this.setState({
+          data: datas
+        })
+      })
+      .catch((error) =>  {
+        console.log(error);
+      });
+  }
+
   renderCard(item) {
     return(
       <Card
@@ -29,6 +52,7 @@ export default class SwipeScreen extends React.Component {
           icon={{ name: 'code' }}
           backgroundColor='#03A9F4'
           title="View Now!"
+          onPress={() => { this.props.fetchCouponBatches() }}
         />
       </Card>
     );
@@ -67,3 +91,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
+
+export default connect(null, actions)(SwipeScreen);

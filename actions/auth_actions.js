@@ -26,18 +26,13 @@ doFacebookLogin = async dispatch => {
   });
 
   if (type === 'cancel') {
-    console.log("cancel");
     return dispatch({ type: FACEBOOK_LOGIN_FAIL })
+  } else if (type === 'success') {
+    const response = await fetch(
+      `https://graph.facebook.com/me?access_token=${token}&fields=id,name,email`);
+      const userInfo = await response.json();
+      console.log(userInfo.name);
   }
-  //  else if (type === 'success') {
-  //   // Get the user's name using Facebook's Graph API
-  //   const response = await fetch(
-  //     `https://graph.facebook.com/me?access_token=${token}`);
-  //   console.log(
-  //     'Logged in!',
-  //     `Hi ${(await response.json()).name}!`,
-  //   );
-  // }
 
   await AsyncStorage.setItem('fb_token', token);
   dispatch({ type: FACEBOOK_LOGIN_SUCCESS, payload: token });
