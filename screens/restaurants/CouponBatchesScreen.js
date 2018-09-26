@@ -3,13 +3,13 @@ import { Text, View, Image, Button, StyleSheet } from "react-native";
 
 export default class CouponBatchesScreen extends Component {
   static navigationOptions = {
-    title: 'CouponBatchesScreen!',
+    title: "CouponBatchesScreen!"
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>Hello</Text>
+        <Text>Coupon Batches Screen</Text>
       </View>
     );
   }
@@ -18,7 +18,7 @@ export default class CouponBatchesScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    alignItems: "center",
+    justifyContent: "center"
+  }
 });

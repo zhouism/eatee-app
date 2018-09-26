@@ -54,18 +54,24 @@ export default class RestaurantLoginScreen extends React.PureComponent {
   _handleSearchCancel = () => this._handleQueryChange("");
   _handleSearchClear = () => this._handleQueryChange("");
 
-  _saveRestaurantToDB({ result }) {
-    let name = this.state.result.name;
-    let yelpImgUrl = this.state.result.image_url;
-    let yelpBusUrl = this.state.result.url;
-    let rating = this.state.result.rating;
-    let categories = this.state.result.categories; // this is an array with objects
-    let address = this.state.result.location.address1;
-    let city = this.state.result.location.city;
-    let country = this.state.result.location.country;
-    let phone = this.state.result.phone;
-    let longitude = this.state.result.coordinates.longitude;
-    let latitude = this.state.result.coordinates.latutde;
+  saveRestaurantToDB(item) {
+    axios.post("server ip address", {
+      name = item.name,
+      yelpImgUrl = item.image_url,
+      yelpBusUrl = item.url,
+      rating = item.rating,
+      categories = item.categories, // this is an array with objects, not sure if this is how it's saved to sql
+      address = item.location.address1,
+      city = item.location.city,
+      country = item.location.country,
+      phone = item.phone,
+      longitude = item.coordinates.longitude,
+      latitude = item.coordinates.latutde
+    })
+    .Alert.alert('Success', item.name) // replace to navigate to create coupon batch page
+    .catch(function(error) {
+      console.log(error);
+    });
 
     AsyncStorage.getItem(); // this stores into db??
   }
@@ -94,7 +100,7 @@ export default class RestaurantLoginScreen extends React.PureComponent {
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => (
-            <TouchableHighlight onPress={() => this._saveRestaurantToDB(item)}>
+            <TouchableHighlight onPress={() => this.saveRestaurantToDB(item)}>
               <View>
                 <Text>Restaurant: {item.name}</Text>
                 <Text>Phone: {item.display_phone}</Text>
