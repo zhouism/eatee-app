@@ -8,17 +8,17 @@ import {
 } from "react-native";
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import * as actions from '../../actions'
+import * as actions from '../../actions';
 
 class UserLogin extends React.Component {
   static navigationOptions = {
     title: 'Please sign in',
   };
 
-  componentDidMount() {
-    //use AsyncStorage.removeItem('fb_token') for testing logging in again, otherwise it stays login 4ever after first try
-    AsyncStorage.removeItem('fb_token');
-  }
+  // componentDidMount() {
+  //   //use AsyncStorage.removeItem('fb_token') for testing logging in again, otherwise it stays login 4ever after first try
+  //   AsyncStorage.removeItem('fb_token');
+  // }
 
   componentWillReceiveProps(nextProps) {
     this.onAuthComplete(nextProps);
@@ -37,7 +37,6 @@ class UserLogin extends React.Component {
       if (props.token) {
         // if it succeeds, it will navigate to SwipeScreen?
         this.props.navigation.navigate('UserNav');
-        console.log("navigated");
       }
     }
 

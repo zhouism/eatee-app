@@ -23,8 +23,6 @@ export default class HomeScreen extends Component {
   _showRestaurantLogin = () => {
     this.props.navigation.navigate('RestaurantAU');
   };
-
-
 }
 
 const styles = StyleSheet.create({

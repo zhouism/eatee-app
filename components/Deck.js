@@ -7,6 +7,8 @@ import {
   LayoutAnimation,
   UIManager
 } from 'react-native';
+import { Card, Button } from 'react-native-elements';
+
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
