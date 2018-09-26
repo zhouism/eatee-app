@@ -54,23 +54,12 @@ export default class RestaurantLoginScreen extends React.PureComponent {
   _handleSearchCancel = () => this._handleQueryChange("");
   _handleSearchClear = () => this._handleQueryChange("");
 
-  _setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
-  }
-
-  _handleOnPressItem({ item }) {
-    this.setState({
-      modalVisible: true,
-      result: item
-    });
-  }
-
   _saveRestaurantToDB({ result }) {
     let name = this.state.result.name;
     let yelpImgUrl = this.state.result.image_url;
     let yelpBusUrl = this.state.result.url;
     let rating = this.state.result.rating;
-    let categories = this.state.result.categories; //this is an object
+    let categories = this.state.result.categories; // this is an array with objects
     let address = this.state.result.location.address1;
     let city = this.state.result.location.city;
     let country = this.state.result.location.country;
@@ -91,36 +80,6 @@ export default class RestaurantLoginScreen extends React.PureComponent {
     }
     return (
       <View>
-        {/* <Modal
-          animationType="slide"
-          transparent={false}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-          }}
-          item={this.state.result}
-        >
-          <View style={{ marginTop: 22 }}>
-            <View>
-              <Text>Hello World!</Text>
-
-              <Button
-                onPress={() => {
-                  Alert.alert("Save this to database");
-                }}
-                title="Confirm"
-              />
-
-              <Button
-                onPress={() => {
-                  this._setModalVisible(!this.state.modalVisible);
-                }}
-                title="Go Back"
-              />
-            </View>
-          </View>
-        </Modal> */}
-
         <SearchBar
           onChangeText={this._handleQueryChange}
           onCancel={this._handleSearchCancel}
@@ -135,7 +94,7 @@ export default class RestaurantLoginScreen extends React.PureComponent {
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => (
-            <TouchableHighlight onPress={() => this._handleOnPressItem(item)}>
+            <TouchableHighlight onPress={() => this._saveRestaurantToDB(item)}>
               <View>
                 <Text>Restaurant: {item.name}</Text>
                 <Text>Phone: {item.display_phone}</Text>
