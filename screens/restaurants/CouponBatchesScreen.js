@@ -39,3 +39,4 @@ export default class CouponBatchesScreen extends React.Component {
     )
   }
 }
+
