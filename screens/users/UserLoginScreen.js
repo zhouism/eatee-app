@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import * as actions from '../../actions'
+import * as actions from '../../actions';
 
 class UserLogin extends React.Component {
   static navigationOptions = {
@@ -37,7 +37,6 @@ class UserLogin extends React.Component {
       if (props.token) {
         // if it succeeds, it will navigate to SwipeScreen?
         this.props.navigation.navigate('UserNav');
-        console.log("navigated");
       }
     }
 

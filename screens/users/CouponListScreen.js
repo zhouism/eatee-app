@@ -18,7 +18,8 @@ export default class CouponListScreen extends React.Component {
     axios.get('http://192.168.88.173:3001/api/users/1/coupon_list')
       .then(response => {
         const datas = response.data
-        console.log(datas);
+        // console.log(typeof datas);
+        console.log(datas[0]);
         this.setState({
           data: datas
         })

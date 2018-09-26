@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Card, Button } from 'react-native-elements';
-import { connect } from 'react-redux';
-import axios from 'axios';
-import * as actions from '../../actions';
 import Deck from '../../components/Deck.js';
+import { connect } from 'react-redux';
+// import { fetchCouponBatches } from '../../actions';
+import * as actions from '../../actions'
+
 
 const DATA = [
   { id: 1, text: 'Card #1', uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-04.jpg' },
@@ -18,41 +19,29 @@ const DATA = [
 ];
 
 class SwipeScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: {},
-    };
+  componentDidMount() {
+    this.props.fetchCouponBatches();
   }
-  componentDidMount(){
-    axios.get('http://192.168.88.17:3001/api/coupon_batches')
-      .then(response => {
-        const datas = response.data
-        console.log(datas);
-        this.setState({
-          data: datas
-        })
-      })
-      .catch((error) =>  {
-        console.log(error);
-      });
-  }
-
+  
   renderCard(item) {
     return(
       <Card
         key={ item.id }
-        title={ item.text }
-        image={{ uri: item.uri }}
+        title={ item.name }
+        image={{ uri: item.image }}
       >
         <Text style={{ marginBottom: 10 }}>
           I can customize the Card further.
+        </Text>
+        <Text style={ {justtifyContent: 'space-around'}}>
+          { item.quantity }
+          { item.time_limit }
         </Text>
         <Button
           icon={{ name: 'code' }}
           backgroundColor='#03A9F4'
           title="View Now!"
-          onPress={() => { this.props.fetchCouponBatches() }}
+          onPress={() => console.log('click view')}
         />
       </Card>
     );
@@ -76,7 +65,7 @@ class SwipeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Deck
-          data={ DATA }
+          data={ this.props.coupons }
           renderCard={ this.renderCard }
           renderNoMoreCards={ this.renderNoMoreCards }
         />
@@ -92,4 +81,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, actions)(SwipeScreen);
+function mapStateToProps({ coupons }) {
+  return { coupons };
+}
+
+export default connect(mapStateToProps, actions)(SwipeScreen);
