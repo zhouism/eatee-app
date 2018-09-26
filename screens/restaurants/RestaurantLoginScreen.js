@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import { SearchBar, Button } from "react-native-elements";
+import ModalView from './RestaurantLoginModalView.js';
 
 const authToken =
   "Bearer JIba6FRPuS1u8_G-7HeYFxOEn1hP8OiBz8SNySU0VlWpzKY8hx0E9hJulfTId43tLaDk-0inreQzymHn54GF5wGULtbEUy8yggF0564R5ESptLfg4X9m_mA0FJ6mW3Yx";
@@ -22,7 +23,8 @@ export default class RestaurantLoginScreen extends React.PureComponent {
       isLoading: false,
       data: {},
       query: "",
-      id: null,
+      result: {},
+      modalVisible: false,
     };
   }
 
@@ -53,27 +55,16 @@ export default class RestaurantLoginScreen extends React.PureComponent {
   _handleSearchCancel = () => this._handleQueryChange("");
   _handleSearchClear = () => this._handleQueryChange("");
 
-  saveRestaurantToDB(item) {
-    axios.post("http://192.168.88.173:3001/api/restaurants/", {
-      name: item.name,
-      Yelp_image_URL: item.image_url,
-      Yelp_business_URL: item.url,
-      rating: item.rating,
-      categories: null, // this is an array with objects, not sure if this is how it's saved to sql
-      address: item.location.address1,
-      city: item.location.city,
-      country: item.location.country,
-      phone: item.phone,
-      longitude: item.coordinates.longitude,
-      latitude: item.coordinates.latutde
-    }).then((results) => {
-      this.setState({
-        id: results.id,
-      })
-    })
-    .catch(function(error) {
-      console.log(error);
-    })
+
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
+  _onPressItem(item) {
+    this.setState({
+      modalVisible: true,
+      result: item
+    });
   }
 
   render() {
@@ -86,6 +77,13 @@ export default class RestaurantLoginScreen extends React.PureComponent {
     }
     return (
       <View>
+        <ModalView
+          modalVisible={this.state.modalVisible}
+          setModalVisible={vis => {
+            this.setModalVisible(vis);
+          }}
+          result={this.state.result}
+        />
         <SearchBar
           onChangeText={this._handleQueryChange}
           onCancel={this._handleSearchCancel}
@@ -100,7 +98,7 @@ export default class RestaurantLoginScreen extends React.PureComponent {
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => (
-            <TouchableHighlight onPress={() => this.saveRestaurantToDB(item)}>
+            <TouchableHighlight onPress={() => this._onPressItem(item)}>
               <View>
                 <Text>Restaurant: {item.name}</Text>
                 <Text>Phone: {item.display_phone}</Text>
