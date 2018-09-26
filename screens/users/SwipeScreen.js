@@ -15,6 +15,27 @@ const DATA = [
 ];
 
 export default class SwipeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: {},
+    };
+  }
+
+  componentDidMount(){
+    axios.get('http://192.168.88.173:3001/api/users/1/coupon_list')
+      .then(response => {
+        const datas = response.data
+        console.log(datas);
+        this.setState({
+          data: datas
+        })
+      })
+      .catch((error) =>  {
+        console.log(error);
+      });
+  }
+
   renderCard(item) {
     return(
       <Card
