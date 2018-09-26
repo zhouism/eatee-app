@@ -1,7 +1,7 @@
 
 // This is how to upload an image to the AMAZON S3 server I've set up with Nima 
-const accessKeyId="AKIAIMQYVPCAYJSQV2AA"
-const secretAccessKey="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"
+import { accessKeyId, secretAccessKey } from 'react-native-dotenv'
+ApiClient.init(accessKeyId, secretAccessKey)
 
 const AWS = require('aws-sdk');
 const fs = require('fs');
