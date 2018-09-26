@@ -1,18 +1,30 @@
 import React from "react";
-import { FlatList, ActivityIndicator, Text, View } from "react-native";
+import {
+  Modal,
+  TouchableHighlight,
+  Alert,
+  FlatList,
+  ActivityIndicator,
+  Text,
+  View,
+  AsyncStorage
+} from "react-native";
 import axios from "axios";
 import { SearchBar, Button } from "react-native-elements";
+import ModalView from './RestaurantLoginModalView.js';
 
 const authToken =
   "Bearer JIba6FRPuS1u8_G-7HeYFxOEn1hP8OiBz8SNySU0VlWpzKY8hx0E9hJulfTId43tLaDk-0inreQzymHn54GF5wGULtbEUy8yggF0564R5ESptLfg4X9m_mA0FJ6mW3Yx";
 
-export default class RestaurantLoginScreen extends React.Component {
+export default class RestaurantLoginScreen extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
       data: {},
-      query: ""
+      query: "",
+      result: {},
+      modalVisible: false,
     };
   }
 
@@ -43,6 +55,18 @@ export default class RestaurantLoginScreen extends React.Component {
   _handleSearchCancel = () => this._handleQueryChange("");
   _handleSearchClear = () => this._handleQueryChange("");
 
+
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
+  _onPressItem(item) {
+    this.setState({
+      modalVisible: true,
+      result: item
+    });
+  }
+
   render() {
     if (this.state.isLoading) {
       return (
@@ -53,6 +77,13 @@ export default class RestaurantLoginScreen extends React.Component {
     }
     return (
       <View>
+        <ModalView
+          modalVisible={this.state.modalVisible}
+          setModalVisible={vis => {
+            this.setModalVisible(vis);
+          }}
+          result={this.state.result}
+        />
         <SearchBar
           onChangeText={this._handleQueryChange}
           onCancel={this._handleSearchCancel}
@@ -63,14 +94,19 @@ export default class RestaurantLoginScreen extends React.Component {
           onPress={() => this.getRestaurantData(this.state.query)}
           title="Look for my restaurant"
         />
+
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => (
-            <Text>
-              Restaurant: {item.name}, Phone: {item.display_phone}, Price Range:{" "}
-              {item.price}, Address: {item.location.address1}, City:{" "}
-              {item.location.city}
-            </Text>
+            <TouchableHighlight onPress={() => this._onPressItem(item)}>
+              <View>
+                <Text>Restaurant: {item.name}</Text>
+                <Text>Phone: {item.display_phone}</Text>
+                <Text>Price Range: {item.price}</Text>
+                <Text>Address: {item.location.address1}</Text>
+                <Text>City: {item.location.city}</Text>
+              </View>
+            </TouchableHighlight>
           )}
           keyExtractor={item => item.name}
         />
