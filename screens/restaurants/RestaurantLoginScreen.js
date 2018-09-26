@@ -22,8 +22,7 @@ export default class RestaurantLoginScreen extends React.PureComponent {
       isLoading: false,
       data: {},
       query: "",
-      modalVisible: false,
-      result: {}
+      id: null,
     };
   }
 
@@ -55,25 +54,26 @@ export default class RestaurantLoginScreen extends React.PureComponent {
   _handleSearchClear = () => this._handleQueryChange("");
 
   saveRestaurantToDB(item) {
-    axios.post("server ip address", {
-      name = item.name,
-      yelpImgUrl = item.image_url,
-      yelpBusUrl = item.url,
-      rating = item.rating,
-      categories = item.categories, // this is an array with objects, not sure if this is how it's saved to sql
-      address = item.location.address1,
-      city = item.location.city,
-      country = item.location.country,
-      phone = item.phone,
-      longitude = item.coordinates.longitude,
-      latitude = item.coordinates.latutde
+    axios.post("http://192.168.88.173:3001/api/restaurants/", {
+      name: item.name,
+      Yelp_image_URL: item.image_url,
+      Yelp_business_URL: item.url,
+      rating: item.rating,
+      categories: null, // this is an array with objects, not sure if this is how it's saved to sql
+      address: item.location.address1,
+      city: item.location.city,
+      country: item.location.country,
+      phone: item.phone,
+      longitude: item.coordinates.longitude,
+      latitude: item.coordinates.latutde
+    }).then((results) => {
+      this.setState({
+        id: results.id,
+      })
     })
-    .Alert.alert('Success', item.name) // replace to navigate to create coupon batch page
     .catch(function(error) {
       console.log(error);
-    });
-
-    AsyncStorage.getItem(); // this stores into db??
+    })
   }
 
   render() {
