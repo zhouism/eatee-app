@@ -22,8 +22,11 @@ class SwipeScreen extends React.Component {
   componentDidMount() {
     this.props.fetchCouponBatches();
   }
-  
+
+
   renderCard(item) {
+    const discountPrice =  parseFloat(item.price) - (parseFloat(item.price) * parseFloat(item.discount) / 100);
+
     return(
       <Card
         key={ item.id }
@@ -33,14 +36,25 @@ class SwipeScreen extends React.Component {
         <Text style={{ marginBottom: 10 }}>
           I can customize the Card further.
         </Text>
-        <Text style={ {justtifyContent: 'space-around'}}>
-          { item.quantity }
-          { item.time_limit }
+        <Text>
+          quantity: { item.quantity }
+        </Text>
+        <Text>
+          time remaining: { item.time_limit }
+        </Text>
+        <Text>
+          price: { item.price }
+        </Text>
+        <Text>
+          discount: { item.discount }%
+        </Text>
+        <Text>
+          price now: { discountPrice }
         </Text>
         <Button
           icon={{ name: 'code' }}
           backgroundColor='#03A9F4'
-          title="View Now!"
+          title="View Coupon!"
           onPress={() => console.log('click view')}
         />
       </Card>
