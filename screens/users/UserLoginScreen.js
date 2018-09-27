@@ -6,7 +6,7 @@ import {
   StyleSheet,
   AsyncStorage
 } from "react-native";
-import { Button } from 'react-native-elements';
+import { Button, SocialIcon  } from 'react-native-elements';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 
@@ -36,15 +36,22 @@ class UserLogin extends React.Component {
   onAuthComplete(props) {
       if (props.token) {
         // if it succeeds, it will navigate to SwipeScreen?
+
         this.props.navigation.navigate('UserNav');
+        console.log('navigated');
       }
     }
 
   render() {
     return (
       <View style={styles.container}>
-        <Button title="User Sign in!" onPress={ () => { this.props.facebookLogin() }} />
-        <Button title="Go Back" onPress={this._showHomeScreen} />
+        <SocialIcon
+          title="Sign In"
+          button
+          type="facebook"
+          style={{ width: 200}}
+          onPress={ () => { this.props.facebookLogin() }}
+        />
       </View>
     );
   }
@@ -59,6 +66,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps({ auth }) {
+  console.log(auth.token);
   return { token: auth.token };
 }
 

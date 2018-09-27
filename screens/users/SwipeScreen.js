@@ -32,6 +32,7 @@ class SwipeScreen extends React.Component {
         key={ item.id }
         title={ item.name }
         image={{ uri: item.image }}
+        containerStyle={styles.cardStyle}
       >
         <Text style={{ marginBottom: 10 }}>
           I can customize the Card further.
@@ -55,6 +56,8 @@ class SwipeScreen extends React.Component {
           icon={{ name: 'code' }}
           backgroundColor='#03A9F4'
           title="View Coupon!"
+          buttonStyle={{borderRadius: 20, marginLeft: 40, marginRight: 40, marginBottom: 0}}
+
           onPress={() => console.log('click view')}
         />
       </Card>
@@ -92,7 +95,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+
   },
+  cardStyle: {
+    borderRadius: 20,
+  }
 });
 
 function mapStateToProps({ coupons }) {
