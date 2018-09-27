@@ -35,7 +35,6 @@ export default createStackNavigator(
     Restaurant: RestaurantLoginScreen,
     UserAU: UserAuthSwitch,
     RestaurantAU: RestaurantAuthSwitch,
-
   },
   {
     initialRouteName: 'Home',
