@@ -26,14 +26,14 @@ export default class ModalView extends React.Component {
       result: {},
     };
   }
-  
+
   componentWillReceiveProps(nextProps) {
     this.setState({
       modalVisible: nextProps.modalVisible,
       result: nextProps.result,
     })
   }
-  
+
   saveRestaurantToDB(item) {
     axios
       .post("http://192.168.88.173:3001/api/restaurants/", {
@@ -64,8 +64,8 @@ export default class ModalView extends React.Component {
         transparent={ false }
         visible={ this.state.modalVisible }
         onRequestClose={() => { this.props.setModalVisible(false) }}
-       > 
-      
+       >
+
 
          <View>
           <View>
