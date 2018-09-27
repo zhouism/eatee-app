@@ -7,7 +7,7 @@ import {
   FACEBOOK_LOGIN_FAIL
 } from './types';
 
-const ROOT_IP = 'http://192.168.88.17:3001/api';
+const ROOT_IP = 'http://192.168.0.191:3001/api';
 
 // How to use AsyncStorage:
 // AsyncStorage.setItem('fb_token', token);

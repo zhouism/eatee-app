@@ -6,7 +6,8 @@ import {
   Button,
   FlatList,
   StyleSheet,
-  TouchableHighlight
+  TouchableHighlight,
+  Image
 } from "react-native";
 
 export default class ModalView extends React.Component {
@@ -14,38 +15,47 @@ export default class ModalView extends React.Component {
     super();
     this.state = {
       modalVisible: false,
-      id: null,
+      result: {}
     };
   }
-  
+
   componentWillReceiveProps(nextProps) {
     this.setState({
       modalVisible: nextProps.modalVisible,
-      id: nextProps.id,
-    })
+      result: nextProps.result
+    });
   }
-  
 
-  
   render() {
     return (
-       <Modal
+      <Modal
         animationType="slide"
-        transparent={ false }
-        visible={ this.state.modalVisible }
-        onRequestClose={() => { this.props.setModalVisible(false) }}
-       > 
-         <View>
-           <View>
-            <Text>{ this.state.id }</Text>
+        transparent={false}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {
+          this.props.setModalVisible(false);
+        }}
+      >
+        <View>
+          <View>
+          <Image source={{uri: this.state.result.image}} style={{width: 400, height: 300}} />
+            <Text>Id: {this.state.result.id}</Text>
+            <Text>Restaurant: {this.state.result.name}</Text>
+            <Text>Restaurants Address: {this.state.result.address}</Text>
+            <Text>Dish Name: {this.state.result.dish_name}</Text>
+            <Text>Time Limit: {this.state.result.time_limit}</Text>
+            <Text>Unit Price: ${(this.state.result.price * 1).toFixed(2)}</Text>
+            <Text>Your Price: ${(this.state.result.price * (this.state.result.discount / 100)).toFixed(2)} </Text>
             <TouchableHighlight
-              onPress={() => { this.props.setModalVisible(false) }}
-            > 
+              onPress={() => {
+                this.props.setModalVisible(false);
+              }}
+            >
               <Text>Hide Modal</Text>
             </TouchableHighlight>
-           </View>
-         </View>
-       </Modal>
-    )
+          </View>
+        </View>
+      </Modal>
+    );
   }
-  }
+}
