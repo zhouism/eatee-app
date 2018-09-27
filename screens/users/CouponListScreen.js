@@ -17,7 +17,7 @@ export default class CouponListScreen extends React.Component {
     this.state = {
       data: {},
       modalVisible: false,
-      id: null
+      result: {}
     };
   }
 
@@ -27,12 +27,10 @@ export default class CouponListScreen extends React.Component {
 
   componentDidMount() {
     axios
-      .get("http://192.168.88.173:3001/api/users/1/coupon_list")
+      .get("http://192.168.0.191:3001/api/users/1/coupon_list")
       .then(response => {
-        const datas = response.data;
-        console.log("datas", datas);
         this.setState({
-          data: datas
+          data: response.data
         });
       })
       .catch(error => {
@@ -44,10 +42,10 @@ export default class CouponListScreen extends React.Component {
     this.setState({ modalVisible: visible });
   }
 
-  _onPressItem(id) {
+  _onPressItem(item) {
     this.setState({
       modalVisible: true,
-      id: id
+      result: item
     });
   }
 
@@ -59,17 +57,18 @@ export default class CouponListScreen extends React.Component {
           setModalVisible={vis => {
             this.setModalVisible(vis);
           }}
-          id={this.state.id}
+          result={this.state.result}
         />
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => (
-            <TouchableHighlight onPress={() => this._onPressItem(item.id)}>
+            <TouchableHighlight onPress={() => this._onPressItem(item)}>
               <View>
                 <Text>Id: {item.id}</Text>
-                <Text>Restaurant: {item.name}</Text>
+                <Text>Dish Name: {item.name}</Text>
                 <Text>Time Limit: {item.time_limit}</Text>
-                <Text>Unit Price: {item.price}</Text>
+                <Text>Unit Price: ${(item.price).toFixed(2)}</Text>
+                <Text>Your Price: ${(item.price * (item.discount / 100)).toFixed(2)}</Text>
               </View>
             </TouchableHighlight>
           )}
