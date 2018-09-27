@@ -30,6 +30,7 @@ export default class CouponBatchesScreen extends React.Component {
   }
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <View>
         <FlatList
@@ -42,7 +43,7 @@ export default class CouponBatchesScreen extends React.Component {
         />
         <Button
           onPress={() => {
-            Alert.alert("Nav to create coupon");
+            navigate("CreateCouponBatch");
           }}
           title="Create a new coupon"
         />
