@@ -8,9 +8,17 @@ import {
   StyleSheet,
   TouchableHighlight
 } from "react-native";
-import axios from 'axios';
+import axios from 'axios'
+import navigation from 'react-navigation';
 
 export default class ModalView extends React.Component {
+
+  // static navigationOptions = ({ navigation }) => {
+  //   return {
+  //     RestaurantAU: RestaurantAU,
+  //   }
+  // }
+
   constructor() {
     super();
     this.state = {
@@ -41,10 +49,8 @@ export default class ModalView extends React.Component {
         longitude: item.coordinates.longitude,
         latitude: item.coordinates.latutde
       })
-      .then(results => {
-        this.setState({
-          id: results.id
-        });
+      .then( () => {
+        this.props.savedDB()
       })
       .catch(function(error) {
         console.log(error);

@@ -67,6 +67,12 @@ export default class RestaurantLoginScreen extends React.PureComponent {
     });
   }
 
+  navToCouponBatch() {
+    this.setModalVisible(false)
+    console.log('has connected to navToCouponBatch') 
+    this.props.navigation.navigate("RestaurantNav")
+  }
+
   render() {
     if (this.state.isLoading) {
       return (
@@ -83,6 +89,7 @@ export default class RestaurantLoginScreen extends React.PureComponent {
             this.setModalVisible(vis);
           }}
           result={this.state.result}
+          savedDB={() => this.navToCouponBatch()}
         />
         <SearchBar
           onChangeText={this._handleQueryChange}
