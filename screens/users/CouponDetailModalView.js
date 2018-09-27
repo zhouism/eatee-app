@@ -6,7 +6,8 @@ import {
   Button,
   FlatList,
   StyleSheet,
-  TouchableHighlight
+  TouchableHighlight,
+  Image
 } from "react-native";
 
 export default class ModalView extends React.Component {
@@ -37,8 +38,11 @@ export default class ModalView extends React.Component {
       >
         <View>
           <View>
+          <Image source={{uri: this.state.result.image}} style={{width: 400, height: 300}} />
             <Text>Id: {this.state.result.id}</Text>
-            <Text>Dish Name: {this.state.result.name}</Text>
+            <Text>Restaurant: {this.state.result.name}</Text>
+            <Text>Restaurants Address: {this.state.result.address}</Text>
+            <Text>Dish Name: {this.state.result.dish_name}</Text>
             <Text>Time Limit: {this.state.result.time_limit}</Text>
             <Text>Unit Price: ${(this.state.result.price * 1).toFixed(2)}</Text>
             <Text>Your Price: ${(this.state.result.price * (this.state.result.discount / 100)).toFixed(2)} </Text>

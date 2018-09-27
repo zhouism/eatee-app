@@ -6,7 +6,8 @@ import {
   Button,
   FlatList,
   StyleSheet,
-  TouchableHighlight
+  TouchableHighlight,
+  Image
 } from "react-native";
 import axios from "axios";
 import ModalView from './CouponDetailModalView.js';
@@ -29,6 +30,7 @@ export default class CouponListScreen extends React.Component {
     axios
       .get("http://192.168.0.191:3001/api/users/1/coupon_list")
       .then(response => {
+        console.log(response.data)
         this.setState({
           data: response.data
         });
@@ -64,8 +66,11 @@ export default class CouponListScreen extends React.Component {
           renderItem={({ item }) => (
             <TouchableHighlight onPress={() => this._onPressItem(item)}>
               <View>
+              <Image source={{uri: item.image}} style={{width: 400, height: 300}} />
                 <Text>Id: {item.id}</Text>
-                <Text>Dish Name: {item.name}</Text>
+                <Text>Dish Name: {item.dish_name}</Text>
+                <Text>Restaurant Name: {item.name}</Text>
+                <Text>Restaurants Address: {item.address}</Text>
                 <Text>Time Limit: {item.time_limit}</Text>
                 <Text>Unit Price: ${(item.price).toFixed(2)}</Text>
                 <Text>Your Price: ${(item.price * (item.discount / 100)).toFixed(2)}</Text>
