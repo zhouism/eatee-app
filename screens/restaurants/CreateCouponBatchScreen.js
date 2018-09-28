@@ -53,20 +53,20 @@ import ModalView from "./CreateCouponBatchModal";
 
 // Functions setting up the form
 
-let Form = t.form.Form;
+const Form = t.form.Form;
 
 //Price and time limit field must be positive
-let Positive = t.refinement(t.Number, function(n) {
+const Positive = t.refinement(t.Number, function(n) {
   return n >= 0;
 });
 
 //Discount field must be percentage between 1-99
-let Percent = t.refinement(t.Number, function(n) {
+const Percent = t.refinement(t.Number, function(n) {
   return n > 0 && n < 100;
 });
 
 // Food coupon form fields with restrictions
-let foodCoupon = t.struct({
+const foodCoupon = t.struct({
   dish_name: t.String,
   description: t.String,
   price: Positive,
@@ -76,25 +76,23 @@ let foodCoupon = t.struct({
 });
 
 // Form options
-let options = {
+const options = {
   fields: {
-    name: {
-      dish_name: "What is the name of your dish?",
-      description: "What makes this dish delicious?",
-      price: "What was the original price of this dish?",
-      discount: "Percentage off the dish?",
-      quantity: "How many coupons are you creating?",
-      time_limit: "How many hours are these coupons available for?"
+    price: {
+      help: "What was the original price of this dish?",
+      error: "Price must be a positive number"
+    },
+    discount: {
+      help: "Percentage off the dish?",
+      error: "Discount must be between 1% - 99% off"
+    },
+    quantity: {
+      help: "How many coupons are you creating?"
+    },
+    time_limit: {
+      help: "How many hours are these coupons available for?"
     }
   }
-};
-
-// Form default values
-let value = {
-  name: "Giulio",
-  surname: "Canti",
-  age: 41,
-  gender: "M"
 };
 
 export default class CreateCouponBatchScreen extends React.Component {
