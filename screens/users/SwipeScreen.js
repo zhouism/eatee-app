@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps({ coupons }) {
+  console.log(coupons);
   return { coupons };
 }
 
