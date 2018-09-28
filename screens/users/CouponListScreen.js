@@ -12,6 +12,10 @@ import {
 import axios from "axios";
 import ModalView from './CouponDetailModalView.js';
 
+// const CHRIS_IP = 'http://192.168.0.191:3001/api';
+// const HOME_IP = 'http://192.168.1.97:3001/api';
+const LIGHTHOUSE_IP = 'http://192.168.88.17:3001/api';
+
 export default class CouponListScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -28,7 +32,7 @@ export default class CouponListScreen extends React.Component {
 
   componentDidMount() {
     axios
-      .get("http://192.168.0.191:3001/api/users/1/coupon_list")
+      .get(`${LIGHTHOUSE_IP}/users/1/coupon_list`)
       .then(response => {
         console.log(response.data)
         this.setState({
@@ -53,7 +57,7 @@ export default class CouponListScreen extends React.Component {
 
   _refreshScreen(){
     axios
-      .get("http://192.168.0.191:3001/api/users/1/coupon_list")
+      .get(`${LIGHTHOUSE_IP}/users/1/coupon_list`)
       .then(response => {
         console.log(response.data)
         this.setState({
