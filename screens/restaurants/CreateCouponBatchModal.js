@@ -22,34 +22,32 @@ export default class ModalView extends React.Component {
     super();
     this.state = {
       modalVisible: false,
-      result: {}
+      coupon: {}
     };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       modalVisible: nextProps.modalVisible,
-      result: nextProps.result
+      coupon: nextProps.coupon
     });
   }
 
-  saveRestaurantToDB(item) {
+  saveCouponBatchToDB(coupon) {
     axios
-      .post("http://192.168.88.244:3001/api/restaurants/", {
-        name: item.name,
-        Yelp_image_URL: item.image_url,
-        Yelp_business_URL: item.url,
-        rating: item.rating,
-        categories: null, // this is an array with objects, not sure if this is how it's saved to sql
-        address: item.location.address1,
-        city: item.location.city,
-        country: item.location.country,
-        phone: item.phone,
-        longitude: item.coordinates.longitude,
-        latitude: item.coordinates.latutde
+      .post("http://192.168.88.244:3001/api/coupon_batches/", {
+        name: coupon.dish_name,
+        timestamp: +new Date(),
+        time_limit: coupon.time_limit,
+        quantity: coupon.quantity,
+        image: coupon.image,
+        price: coupon.price,
+        discount: coupon.discount
       })
       .then(() => {
-        this.props.savedDB();
+        this.setState({
+          modalVisible: false
+        });
       })
       .catch(function(error) {
         console.log(error);
@@ -69,12 +67,11 @@ export default class ModalView extends React.Component {
         <View>
           <View>
             <Text>Is this your restaurant?</Text>
-            <Text>Restaurant: {this.state.result.name}</Text>
-            <Text>Phone Number: {this.state.result.phone}</Text>
+            <Text>Restaurant: {this.state.coupon.name}</Text>
 
             <Button
               onPress={() => {
-                this.saveRestaurantToDB(this.state.result);
+                this.saveCouponBatchToDB(this.state.coupon);
               }}
               title="Confirm"
             />

@@ -43,11 +43,13 @@ import {
   TouchableHighlight,
   View,
   Button,
+  Modal,
   TextInput
 } from "react-native";
 import axios from "axios";
 import { ImagePicker, Camera, Permissions } from "expo";
 import t from "tcomb-form-native";
+import ModalView from "./CreateCouponBatchModal";
 
 var Form = t.form.Form;
 
@@ -67,7 +69,9 @@ export default class CreateCouponBatchScreen extends React.Component {
     super(props);
     this.state = {
       data: {},
-      image: null
+      image: null,
+      coupon: {},
+      modalVisible: false
     };
   }
 
@@ -96,13 +100,24 @@ export default class CreateCouponBatchScreen extends React.Component {
     this.setState({ value: null });
   }
 
-  onPress() {
-    let value = this.refs.form.getValue();
-    if (value) {
-      console.log(value);
-      // clear all fields after submit
-      this._clearForm();
-    }
+  // onPress() {
+  //   let value = this.refs.form.getValue();
+  //   if (value) {
+  //     console.log(value);
+  //     // clear all fields after submit
+  //     this._clearForm();
+  //   }
+  // }
+
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
+  _onPressCoupon(coupon) {
+    this.setState({
+      modalVisible: true,
+      coupon: coupon
+    });
   }
 
   // Save IMAGE, DISH NAME, DESC, TIMER, QUANTITY
@@ -112,6 +127,13 @@ export default class CreateCouponBatchScreen extends React.Component {
     return (
       <View style={styles.container}>
         {/* display */}
+        <ModalView
+          modalVisible={this.state.modalVisible}
+          setModalVisible={vis => {
+            this.setModalVisible(vis);
+          }}
+          coupon={this.state.coupon}
+        />
         <Form ref="form" type={foodCoupon} options={options} />
 
         <Button
@@ -124,7 +146,7 @@ export default class CreateCouponBatchScreen extends React.Component {
 
         <TouchableHighlight
           style={styles.button}
-          onPress={this.onPress}
+          onPress={this._onPressCoupon}
           underlayColor="#99d9f4"
         >
           <Text style={styles.buttonText}>Save</Text>
