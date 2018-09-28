@@ -18,7 +18,7 @@ export default class CouponListScreen extends React.Component {
     this.state = {
       data: {},
       modalVisible: false,
-      result: {}
+      item: {}
     };
   }
 
@@ -47,8 +47,22 @@ export default class CouponListScreen extends React.Component {
   _onPressItem(item) {
     this.setState({
       modalVisible: true,
-      result: item
+      item: item
     });
+  }
+
+  _refreshScreen(){
+    axios
+      .get("http://192.168.0.191:3001/api/users/1/coupon_list")
+      .then(response => {
+        console.log(response.data)
+        this.setState({
+          data: response.data
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   render() {
@@ -59,7 +73,8 @@ export default class CouponListScreen extends React.Component {
           setModalVisible={vis => {
             this.setModalVisible(vis);
           }}
-          result={this.state.result}
+          item={this.state.item}
+          updateDB={() => this._refreshScreen()}
         />
         <FlatList
           data={this.state.data}
@@ -74,6 +89,7 @@ export default class CouponListScreen extends React.Component {
                 <Text>Time Limit: {item.time_limit}</Text>
                 <Text>Unit Price: ${(item.price).toFixed(2)}</Text>
                 <Text>Your Price: ${(item.price * (item.discount / 100)).toFixed(2)}</Text>
+                {item.is_redeemed && <Text>Your Coupon Has Been Redeemed</Text>}
               </View>
             </TouchableHighlight>
           )}
