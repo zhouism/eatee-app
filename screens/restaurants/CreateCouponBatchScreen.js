@@ -42,6 +42,7 @@ import {
   Text,
   TouchableHighlight,
   View,
+  ScrollView,
   Button,
   Modal,
   TextInput
@@ -84,7 +85,7 @@ const options = {
     },
     discount: {
       help: "Percentage off the dish?",
-      error: "Discount must be between 1% - 99% off"
+      error: "Discount must be between 1% - 99"
     },
     quantity: {
       help: "How many coupons are you creating?"
@@ -111,7 +112,8 @@ export default class CreateCouponBatchScreen extends React.Component {
   };
 
   componentDidMount() {
-    console.log("Component Mounted");
+    // give focus to the name textbox
+    this.refs.form.getComponent("dish_name").refs.input.focus();
   }
 
   _pickImage = async () => {
@@ -131,14 +133,14 @@ export default class CreateCouponBatchScreen extends React.Component {
     this.setState({ value: null });
   }
 
-  // onPress() {
-  //   let value = this.refs.form.getValue();
-  //   if (value) {
-  //     console.log(value);
-  //     // clear all fields after submit
-  //     this._clearForm();
-  //   }
-  // }
+  onPress() {
+    let value = this.refs.form.getValue();
+    if (value) {
+      console.log(value);
+      // clear all fields after submit
+      this._clearForm();
+    }
+  }
 
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
@@ -151,37 +153,40 @@ export default class CreateCouponBatchScreen extends React.Component {
     });
   }
 
-  // Save IMAGE, DISH NAME, DESC, TIMER, QUANTITY
   render() {
     let { image } = this.state;
 
     return (
       <View style={styles.container}>
-        {/* display */}
-        <ModalView
-          modalVisible={this.state.modalVisible}
-          setModalVisible={vis => {
-            this.setModalVisible(vis);
-          }}
-          coupon={this.state.coupon}
-        />
-        <Form ref="form" type={foodCoupon} options={options} value={value} />
+        <ScrollView>
+          <ModalView
+            modalVisible={this.state.modalVisible}
+            setModalVisible={vis => {
+              this.setModalVisible(vis);
+            }}
+            coupon={this.state.coupon}
+          />
+          <Form ref="form" type={foodCoupon} options={options} />
 
-        <Button
-          title="Pick an image from camera roll"
-          onPress={this._pickImage}
-        />
-        {image && (
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-        )}
+          <Button
+            title="Pick an image from camera roll"
+            onPress={this._pickImage}
+          />
+          {image && (
+            <Image
+              source={{ uri: image }}
+              style={{ width: 200, height: 200 }}
+            />
+          )}
 
-        <TouchableHighlight
-          style={styles.button}
-          onPress={this._onPressCoupon}
-          underlayColor="#99d9f4"
-        >
-          <Text style={styles.buttonText}>Save</Text>
-        </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.button}
+            onPress={this.onPress}
+            underlayColor="#99d9f4"
+          >
+            <Text style={styles.buttonText}>Save</Text>
+          </TouchableHighlight>
+        </ScrollView>
       </View>
     );
   }
@@ -189,8 +194,9 @@ export default class CreateCouponBatchScreen extends React.Component {
 
 const styles = {
   container: {
+    flex: 1,
+    paddingVertical: 20,
     justifyContent: "center",
-    marginTop: 50,
     padding: 20,
     backgroundColor: "#ffffff"
   },

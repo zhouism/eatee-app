@@ -68,8 +68,12 @@ export default class ModalView extends React.Component {
         <View>
           <View>
             <Text>Confirm your coupon</Text>
-            <Text>coupon {this.state.coupon.dish_name}</Text>
-
+            <Text>Dish Name: {this.state.coupon.dish_name}</Text>
+            <Text>Dish Description: {this.state.coupon.description}</Text>
+            <Text>Time Limit: {this.state.coupon.time_limit}</Text>
+            <Text>Number of Coupons Created: {this.state.coupon.quantity}</Text>
+            <Text>Original Price: {this.state.coupon.price}</Text>
+            <Text>Percentage Off: {this.state.coupon.discount}</Text>
             <Button
               onPress={() => {
                 this.saveCouponBatchToDB(this.state.coupon);
@@ -80,7 +84,7 @@ export default class ModalView extends React.Component {
               onPress={() => {
                 this.props.setModalVisible(false);
               }}
-              title="Go Back"
+              title="Continue Editing"
             >
               <Text>Hide Modal</Text>
             </Button>
