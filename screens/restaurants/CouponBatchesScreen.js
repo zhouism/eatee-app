@@ -1,42 +1,53 @@
-import React from 'react';
-import { Text, View, Button, FlatList } from "react-native";
-import axios from 'axios';
+import React from "react";
+import { Text, View, Button, FlatList, Alert } from "react-native";
+import axios from "axios";
 
 export default class CouponBatchesScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: {},
+      data: {}
     };
   }
 
   static navigationOptions = {
-    title: 'Your Coupon Ads',
+    title: "Your Coupon Ads"
   };
 
-  componentDidMount(){
-    axios.get('http://192.168.88.173:3001/api/restaurants/2/coupon_batches')
+  componentDidMount() {
+    axios
+      .get("http://192.168.88.244:3001/api/restaurants/2/coupon_batches")
       .then(response => {
-        const datas = response.data
+        const datas = response.data;
         console.log(datas);
         this.setState({
           data: datas
-        })
+        });
       })
-      .catch((error) =>  {
+      .catch(error => {
         console.log(error);
       });
   }
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <View>
-      <FlatList
-        data={this.state.data}
-        renderItem={({item}) => <Text>{item.name} {item.impression}</Text>} 
-      />
+        <FlatList
+          data={this.state.data}
+          renderItem={({ item }) => (
+            <Text>
+              {item.name} {item.impression}
+            </Text>
+          )}
+        />
+        <Button
+          onPress={() => {
+            navigate("CreateCouponBatch");
+          }}
+          title="Create a new coupon"
+        />
       </View>
-    )
+    );
   }
 }
-
