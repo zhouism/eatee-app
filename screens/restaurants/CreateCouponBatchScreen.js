@@ -75,7 +75,27 @@ let foodCoupon = t.struct({
   time_limit: Positive
 });
 
-let options = {}; // optional rendering options (see documentation)
+// Form options
+let options = {
+  fields: {
+    name: {
+      dish_name: "What is the name of your dish?",
+      description: "What makes this dish delicious?",
+      price: "What was the original price of this dish?",
+      discount: "Percentage off the dish?",
+      quantity: "How many coupons are you creating?",
+      time_limit: "How many hours are these coupons available for?"
+    }
+  }
+};
+
+// Form default values
+let value = {
+  name: "Giulio",
+  surname: "Canti",
+  age: 41,
+  gender: "M"
+};
 
 export default class CreateCouponBatchScreen extends React.Component {
   constructor(props) {
@@ -147,7 +167,7 @@ export default class CreateCouponBatchScreen extends React.Component {
           }}
           coupon={this.state.coupon}
         />
-        <Form ref="form" type={foodCoupon} options={options} />
+        <Form ref="form" type={foodCoupon} options={options} value={value} />
 
         <Button
           title="Pick an image from camera roll"
