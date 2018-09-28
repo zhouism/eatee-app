@@ -4,7 +4,8 @@ import { AsyncStorage } from 'react-native';
 import { Facebook } from 'expo';
 import {
   FACEBOOK_LOGIN_SUCCESS,
-  FACEBOOK_LOGIN_FAIL
+  FACEBOOK_LOGIN_FAIL,
+  FETCH_CURRENT_USER
 } from './types';
 
 // const CHRIS_IP = 'http://192.168.0.191:3001/api';
@@ -31,7 +32,7 @@ doFacebookLogin = async dispatch => {
     permissions: ['public_profile','user_location']
   });
 
-
+  console.log("token from fb", token);
   if (type === 'cancel') {
     return dispatch({ type: FACEBOOK_LOGIN_FAIL })
   } else if (type === 'success') {
@@ -42,7 +43,7 @@ doFacebookLogin = async dispatch => {
       let userData = user_savedID.data;
       if (_.isEmpty(userData)) {
         console.log("saving new user");
-        await axios.post(`${ROOT_IP}/users`, {
+        await axios.post(`${LIGHTHOUSE_IP}/users`, {
           facebook_id: userInfo.id,
           first_name: userInfo.first_name,
           last_name: userInfo.last_name,
@@ -55,10 +56,12 @@ doFacebookLogin = async dispatch => {
       } else {
         console.log("user exist");
       }
+      dispatch({ type: FETCH_CURRENT_USER, payload: userInfo.id });
   }
 
   await AsyncStorage.setItem('fb_token', token);
   dispatch({ type: FACEBOOK_LOGIN_SUCCESS, payload: token });
+
 };
 
 

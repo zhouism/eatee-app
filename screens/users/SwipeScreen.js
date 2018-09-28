@@ -19,15 +19,28 @@ const DATA = [
 ];
 
 class SwipeScreen extends React.Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     current_user: 'Home'
+  //   };
+  // }
   componentDidMount() {
     this.props.fetchCouponBatches();
   }
 
+  // componentWillReceiveProps(nextProps) {
+  //   console.log('componentWillReceiveProps: ',nextProps.currentUser);
+  //   this.setState({
+  //         current_user: nextProps.currentUser
+  //       });
+  // }
 
   renderCard(item) {
     const discountPrice =  parseFloat(item.price) - (parseFloat(item.price) * parseFloat(item.discount) / 100);
 
     return(
+
       <Card
         key={ item.id }
         title={ item.name }
@@ -80,6 +93,7 @@ class SwipeScreen extends React.Component {
       <View style={styles.container}>
         <Deck
           data={ this.props.coupons }
+          curUser={ this.props.currentUser }
           renderCard={ this.renderCard }
           renderNoMoreCards={ this.renderNoMoreCards }
         />
@@ -95,8 +109,9 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps({ coupons }) {
-  return { coupons };
+function mapStateToProps({ coupons, currentUser }) {
+  console.log('current user: ', currentUser);
+  return { coupons, currentUser };
 }
 
 export default connect(mapStateToProps, actions)(SwipeScreen);

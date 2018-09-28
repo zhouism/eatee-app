@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   View,
+  Text,
   Animated,
   PanResponder,
   Dimensions,
@@ -46,6 +47,10 @@ class Deck extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.data !== this.props.data) {
       this.setState({ index: 0 });
+    }
+    ////------------------------------
+    if(nextProps.curUser) {
+      console.log('componentWillReceiveProps in Deck component at user: ',nextProps.curUser);
     }
   }
 
