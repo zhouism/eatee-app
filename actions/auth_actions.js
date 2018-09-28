@@ -15,9 +15,11 @@ const ROOT_IP = 'http://192.168.0.191:3001/api';
 
 
 export const facebookLogin = () => async dispatch => {
-  let token = await AsyncStorage.getItem('fb_token');
+  // let token = "dasdasd";
+  let token =  await AsyncStorage.getItem('fb_token');
+  console.log("facebookLogin: ", token);
   if (token) {
-
+    console.log("token found, login ");
     dispatch({ type: FACEBOOK_LOGIN_SUCCESS, payload: token });
 
   } else {
