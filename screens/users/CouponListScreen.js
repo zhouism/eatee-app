@@ -6,7 +6,8 @@ import {
   Button,
   FlatList,
   StyleSheet,
-  TouchableHighlight
+  TouchableHighlight,
+  Image
 } from "react-native";
 import axios from "axios";
 import ModalView from './CouponDetailModalView.js';
@@ -17,7 +18,7 @@ export default class CouponListScreen extends React.Component {
     this.state = {
       data: {},
       modalVisible: false,
-      id: null
+      item: {}
     };
   }
 
@@ -27,12 +28,11 @@ export default class CouponListScreen extends React.Component {
 
   componentDidMount() {
     axios
-      .get("http://192.168.88.173:3001/api/users/1/coupon_list")
+      .get("http://192.168.0.191:3001/api/users/1/coupon_list")
       .then(response => {
-        const datas = response.data;
-        console.log("datas", datas);
+        console.log(response.data)
         this.setState({
-          data: datas
+          data: response.data
         });
       })
       .catch(error => {
@@ -44,11 +44,25 @@ export default class CouponListScreen extends React.Component {
     this.setState({ modalVisible: visible });
   }
 
-  _onPressItem(id) {
+  _onPressItem(item) {
     this.setState({
       modalVisible: true,
-      id: id
+      item: item
     });
+  }
+
+  _refreshScreen(){
+    axios
+      .get("http://192.168.0.191:3001/api/users/1/coupon_list")
+      .then(response => {
+        console.log(response.data)
+        this.setState({
+          data: response.data
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   render() {
@@ -59,17 +73,23 @@ export default class CouponListScreen extends React.Component {
           setModalVisible={vis => {
             this.setModalVisible(vis);
           }}
-          id={this.state.id}
+          item={this.state.item}
+          updateDB={() => this._refreshScreen()}
         />
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => (
-            <TouchableHighlight onPress={() => this._onPressItem(item.id)}>
+            <TouchableHighlight onPress={() => this._onPressItem(item)}>
               <View>
+              <Image source={{uri: item.image}} style={{width: 400, height: 300}} />
                 <Text>Id: {item.id}</Text>
-                <Text>Restaurant: {item.name}</Text>
+                <Text>Dish Name: {item.dish_name}</Text>
+                <Text>Restaurant Name: {item.name}</Text>
+                <Text>Restaurants Address: {item.address}</Text>
                 <Text>Time Limit: {item.time_limit}</Text>
-                <Text>Unit Price: {item.price}</Text>
+                <Text>Unit Price: ${(item.price).toFixed(2)}</Text>
+                <Text>Your Price: ${(item.price * (item.discount / 100)).toFixed(2)}</Text>
+                {item.is_redeemed && <Text>Your Coupon Has Been Redeemed</Text>}
               </View>
             </TouchableHighlight>
           )}
