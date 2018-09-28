@@ -51,18 +51,31 @@ import { ImagePicker, Camera, Permissions } from "expo";
 import t from "tcomb-form-native";
 import ModalView from "./CreateCouponBatchModal";
 
-var Form = t.form.Form;
+// Functions setting up the form
 
-// here we are: define your domain model
-var foodCoupon = t.struct({
-  dish_name: t.String,
-  price: t.Number,
-  discount: t.Number,
-  quantity: t.Number,
-  time_limit: t.Number
+let Form = t.form.Form;
+
+//Price and time limit field must be positive
+let Positive = t.refinement(t.Number, function(n) {
+  return n >= 0;
 });
 
-var options = {}; // optional rendering options (see documentation)
+//Discount field must be percentage between 1-99
+let Percent = t.refinement(t.Number, function(n) {
+  return n > 0 && n < 100;
+});
+
+// Food coupon form fields with restrictions
+let foodCoupon = t.struct({
+  dish_name: t.String,
+  description: t.String,
+  price: Positive,
+  discount: Percent,
+  quantity: t.Number,
+  time_limit: Positive
+});
+
+let options = {}; // optional rendering options (see documentation)
 
 export default class CreateCouponBatchScreen extends React.Component {
   constructor(props) {

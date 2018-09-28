@@ -36,7 +36,8 @@ export default class ModalView extends React.Component {
   saveCouponBatchToDB(coupon) {
     axios
       .post("http://192.168.88.244:3001/api/coupon_batches/", {
-        name: coupon.dish_name,
+        dish_name: coupon.dish_name,
+        description: coupon.description,
         timestamp: +new Date(),
         time_limit: coupon.time_limit,
         quantity: coupon.quantity,
@@ -66,8 +67,8 @@ export default class ModalView extends React.Component {
       >
         <View>
           <View>
-            <Text>Is this your restaurant?</Text>
-            <Text>Restaurant: {this.state.coupon.name}</Text>
+            <Text>Confirm your coupon</Text>
+            <Text>coupon {this.state.coupon.dish_name}</Text>
 
             <Button
               onPress={() => {
