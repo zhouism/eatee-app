@@ -91,15 +91,19 @@ export default class CreateCouponBatchScreen extends React.Component {
       this.setState({ image: result.uri });
     }
   };
+  _clearForm() {
+    // clear content from all textbox
+    this.setState({ value: null });
+  }
 
-  onPress = function() {
-    // call getValue() to get the values of the form
-    var value = this.refs.form.getValue();
+  onPress() {
+    let value = this.refs.form.getValue();
     if (value) {
-      // if validation fails, value will be null
-      console.log(value); // value here is an instance of Person
+      console.log(value);
+      // clear all fields after submit
+      this._clearForm();
     }
-  };
+  }
 
   // Save IMAGE, DISH NAME, DESC, TIMER, QUANTITY
   render() {
