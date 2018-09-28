@@ -7,8 +7,8 @@ import {
   FACEBOOK_LOGIN_FAIL
 } from './types';
 
-const ROOT_IP = 'http://192.168.0.191:3001/api';
-
+// const ROOT_IP = 'http://192.168.0.191:3001/api';
+// const HOME_IP = 'http://192.168.1.97:3001/api/';
 // How to use AsyncStorage:
 // AsyncStorage.setItem('fb_token', token);
 // AsyncStorage.getItem('fb_token');
@@ -37,7 +37,7 @@ doFacebookLogin = async dispatch => {
     const response = await fetch(
       `https://graph.facebook.com/me?access_token=${token}&fields=id,first_name,last_name,email,birthday,gender,location`);
       const userInfo = await response.json();
-      let user_savedID = await axios.get(`${ROOT_IP}/users/fbid/${userInfo.id}`);
+      let user_savedID = await axios.get(`http://192.168.1.97:3001/api//users/fbid/${userInfo.id}`);
       let userData = user_savedID.data;
       if (_.isEmpty(userData)) {
         console.log("saving new user");
