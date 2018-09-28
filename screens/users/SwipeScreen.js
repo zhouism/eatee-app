@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import Deck from '../../components/Deck.js';
 import { connect } from 'react-redux';
-// import { fetchCouponBatches } from '../../actions';
 import * as actions from '../../actions'
 
 
@@ -19,10 +18,20 @@ const DATA = [
 ];
 
 class SwipeScreen extends React.Component {
+  // constructor(props) {
+  //   super(props)
+
+  //   this.reloadingScreen = this.reloadingScreen.bind(this);
+  // }
+
   componentDidMount() {
     this.props.fetchCouponBatches();
   }
 
+  // reloadingScreen() {
+  //   console.log('reload');
+  //   // this.props.fetchCouponBatches();
+  // }
 
   renderCard(item) {
     const discountPrice =  parseFloat(item.price) - (parseFloat(item.price) * parseFloat(item.discount) / 100);
@@ -32,6 +41,7 @@ class SwipeScreen extends React.Component {
         key={ item.id }
         title={ item.name }
         image={{ uri: item.image }}
+        containerStyle={styles.cardStyle}
       >
         <Text style={{ marginBottom: 10 }}>
           I can customize the Card further.
@@ -55,6 +65,7 @@ class SwipeScreen extends React.Component {
           icon={{ name: 'code' }}
           backgroundColor='#03A9F4'
           title="View Coupon!"
+          buttonStyle={{borderRadius: 20, marginLeft: 20, marginRight: 30, marginBottom: 0}}
           onPress={() => console.log('click view')}
         />
       </Card>
@@ -70,6 +81,7 @@ class SwipeScreen extends React.Component {
       <Button
         backgroundColor="#03A9F4"
         title="Get more!"
+        // onPress={ this.reloadingScreen }
       />
       </Card>
     );
@@ -79,7 +91,7 @@ class SwipeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Deck
-          data={ this.props.coupons }
+          data={ DATA }
           renderCard={ this.renderCard }
           renderNoMoreCards={ this.renderNoMoreCards }
         />
@@ -92,7 +104,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+
   },
+  cardStyle: {
+    borderRadius: 20,
+  }
 });
 
 function mapStateToProps({ coupons }) {
