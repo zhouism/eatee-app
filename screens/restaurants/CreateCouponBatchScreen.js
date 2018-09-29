@@ -134,10 +134,13 @@ export default class CreateCouponBatchScreen extends React.Component {
   }
 
   onPress() {
-    let value = this.refs.form.getValue();
-    if (value) {
-      console.log(value);
-      // clear all fields after submit
+    let coupon = this.refs.form.getValue();
+    if (coupon) {
+      console.log(coupon);
+      this.setState({
+        modalVisible: true,
+        coupon: coupon
+      });
       this._clearForm();
     }
   }
@@ -146,12 +149,12 @@ export default class CreateCouponBatchScreen extends React.Component {
     this.setState({ modalVisible: visible });
   }
 
-  _onPressCoupon(coupon) {
-    this.setState({
-      modalVisible: true,
-      coupon: coupon
-    });
-  }
+  // _onPressCoupon(coupon) {
+  //   this.setState({
+  //     modalVisible: true,
+  //     coupon: coupon
+  //   });
+  // }
 
   render() {
     let { image } = this.state;
@@ -181,7 +184,7 @@ export default class CreateCouponBatchScreen extends React.Component {
 
           <TouchableHighlight
             style={styles.button}
-            onPress={this.onPress}
+            onPress={this.onPress.bind(this)}
             underlayColor="#99d9f4"
           >
             <Text style={styles.buttonText}>Save</Text>
