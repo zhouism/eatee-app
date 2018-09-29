@@ -15,8 +15,8 @@ class UserLogin extends React.Component {
     title: 'Please sign in',
   };
 
+  //use AsyncStorage.removeItem('fb_token') for testing logging in again, otherwise it stays login 4ever after first try
   componentDidMount() {
-    //use AsyncStorage.removeItem('fb_token') for testing logging in again, otherwise it stays login 4ever after first try
     AsyncStorage.removeItem('fb_token');
   }
 
@@ -33,9 +33,9 @@ class UserLogin extends React.Component {
     this.props.navigation.navigate('UserNav');
   };
 
+  // if it succeeds, it will navigate to SwipeScreen?
   onAuthComplete(props) {
       if (props.token) {
-        // if it succeeds, it will navigate to SwipeScreen?
         this.props.navigation.navigate('UserNav');
       }
     }

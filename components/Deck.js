@@ -11,6 +11,9 @@ import {
 } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import { rootIP } from 'react-native-dotenv'
+import { connect } from 'react-redux';
+import * as actions from '../actions'
+
 
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -124,7 +127,18 @@ class Deck extends Component {
 
   renderCards() {
     if (this.state.index >= this.props.data.length) {
-      return this.props.renderNoMoreCards();
+      return (
+        <Card title="All Done!">
+        <Text style={{ marginBottom: 10 }}>
+        There's no more content here!
+        </Text>
+        <Button
+          backgroundColor="#03A9F4"
+          title="Get more!"
+          onPress={()=>{ this.props.fetchCouponBatches() }}
+        />
+        </Card>
+      );
     }
     return this.props.data.map((item, i) => {
       if (i < this.state.index) {
@@ -170,4 +184,8 @@ const styles = {
   }
 }
 
-export default Deck;
+function mapStateToProps({ coupons }) {
+  return { coupons };
+}
+
+export default connect(mapStateToProps, actions)(Deck);
