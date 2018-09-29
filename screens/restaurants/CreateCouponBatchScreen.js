@@ -42,32 +42,68 @@ import {
   Text,
   TouchableHighlight,
   View,
+  ScrollView,
   Button,
+  Modal,
   TextInput
 } from "react-native";
 import axios from "axios";
 import { ImagePicker, Camera, Permissions } from "expo";
 import t from "tcomb-form-native";
+import ModalView from "./CreateCouponBatchModal";
 
-var Form = t.form.Form;
+// Functions setting up the form
 
-// here we are: define your domain model
-var foodCoupon = t.struct({
-  dish_name: t.String,
-  price: t.Number,
-  discount: t.Number,
-  quantity: t.Number,
-  time_limit: t.Number
+const Form = t.form.Form;
+
+//Price and time limit field must be positive
+const Positive = t.refinement(t.Number, function(n) {
+  return n >= 0;
 });
 
-var options = {}; // optional rendering options (see documentation)
+//Discount field must be percentage between 1-99
+const Percent = t.refinement(t.Number, function(n) {
+  return n > 0 && n < 100;
+});
+
+// Food coupon form fields with restrictions
+const foodCoupon = t.struct({
+  dish_name: t.String,
+  description: t.String,
+  price: Positive,
+  discount: Percent,
+  quantity: t.Number,
+  time_limit: Positive
+});
+
+// Form options
+const options = {
+  fields: {
+    price: {
+      help: "What was the original price of this dish?",
+      error: "Price must be a positive number"
+    },
+    discount: {
+      help: "Percentage off the dish?",
+      error: "Discount must be between 1% - 99"
+    },
+    quantity: {
+      help: "How many coupons are you creating?"
+    },
+    time_limit: {
+      help: "How many hours are these coupons available for?"
+    }
+  }
+};
 
 export default class CreateCouponBatchScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: {},
-      image: null
+      image: null,
+      coupon: {},
+      modalVisible: false
     };
   }
 
@@ -76,7 +112,8 @@ export default class CreateCouponBatchScreen extends React.Component {
   };
 
   componentDidMount() {
-    console.log("Component Mounted");
+    // give focus to the name textbox
+    this.refs.form.getComponent("dish_name").refs.input.focus();
   }
 
   _pickImage = async () => {
@@ -97,38 +134,56 @@ export default class CreateCouponBatchScreen extends React.Component {
   }
 
   onPress() {
-    let value = this.refs.form.getValue();
-    if (value) {
-      console.log(value);
-      // clear all fields after submit
+    let coupon = this.refs.form.getValue();
+    if (coupon) {
+      // console.log(coupon);
+      this.setState({
+        modalVisible: true,
+        coupon: coupon
+      });
       this._clearForm();
     }
   }
 
-  // Save IMAGE, DISH NAME, DESC, TIMER, QUANTITY
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
   render() {
     let { image } = this.state;
 
     return (
       <View style={styles.container}>
-        {/* display */}
-        <Form ref="form" type={foodCoupon} options={options} />
+        <ScrollView>
+          <ModalView
+            modalVisible={this.state.modalVisible}
+            setModalVisible={vis => {
+              this.setModalVisible(vis);
+            }}
+            coupon={this.state.coupon}
+          />
+          <Form ref="form" type={foodCoupon} options={options} />
 
-        <Button
-          title="Pick an image from camera roll"
-          onPress={this._pickImage}
-        />
-        {image && (
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-        )}
+          <Button
+            style={styles.button}
+            title="Pick an image from camera roll"
+            onPress={this._pickImage}
+          />
+          {image && (
+            <Image
+              source={{ uri: image }}
+              style={{ width: 200, height: 200 }}
+            />
+          )}
 
-        <TouchableHighlight
-          style={styles.button}
-          onPress={this.onPress}
-          underlayColor="#99d9f4"
-        >
-          <Text style={styles.buttonText}>Save</Text>
-        </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.button}
+            onPress={this.onPress.bind(this)}
+            underlayColor="#99d9f4"
+          >
+            <Text style={styles.buttonText}>Save</Text>
+          </TouchableHighlight>
+        </ScrollView>
       </View>
     );
   }
@@ -136,8 +191,9 @@ export default class CreateCouponBatchScreen extends React.Component {
 
 const styles = {
   container: {
+    flex: 1,
+    paddingVertical: 20,
     justifyContent: "center",
-    marginTop: 50,
     padding: 20,
     backgroundColor: "#ffffff"
   },

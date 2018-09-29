@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import { SearchBar, Button } from "react-native-elements";
-import ModalView from './RestaurantLoginModalView.js';
+import ModalView from "./RestaurantLoginModalView.js";
 
 const authToken =
   "Bearer JIba6FRPuS1u8_G-7HeYFxOEn1hP8OiBz8SNySU0VlWpzKY8hx0E9hJulfTId43tLaDk-0inreQzymHn54GF5wGULtbEUy8yggF0564R5ESptLfg4X9m_mA0FJ6mW3Yx";
@@ -24,7 +24,7 @@ export default class RestaurantLoginScreen extends React.PureComponent {
       data: {},
       query: "",
       result: {},
-      modalVisible: false,
+      modalVisible: false
     };
   }
 
@@ -55,7 +55,6 @@ export default class RestaurantLoginScreen extends React.PureComponent {
   _handleSearchCancel = () => this._handleQueryChange("");
   _handleSearchClear = () => this._handleQueryChange("");
 
-
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
@@ -68,9 +67,9 @@ export default class RestaurantLoginScreen extends React.PureComponent {
   }
 
   navToCouponBatch() {
-    this.setModalVisible(false)
-    console.log('has connected to navToCouponBatch') 
-    this.props.navigation.navigate("RestaurantNav")
+    this.setModalVisible(false);
+    console.log("has connected to navToCouponBatch");
+    this.props.navigation.navigate("RestaurantNav");
   }
 
   render() {
