@@ -8,11 +8,10 @@ import {
   StyleSheet,
   TouchableHighlight
 } from "react-native";
-import axios from 'axios'
-import navigation from 'react-navigation';
+import axios from "axios";
+import navigation from "react-navigation";
 
 export default class ModalView extends React.Component {
-
   // static navigationOptions = ({ navigation }) => {
   //   return {
   //     RestaurantAU: RestaurantAU,
@@ -23,20 +22,20 @@ export default class ModalView extends React.Component {
     super();
     this.state = {
       modalVisible: false,
-      result: {},
+      result: {}
     };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       modalVisible: nextProps.modalVisible,
-      result: nextProps.result,
-    })
+      result: nextProps.result
+    });
   }
 
   saveRestaurantToDB(item) {
     axios
-      .post("http://192.168.88.173:3001/api/restaurants/", {
+      .post("http://192.168.88.244:3001/api/restaurants/", {
         name: item.name,
         Yelp_image_URL: item.image_url,
         Yelp_business_URL: item.url,
@@ -49,8 +48,8 @@ export default class ModalView extends React.Component {
         longitude: item.coordinates.longitude,
         latitude: item.coordinates.latutde
       })
-      .then( () => {
-        this.props.savedDB()
+      .then(() => {
+        this.props.savedDB();
       })
       .catch(function(error) {
         console.log(error);
@@ -59,20 +58,23 @@ export default class ModalView extends React.Component {
 
   render() {
     return (
-       <Modal
+      <Modal
         animationType="slide"
-        transparent={ false }
-        visible={ this.state.modalVisible }
-        onRequestClose={() => { this.props.setModalVisible(false) }}
-       >
-
-
-         <View>
+        transparent={false}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {
+          this.props.setModalVisible(false);
+        }}
+      >
+        <View>
           <View>
-            <Text>Result.name: { this.state.result.name }</Text>
+            <Text>Is this your restaurant?</Text>
+            <Text>Restaurant: {this.state.result.name}</Text>
+            <Text>Phone Number: {this.state.result.phone}</Text>
+
             <Button
               onPress={() => {
-                this.saveRestaurantToDB(this.state.result)
+                this.saveRestaurantToDB(this.state.result);
               }}
               title="Confirm"
             />
@@ -86,7 +88,7 @@ export default class ModalView extends React.Component {
             </Button>
           </View>
         </View>
-       </Modal>
-    )
+      </Modal>
+    );
   }
-  }
+}
