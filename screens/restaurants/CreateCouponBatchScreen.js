@@ -141,7 +141,7 @@ export default class CreateCouponBatchScreen extends React.Component {
         modalVisible: true,
         coupon: coupon
       });
-      this._clearForm();
+      // this._clearForm();
     }
   }
 
