@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import Deck from '../../components/Deck.js';
 import { connect } from 'react-redux';
-// import { fetchCouponBatches } from '../../actions';
 import * as actions from '../../actions'
 
 

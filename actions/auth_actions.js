@@ -7,10 +7,13 @@ import {
   FACEBOOK_LOGIN_FAIL,
   CURRENT_USER
 } from './types';
+import { rootIP } from 'react-native-dotenv'
+console.log("this is rootIP", rootIP)
 
 // const CHRIS_IP = 'http://192.168.0.191:3001/api';
 // const HOME_IP = 'http://192.168.1.97:3001/api';
-const LIGHTHOUSE_IP = 'http://192.168.88.17:3001/api';
+const LIGHTHOUSE_IP = `http://${rootIP}:3001/api`;
+console.log('LIGHTHOUSEIP', LIGHTHOUSE_IP)
 // How to use AsyncStorage:
 // AsyncStorage.setItem('fb_token', token);
 // AsyncStorage.getItem('fb_token');

@@ -2,6 +2,7 @@ import React from "react";
 import { Text, View, Button, FlatList, Alert, StyleSheet, TouchableHighlight } from "react-native";
 import axios from "axios";
 import ModalView from './CouponBatchDetailsModal.js';
+import { rootIP } from 'react-native-dotenv'
 
 export default class CouponBatchesScreen extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ export default class CouponBatchesScreen extends React.Component {
 
   componentDidMount() {
     axios
-      .get("http://192.168.0.191:3001/api/restaurants/2/coupon_batches")
+      .get(`http://${rootIP}:3001/api/restaurants/2/coupon_batches`)
       .then(response => {
         this.setState({
           data: response.data
