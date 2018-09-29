@@ -1,12 +1,15 @@
 import React from "react";
-import { Text, View, Button, FlatList, Alert } from "react-native";
+import { Text, View, Button, FlatList, Alert, StyleSheet, TouchableHighlight } from "react-native";
 import axios from "axios";
+import ModalView from './CouponBatchDetailsModal.js';
 
 export default class CouponBatchesScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: {}
+      data: {},
+      modalVisible: false,
+      item: {}
     };
   }
 
@@ -16,12 +19,10 @@ export default class CouponBatchesScreen extends React.Component {
 
   componentDidMount() {
     axios
-      .get("http://192.168.88.244:3001/api/restaurants/2/coupon_batches")
+      .get("http://192.168.0.191:3001/api/restaurants/2/coupon_batches")
       .then(response => {
-        const datas = response.data;
-        console.log(datas);
         this.setState({
-          data: datas
+          data: response.data
         });
       })
       .catch(error => {
@@ -29,17 +30,43 @@ export default class CouponBatchesScreen extends React.Component {
       });
   }
 
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
+  _onPressItem(item) {
+    this.setState({
+      modalVisible: true,
+      item: item
+    });
+  }
+
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <View>
+      <View style={styles.container}>
+        <ModalView
+          modalVisible={this.state.modalVisible}
+          setModalVisible={vis => {
+            this.setModalVisible(vis);
+          }}
+          item={this.state.item}
+        />
+        <Text>STATISTICS FOR ALL ADS</Text>
+        <Text>Total Impressions:</Text>
+        <Text>Total # of Swipes: </Text>
+        <Text>Total # of redeemed ads:</Text>
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => (
-            <Text>
-              {item.name} {item.impression}
-            </Text>
+            <TouchableHighlight onPress={() => this._onPressItem(item)}>
+            <View>
+              <Text>Dish Name: {item.dish_name}</Text>
+              <Text>Total Impressions: {item.impression}</Text>
+            </View>
+            </TouchableHighlight>
           )}
+          keyExtractor={item => item.id.toString()}
         />
         <Button
           onPress={() => {
@@ -51,3 +78,14 @@ export default class CouponBatchesScreen extends React.Component {
     );
   }
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff"
+  },
+  text: {
+    fontWeight: "bold"
+  }
+});
