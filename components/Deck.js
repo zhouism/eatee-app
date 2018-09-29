@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import {
   View,
@@ -14,6 +15,8 @@ import { Card, Button } from 'react-native-elements';
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
 const SWIPE_OUT_DURATION = 250;
+
+const LIGHTHOUSE_IP = 'http://192.168.88.17:3001/api';
 
 class Deck extends Component {
   static defaultProps = {
@@ -48,10 +51,6 @@ class Deck extends Component {
     if (nextProps.data !== this.props.data) {
       this.setState({ index: 0 });
     }
-    ////------------------------------
-    if(nextProps.curUser) {
-      console.log('componentWillReceiveProps in Deck component at user: ',nextProps.curUser);
-    }
   }
 
   componentWillUpdate() {
@@ -69,11 +68,16 @@ class Deck extends Component {
 
   onSwipeComplete(direction) {
     const { onSwipeLeft, onSwipeRight, data } = this.props;
-    const item = data[this.state.data]
+    const item = data[this.state.index]
+    console.log('currentItem:',item);
 
     direction === 'right' ? onSwipeRight(item) : onSwipeLeft(item);
     this.state.position.setValue({ x: 0, y: 0 });
     this.setState({ index: this.state.index + 1 });
+
+    if (direction === 'right') {
+      this.getCoupon(item);
+    }
   }
 
   getCardStyle() {
@@ -94,6 +98,20 @@ class Deck extends Component {
     Animated.spring(this.state.position, {
       toValue: { x: 0, y: 0 }
     }).start();
+  }
+
+  //user may swipe RIGHT to grab coupon
+  getCoupon = async (coupon) => {
+    console.log(`you took this coupon with ID: ${coupon.id}`);
+    let firstCoupon = await axios.get(`${LIGHTHOUSE_IP}/coupon_batches/${coupon.id}/coupon_details`);
+    let selectCouponID = firstCoupon.data.id;
+    console.log('selectCouponID: ',selectCouponID);
+
+    console.log(`adding coupon to this user ID ${this.props.curUser}`)
+    await axios.post(`${LIGHTHOUSE_IP}/users/add/coupon/${selectCouponID}`,{
+      facebook_id: this.props.curUser
+    });
+    console.log(`${selectCouponID} is added.`)
   }
 
   renderCards() {
@@ -130,6 +148,7 @@ class Deck extends Component {
   render() {
     return (
       <View>
+        <Text>Current User: {this.props.curUser}</Text>
         { this.renderCards() }
       </View>
     );

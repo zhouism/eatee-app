@@ -19,28 +19,15 @@ const DATA = [
 ];
 
 class SwipeScreen extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     current_user: 'Home'
-  //   };
-  // }
   componentDidMount() {
     this.props.fetchCouponBatches();
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   console.log('componentWillReceiveProps: ',nextProps.currentUser);
-  //   this.setState({
-  //         current_user: nextProps.currentUser
-  //       });
-  // }
 
   renderCard(item) {
     const discountPrice =  parseFloat(item.price) - (parseFloat(item.price) * parseFloat(item.discount) / 100);
 
     return(
-
       <Card
         key={ item.id }
         title={ item.name }
