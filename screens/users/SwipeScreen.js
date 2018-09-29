@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps({ coupons, currentUser }) {
-  console.log('current user: ', currentUser);
+  console.log("current user: ", currentUser);
   return { coupons, currentUser };
 }
 

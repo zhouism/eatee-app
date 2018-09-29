@@ -5,7 +5,7 @@ import { Facebook } from 'expo';
 import {
   FACEBOOK_LOGIN_SUCCESS,
   FACEBOOK_LOGIN_FAIL,
-  FETCH_CURRENT_USER
+  CURRENT_USER
 } from './types';
 
 // const CHRIS_IP = 'http://192.168.0.191:3001/api';
@@ -56,7 +56,7 @@ doFacebookLogin = async dispatch => {
       } else {
         console.log("user exist");
       }
-      dispatch({ type: FETCH_CURRENT_USER, payload: userInfo.id });
+      dispatch({ type: CURRENT_USER, payload: userInfo.id });
   }
 
   await AsyncStorage.setItem('fb_token', token);
