@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import navigation from "react-navigation";
+import { rootIP } from 'react-native-dotenv'
 
 export default class ModalView extends React.Component {
   // static navigationOptions = ({ navigation }) => {
@@ -35,7 +36,7 @@ export default class ModalView extends React.Component {
 
   saveRestaurantToDB(item) {
     axios
-      .post("http://192.168.0.191:3001/api/restaurants/", {
+      .post(`http://${rootIP}:3001/api/restaurants/`, {
         name: item.name,
         Yelp_image_URL: item.image_url,
         Yelp_business_URL: item.url,

@@ -11,12 +11,16 @@ import {
 } from "react-native";
 import axios from "axios";
 import ModalView from './CouponDetailModalView.js';
+import { connect } from 'react-redux';
+import * as actions from '../../actions'
+import { rootIP } from 'react-native-dotenv'
+const ip = rootIP;
 
 // const CHRIS_IP = 'http://192.168.0.191:3001/api';
 // const HOME_IP = 'http://192.168.1.97:3001/api';
-const LIGHTHOUSE_IP = 'http://192.168.88.17:3001/api';
+const LIGHTHOUSE_IP = `http://${ip}:3001/api`;
 
-export default class CouponListScreen extends React.Component {
+class CouponListScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,7 +36,7 @@ export default class CouponListScreen extends React.Component {
 
   componentDidMount() {
     axios
-      .get(`${LIGHTHOUSE_IP}/users/1/coupon_list`)
+      .get(`${LIGHTHOUSE_IP}/users/${this.props.currentUser}/coupon_list`)
       .then(response => {
         console.log(response.data)
         this.setState({
@@ -57,7 +61,7 @@ export default class CouponListScreen extends React.Component {
 
   _refreshScreen(){
     axios
-      .get(`${LIGHTHOUSE_IP}/users/1/coupon_list`)
+      .get(`${LIGHTHOUSE_IP}/users/${this.props.currentUser}/coupon_list`)
       .then(response => {
         console.log(response.data)
         this.setState({
@@ -113,3 +117,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   }
 });
+
+
+function mapStateToProps({ currentUser }) {
+  console.log("current user: ", currentUser);
+  return { currentUser };
+}
+
+export default connect(mapStateToProps, actions)(CouponListScreen);
