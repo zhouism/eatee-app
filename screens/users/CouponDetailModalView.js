@@ -54,7 +54,7 @@ export default class ModalView extends React.Component {
   }
 
   _redeemCoupon() { 
-    axios.post(`http://${rootIP}:3001/api/coupon_details/${this.state.item.id}`)
+    axios.post(`http://${rootIP}:3001/api/coupon_details/redeem/${this.state.item.id}`)
     .then(() =>  {
       this.setState({
         is_redeemed: true
@@ -89,14 +89,14 @@ export default class ModalView extends React.Component {
             <Text>Time Limit: {this.state.item.time_limit}</Text>
             <Text>Unit Price: ${(this.state.item.price * 1).toFixed(2)}</Text>
             <Text>Your Price: ${(this.state.item.price * (this.state.item.discount / 100)).toFixed(2)} </Text>    
-            {/* <MapView
+            <MapView
             style={{ width: 400, height: 300 }}
               region={this.state.region}
               onRegionChange={this.onRegionChange}
             >
             <Marker coordinate={this.state.coordinate}>
             </Marker>
-            </MapView> */}
+            </MapView>
             <TouchableHighlight
               onPress={() => {
                 this.props.setModalVisible(false);
