@@ -76,7 +76,7 @@ class Deck extends Component {
     this.setState({ index: this.state.index + 1 });
 
     if (direction === 'right') {
-      this.getCoupon(item);
+      this.getCouponAndUpdateQuanity(item);
     }
   }
 
@@ -101,7 +101,7 @@ class Deck extends Component {
   }
 
   //user may swipe RIGHT to grab coupon
-  getCoupon = async (coupon) => {
+  getCouponAndUpdateQuanity = async (coupon) => {
     console.log(`you took this coupon with ID: ${coupon.id}`);
     let firstCoupon = await axios.get(`${LIGHTHOUSE_IP}/coupon_batches/${coupon.id}/coupon_details`);
     let selectCouponID = firstCoupon.data.id;
@@ -111,7 +111,14 @@ class Deck extends Component {
     await axios.post(`${LIGHTHOUSE_IP}/users/add/coupon/${selectCouponID}`,{
       facebook_id: this.props.curUser
     });
-    console.log(`${selectCouponID} is added.`)
+    console.log(`${selectCouponID} is added.`);
+    console.log(`current quantity of this item is: ${coupon.quantity}`);
+    let updateCouponQuantity = coupon.quantity - 1;
+    console.log(`new quantity return is: ${updateCouponQuantity}`);
+    await axios.post(`${LIGHTHOUSE_IP}/coupon_batches/${coupon.id}/quantity`, {
+      quantity: updateCouponQuantity
+    })
+    console.log("quantity is updated");
   }
 
   renderCards() {
