@@ -12,12 +12,6 @@ import axios from "axios";
 import navigation from "react-navigation";
 
 export default class ModalView extends React.Component {
-  // static navigationOptions = ({ navigation }) => {
-  //   return {
-  //     RestaurantAU: RestaurantAU,
-  //   }
-  // }
-
   constructor() {
     super();
     this.state = {
@@ -34,10 +28,12 @@ export default class ModalView extends React.Component {
   }
 
   saveCouponBatchToDB(coupon) {
+    console.log("saveCouponBatchtoDB function", this.state.coupon);
     axios
       .post("http://192.168.88.244:3001/api/coupon_batches/", {
         dish_name: coupon.dish_name,
         description: coupon.description,
+        image: null,
         timestamp: +new Date(),
         time_limit: coupon.time_limit,
         quantity: coupon.quantity,
@@ -82,6 +78,7 @@ export default class ModalView extends React.Component {
             />
             <Button
               onPress={() => {
+                //need to save the coupon data, currently clears the form
                 this.props.setModalVisible(false);
               }}
               title="Continue Editing"

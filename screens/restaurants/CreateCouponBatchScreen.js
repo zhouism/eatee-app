@@ -136,7 +136,7 @@ export default class CreateCouponBatchScreen extends React.Component {
   onPress() {
     let coupon = this.refs.form.getValue();
     if (coupon) {
-      console.log(coupon);
+      // console.log(coupon);
       this.setState({
         modalVisible: true,
         coupon: coupon
@@ -148,13 +148,6 @@ export default class CreateCouponBatchScreen extends React.Component {
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
-
-  // _onPressCoupon(coupon) {
-  //   this.setState({
-  //     modalVisible: true,
-  //     coupon: coupon
-  //   });
-  // }
 
   render() {
     let { image } = this.state;
@@ -172,6 +165,7 @@ export default class CreateCouponBatchScreen extends React.Component {
           <Form ref="form" type={foodCoupon} options={options} />
 
           <Button
+            style={styles.button}
             title="Pick an image from camera roll"
             onPress={this._pickImage}
           />
