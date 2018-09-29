@@ -127,6 +127,7 @@ class Deck extends Component {
 
   renderCards() {
     if (this.state.index >= this.props.data.length) {
+      console.log("all coupons taken!!!")
       return (
         <Card title="All Done!">
         <Text style={{ marginBottom: 10 }}>
@@ -139,32 +140,33 @@ class Deck extends Component {
         />
         </Card>
       );
-    }
-    return this.props.data.map((item, i) => {
-      if (i < this.state.index) {
-        return null;
-      }
-      if (i === this.state.index) {
-        return (
-          <Animated.View
-            key={ item.id }
-            style={[ this.getCardStyle(), styles.cardStyle, { zIndex: i * -1 } ]}
-            { ...this.state.panResponder.panHandlers }
-          >
-            {this.props.renderCard(item)}
-          </Animated.View>
-        );
-      }
+    } else {
+        return this.props.data.map((item, i) => {
+          if (i < this.state.index) {
+            return null;
+          }
+          if (i === this.state.index) {
+            return (
+              <Animated.View
+                key={ item.id }
+                style={[ this.getCardStyle(), styles.cardStyle, { zIndex: i * -1 } ]}
+                { ...this.state.panResponder.panHandlers }
+              >
+                {this.props.renderCard(item)}
+              </Animated.View>
+            );
+          }
 
-      return (
-        <Animated.View
-          key={ item.id }
-          style={[ styles.cardStyle, { top: 10 * (i - this.state.index) }, { zIndex: i * -1 } ]}
-        >
-          {this.props.renderCard(item)}
-        </Animated.View>
-      );
-    })
+          return (
+            <Animated.View
+              key={ item.id }
+              style={[ styles.cardStyle, { top: 10 * (i - this.state.index) }, { zIndex: i * -1 } ]}
+            >
+              {this.props.renderCard(item)}
+            </Animated.View>
+          );
+        });
+    }
   }
 
   render() {
