@@ -35,7 +35,7 @@ export default class ModalView extends React.Component {
 
   saveRestaurantToDB(item) {
     axios
-      .post("http://192.168.88.244:3001/api/restaurants/", {
+      .post("http://192.168.0.191:3001/api/restaurants/", {
         name: item.name,
         Yelp_image_URL: item.image_url,
         Yelp_business_URL: item.url,
