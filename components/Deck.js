@@ -7,6 +7,7 @@ import {
   PanResponder,
   Dimensions,
   LayoutAnimation,
+  Alert,
   UIManager
 } from 'react-native';
 import { Card, Button } from 'react-native-elements';
@@ -73,14 +74,29 @@ class Deck extends Component {
   onSwipeComplete(direction) {
     const { onSwipeLeft, onSwipeRight, data } = this.props;
     const item = data[this.state.index]
-    console.log('currentItem:',item);
+    console.log('current item:',item);
 
     direction === 'right' ? onSwipeRight(item) : onSwipeLeft(item);
     this.state.position.setValue({ x: 0, y: 0 });
     this.setState({ index: this.state.index + 1 });
 
     if (direction === 'right') {
-      this.getCouponAndUpdateQuanity(item);
+      this.checkCouponLimit()
+      .then(data => {
+        if (data < 5) {
+          this.getCouponAndUpdateQuanity(item);
+        } else {
+          Alert.alert(
+            'Limit Reach',
+            'You can only have 5 coupons at a time!!!',
+            [
+              {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ],
+            { cancelable: false }
+          )
+        }
+      });
+
     }
   }
 
@@ -104,10 +120,18 @@ class Deck extends Component {
     }).start();
   }
 
+  //Promise return number of coupons collected by current user.
+  checkCouponLimit =  async () => {
+    let countCoupons = await axios.get(`${LIGHTHOUSE_IP}/coupon_details/users/${this.props.curUser}`);
+    let numberOfCoupon = parseInt((countCoupons.data[0]).count);
+    return numberOfCoupon;
+  }
+
   //user may swipe RIGHT to grab coupon
   getCouponAndUpdateQuanity = async (coupon) => {
     console.log(`you took this coupon with ID: ${coupon.id}`);
     let firstCoupon = await axios.get(`${LIGHTHOUSE_IP}/coupon_batches/${coupon.id}/coupon_details`);
+    console.log("first coupon: ", firstCoupon.data)
     let selectCouponID = firstCoupon.data.id;
     console.log('selectCouponID: ',selectCouponID);
 
@@ -124,6 +148,7 @@ class Deck extends Component {
     })
     console.log("quantity is updated");
   }
+
 
   renderCards() {
     if (this.state.index >= this.props.data.length) {
