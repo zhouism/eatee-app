@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import navigation from "react-navigation";
-import { rootIP } from 'react-native-dotenv'
+import { rootIP } from "react-native-dotenv";
 
 export default class ModalView extends React.Component {
   // static navigationOptions = ({ navigation }) => {
