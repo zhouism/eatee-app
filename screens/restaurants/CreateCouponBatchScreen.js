@@ -176,7 +176,12 @@ export default class CreateCouponBatchScreen extends React.Component {
             title="Pick an image from camera roll"
             onPress={this._pickImage}
           />
-          {image && <Image source={{ uri: image }} style={styles.button} />}
+          {image && (
+            <Image
+              source={{ uri: image }}
+              style={{ width: 200, height: 200 }}
+            />
+          )}
 
           <TouchableHighlight
             style={styles.button}
