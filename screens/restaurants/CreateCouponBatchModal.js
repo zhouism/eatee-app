@@ -14,8 +14,10 @@ import navigation from "react-navigation";
 import { rootIP } from "react-native-dotenv";
 import { RNS3 } from 'react-native-aws3';
 import { accessKeyId, secretAccessKey } from "react-native-dotenv";
+import { connect } from 'react-redux';
+import * as actions from '../../actions';
 
-export default class ModalView extends React.Component {
+class ModalView extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -68,7 +70,7 @@ export default class ModalView extends React.Component {
          * }
          */
         axios
-        .post(`http://${rootIP}:3001/api/restaurants/1/coupon_batches`, {
+        .post(`http://${rootIP}:3001/api/restaurants/${this.props.currentRestaurant}/coupon_batches`, {
           dish_name: coupon.dish_name,
           description: coupon.description,
           image: response.body.postResponse.location,
@@ -132,3 +134,10 @@ export default class ModalView extends React.Component {
     );
   }
 }
+
+function mapStateToProps({ currentRestaurant }) {
+  return { currentRestaurant };
+}
+
+export default connect(mapStateToProps, actions)(ModalView);
+
