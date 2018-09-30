@@ -10,9 +10,11 @@ import {
 } from "react-native";
 import axios from "axios";
 import navigation from "react-navigation";
+import { connect } from 'react-redux';
+import * as actions from '../../actions';
 import { rootIP } from 'react-native-dotenv'
 
-export default class ModalView extends React.Component {
+class ModalView extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -31,7 +33,7 @@ export default class ModalView extends React.Component {
   saveCouponBatchToDB(coupon) {
     console.log("saveCouponBatchtoDB function", coupon);
     axios
-      .post(`http://${rootIP}:3001/api/restaurants/1/coupon_batches`, {
+      .post(`http://${rootIP}:3001/api/restaurants/${this.props.currentRestaurant}/coupon_batches`, {
         dish_name: coupon.dish_name,
         description: coupon.description,
         image: 'https://s3-media1.fl.yelpcdn.com/bphoto/NCX50ST3Hjg7y8wTcwQXog/o.jpg',
@@ -89,3 +91,10 @@ export default class ModalView extends React.Component {
     );
   }
 }
+
+function mapStateToProps({ currentRestaurant }) {
+  return { currentRestaurant };
+}
+
+export default connect(mapStateToProps, actions)(ModalView);
+
