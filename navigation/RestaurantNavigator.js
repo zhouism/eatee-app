@@ -10,8 +10,7 @@ import CouponBatchesScreen from "../screens/restaurants/CouponBatchesScreen";
 import CreateCouponBatchScreen from "../screens/restaurants/CreateCouponBatchScreen";
 
 const CouponBatchesStack = createStackNavigator({
-  CouponBatches: CouponBatchesScreen,
-  CreateCouponBatch: CreateCouponBatchScreen
+  CouponBatches: CouponBatchesScreen
 });
 
 CouponBatchesStack.navigationOptions = {
@@ -28,6 +27,25 @@ CouponBatchesStack.navigationOptions = {
   )
 };
 
+const CreateCouponBatchStack = createStackNavigator({
+  CreateCouponBatch: CreateCouponBatchScreen
+});
+
+CreateCouponBatchStack.navigationOptions = {
+  tabBarLabel: "CreateCouponBatch",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === "ios"
+          ? `ios-options${focused ? "" : "-outline"}`
+          : "md-options"
+      }
+    />
+  )
+};
+
 export default createBottomTabNavigator({
-  CouponBatchesStack
+  CouponBatchesStack,
+  CreateCouponBatchStack
 });
