@@ -20,7 +20,6 @@ export default class ModalView extends React.Component {
   constructor() {
     super();
     this.state = {
-      modalVisible: false,
       item: {},
       region: {
         latitude: 49.324,
@@ -54,15 +53,6 @@ export default class ModalView extends React.Component {
 
   render() {
     return (
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={this.state.modalVisible}
-        onRequestClose={() =>  
-        {
-          this.props.setModalVisible(false);
-        }}
-      >
       <ScrollView>
       <View>
           <View>
@@ -95,7 +85,6 @@ export default class ModalView extends React.Component {
           </View>
         </View>
       </ScrollView>
-      </Modal>
     );
   }
 }

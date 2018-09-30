@@ -1,5 +1,5 @@
-import axios from 'axios';
-import React, { Component } from 'react';
+import axios from "axios";
+import React, { Component } from "react";
 import {
   View,
   Text,
@@ -8,15 +8,14 @@ import {
   Dimensions,
   LayoutAnimation,
   UIManager
-} from 'react-native';
-import { Card, Button } from 'react-native-elements';
-import { rootIP } from 'react-native-dotenv'
-import { connect } from 'react-redux';
-import * as actions from '../actions'
+} from "react-native";
+import { Card, Button } from "react-native-elements";
+import { rootIP } from "react-native-dotenv";
+import { connect } from "react-redux";
+import * as actions from "../actions";
+import ModalView from "../screens/users/SwipeModal.js";
 
-
-
-const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_WIDTH = Dimensions.get("window").width;
 const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
 const SWIPE_OUT_DURATION = 250;
 
@@ -26,7 +25,7 @@ class Deck extends Component {
   static defaultProps = {
     onSwipeRight: () => {},
     onSwipeLeft: () => {}
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -39,16 +38,22 @@ class Deck extends Component {
       },
       onPanResponderRelease: (event, gesture) => {
         if (gesture.dx > SWIPE_THRESHOLD) {
-          this.forceSwipe('right');
+          this.forceSwipe("right");
         } else if (gesture.dx < -SWIPE_THRESHOLD) {
-          this.forceSwipe('left');
+          this.forceSwipe("left");
         } else {
           this.resetPosition();
         }
       }
     });
 
-    this.state = { panResponder, position, index: 0 };
+    this.state = {
+      panResponder,
+      position,
+      index: 0,
+      modalVisible: false,
+      item: {}
+    };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -58,12 +63,13 @@ class Deck extends Component {
   }
 
   componentWillUpdate() {
-    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+    UIManager.setLayoutAnimationEnabledExperimental &&
+      UIManager.setLayoutAnimationEnabledExperimental(true);
     LayoutAnimation.spring();
   }
 
   forceSwipe(direction) {
-    const x = direction === 'right' ? SCREEN_WIDTH : -SCREEN_WIDTH;
+    const x = direction === "right" ? SCREEN_WIDTH : -SCREEN_WIDTH;
     Animated.timing(this.state.position, {
       toValue: { x: x, y: 0 },
       duration: SWIPE_OUT_DURATION
@@ -72,14 +78,14 @@ class Deck extends Component {
 
   onSwipeComplete(direction) {
     const { onSwipeLeft, onSwipeRight, data } = this.props;
-    const item = data[this.state.index]
-    console.log('currentItem:',item);
+    const item = data[this.state.index];
+    console.log("currentItem:", item);
 
-    direction === 'right' ? onSwipeRight(item) : onSwipeLeft(item);
+    direction === "right" ? onSwipeRight(item) : onSwipeLeft(item);
     this.state.position.setValue({ x: 0, y: 0 });
     this.setState({ index: this.state.index + 1 });
 
-    if (direction === 'right') {
+    if (direction === "right") {
       this.getCouponAndUpdateQuanity(item);
     }
   }
@@ -88,9 +94,8 @@ class Deck extends Component {
     const { position } = this.state;
     const rotate = position.x.interpolate({
       inputRange: [-SCREEN_WIDTH * 1.5, 0, SCREEN_WIDTH * 1.5],
-      outputRange: ['-120deg', '0deg', '120deg']
+      outputRange: ["-120deg", "0deg", "120deg"]
     });
-
 
     return {
       ...position.getLayout(),
@@ -104,15 +109,31 @@ class Deck extends Component {
     }).start();
   }
 
-  //user may swipe RIGHT to grab coupon
-  getCouponAndUpdateQuanity = async (coupon) => {
-    console.log(`you took this coupon with ID: ${coupon.id}`);
-    let firstCoupon = await axios.get(`${LIGHTHOUSE_IP}/coupon_batches/${coupon.id}/coupon_details`);
-    let selectCouponID = firstCoupon.data.id;
-    console.log('selectCouponID: ',selectCouponID);
+  setModalVisible(vis) {
+    console.log('im in the setmodal visible')
+    this.setState({ modalVisible: vis });
+    console.log('after setstate')
+    console.log('state', this.state.modalVisible)
+  }
 
-    console.log(`adding coupon to this user ID ${this.props.curUser}`)
-    await axios.post(`${LIGHTHOUSE_IP}/users/add/coupon/${selectCouponID}`,{
+  _onPressItem(item) {
+    this.setState({
+      modalVisible: true,
+      item: item
+    });
+  }
+
+  //user may swipe RIGHT to grab coupon
+  getCouponAndUpdateQuanity = async coupon => {
+    console.log(`you took this coupon with ID: ${coupon.id}`);
+    let firstCoupon = await axios.get(
+      `${LIGHTHOUSE_IP}/coupon_batches/${coupon.id}/coupon_details`
+    );
+    let selectCouponID = firstCoupon.data.id;
+    console.log("selectCouponID: ", selectCouponID);
+
+    console.log(`adding coupon to this user ID ${this.props.curUser}`);
+    await axios.post(`${LIGHTHOUSE_IP}/users/add/coupon/${selectCouponID}`, {
       facebook_id: this.props.curUser
     });
     console.log(`${selectCouponID} is added.`);
@@ -121,59 +142,86 @@ class Deck extends Component {
     console.log(`new quantity return is: ${updateCouponQuantity}`);
     await axios.post(`${LIGHTHOUSE_IP}/coupon_batches/${coupon.id}/quantity`, {
       quantity: updateCouponQuantity
-    })
+    });
     console.log("quantity is updated");
-  }
+  };
 
   renderCards() {
     if (this.state.index >= this.props.data.length) {
-      console.log("all coupons taken!!!")
+      console.log("all coupons taken!!!");
       return (
         <Card title="All Done!">
-        <Text style={{ marginBottom: 10 }}>
-        There's no more content here!
-        </Text>
-        <Button
-          backgroundColor="#03A9F4"
-          title="Get more!"
-          onPress={()=>{ this.props.fetchCouponBatches() }}
-        />
+          <Text style={{ marginBottom: 10 }}>
+            There's no more content here!
+          </Text>
+          <Button
+            backgroundColor="#03A9F4"
+            title="Get more!"
+            onPress={() => {
+              this.props.fetchCouponBatches();
+            }}
+          />
         </Card>
       );
     } else {
-        return this.props.data.map((item, i) => {
-          if (i < this.state.index) {
-            return null;
-          }
-          if (i === this.state.index) {
-            return (
-              <Animated.View
-                key={ item.id }
-                style={[ this.getCardStyle(), styles.cardStyle, { zIndex: i * -1 } ]}
-                { ...this.state.panResponder.panHandlers }
-              >
-                {this.props.renderCard(item)}
-              </Animated.View>
-            );
-          }
-
+      return this.props.data.map((item, i) => {
+        if (i < this.state.index) {
+          return null;
+        }
+        if (i === this.state.index) {
           return (
             <Animated.View
-              key={ item.id }
-              style={[ styles.cardStyle, { top: 10 * (i - this.state.index) }, { zIndex: i * -1 } ]}
+              key={item.id}
+              style={[
+                this.getCardStyle(),
+                styles.cardStyle,
+                { zIndex: i * -1 }
+              ]}
+              {...this.state.panResponder.panHandlers}
             >
               {this.props.renderCard(item)}
+              <Button
+                icon={{ name: "code" }}
+                backgroundColor="#03A9F4"
+                title="View Coupon!"
+                onPress={() => this._onPressItem(item)}
+              />
             </Animated.View>
           );
-        });
+        }
+
+        return (
+          <Animated.View
+            key={item.id}
+            style={[
+              styles.cardStyle,
+              { top: 10 * (i - this.state.index) },
+              { zIndex: i * -1 }
+            ]}
+          >
+            {this.props.renderCard(item)}
+            <Button
+              icon={{ name: "code" }}
+              backgroundColor="#03A9F4"
+              title="View Coupon!"
+              onPress={() => this._onPressItem(item)}
+            />
+          </Animated.View>
+        );
+      });
     }
   }
 
   render() {
     return (
       <View>
+        <ModalView
+          modalVisible={this.state.modalVisible}
+          setModalVisible={vis => this.setModalVisible(vis)}
+          item={this.state.item}
+        />
         <Text>Current User: {this.props.curUser}</Text>
-        { this.renderCards() }
+        {this.renderCards()}
       </View>
     );
   }
@@ -184,10 +232,13 @@ const styles = {
     position: "absolute",
     width: SCREEN_WIDTH
   }
-}
+};
 
 function mapStateToProps({ coupons }) {
   return { coupons };
 }
 
-export default connect(mapStateToProps, actions)(Deck);
+export default connect(
+  mapStateToProps,
+  actions
+)(Deck);
