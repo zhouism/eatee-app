@@ -1,40 +1,3 @@
-// This is how to upload an image to the AMAZON S3 server I've set up with Nima
-// import { accessKeyId, secretAccessKey } from 'react-native-dotenv'
-// ApiClient.init(accessKeyId, secretAccessKey)
-
-// const AWS = require('aws-sdk');
-// const fs = require('fs');
-// const path = require('path');
-
-// //configuring the AWS environment
-// AWS.config.update({
-//     accessKeyId: accessKeyId,
-//     secretAccessKey: secretAccessKey
-//   });
-
-// const s3 = new AWS.S3();
-
-// let filePath = "Headshot.jpg";
-
-// //configuring parameters
-// const params = {
-//   Bucket: 'eatee',
-//   Body : fs.createReadStream(filePath),
-//   Key : "Images/"+Date.now()+"_"+path.basename(filePath)
-// };
-
-// s3.upload(params, function (err, data) {
-//   //handle error
-//   if (err) {
-//     console.log("Error", err);
-//   }
-
-//   //success
-//   if (data) {
-//     console.log("Uploaded in:", data.Location);
-//   }
-// });
-
 import React from "react";
 import {
   AppRegistry,
@@ -45,13 +8,13 @@ import {
   ScrollView,
   Button,
   Modal,
+  Image,
   TextInput
 } from "react-native";
 import axios from "axios";
 import { ImagePicker, Camera, Permissions } from "expo";
 import t from "tcomb-form-native";
 import ModalView from "./CreateCouponBatchModal";
-import CameraJ from "../../components/CameraJ.js";
 
 // Functions setting up the form
 
@@ -118,20 +81,33 @@ export default class CreateCouponBatchScreen extends React.Component {
   }
 
   _pickImage = async () => {
+    let { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status !== "granted") {
+      console.error("Camera roll perms not granted");
+      return;
+    }
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      aspect: [4, 3]
+      aspect: [4, 4]
     });
-
-    this.setState({
-      image: result
-    });
-
-    console.log(result);
 
     if (!result.cancelled) {
       this.setState({ image: result.uri });
     }
+  };
+
+  _showCamera = async () => {
+    let { status } = await Permissions.askAsync(Permissions.CAMERA);
+
+    if (status !== "granted") {
+      console.error("Camera perms not granted");
+      return;
+    }
+
+    let image = await ImagePicker.launchCameraAsync();
+    this.setState({
+      image: image.uri
+    });
   };
 
   onPress() {
@@ -167,28 +143,33 @@ export default class CreateCouponBatchScreen extends React.Component {
               this.setModalVisible(vis);
             }}
             coupon={this.state.coupon}
+            image={this.state.image}
             savedDB={() => this.navToCouponBatch()}
           />
+          <Button
+            style={styles.button}
+            title="Pick an image from camera roll"
+            onPress={this._pickImage}
+          />
+          <Button
+            style={styles.button}
+            title="Take a picture"
+            onPress={() => {
+              this._showCamera();
+            }}
+          />
+          {image && (
+            <Image
+              source={{ uri: image }}
+              style={{ width: 300, height: 300 }}
+            />
+          )}
           <Form
             ref="form"
             type={foodCoupon}
             options={options}
             value={this.state.coupon}
           />
-
-          <Button
-            style={styles.button}
-            title="Pick an image from camera roll"
-            onPress={this._pickImage}
-          />
-          {image && (
-            <Image
-              source={{ uri: image }}
-              style={{ width: 200, height: 200 }}
-            />
-          )}
-          <CameraJ />
-
           <TouchableHighlight
             style={styles.button}
             onPress={this.onPress.bind(this)}
