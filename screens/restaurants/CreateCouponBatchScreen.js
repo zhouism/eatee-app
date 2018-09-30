@@ -51,6 +51,7 @@ import axios from "axios";
 import { ImagePicker, Camera, Permissions } from "expo";
 import t from "tcomb-form-native";
 import ModalView from "./CreateCouponBatchModal";
+import CameraJ from "../../components/CameraJ.js";
 
 // Functions setting up the form
 
@@ -122,6 +123,10 @@ export default class CreateCouponBatchScreen extends React.Component {
       aspect: [4, 3]
     });
 
+    this.setState({
+      image: result
+    });
+
     console.log(result);
 
     if (!result.cancelled) {
@@ -182,6 +187,7 @@ export default class CreateCouponBatchScreen extends React.Component {
               style={{ width: 200, height: 200 }}
             />
           )}
+          <CameraJ />
 
           <TouchableHighlight
             style={styles.button}
