@@ -128,10 +128,6 @@ export default class CreateCouponBatchScreen extends React.Component {
       this.setState({ image: result.uri });
     }
   };
-  _clearForm() {
-    // clear content from all textbox
-    this.setState({ value: null });
-  }
 
   onPress() {
     let coupon = this.refs.form.getValue();
@@ -141,7 +137,6 @@ export default class CreateCouponBatchScreen extends React.Component {
         modalVisible: true,
         coupon: coupon
       });
-      // this._clearForm();
     }
   }
 
@@ -162,7 +157,12 @@ export default class CreateCouponBatchScreen extends React.Component {
             }}
             coupon={this.state.coupon}
           />
-          <Form ref="form" type={foodCoupon} options={options} />
+          <Form
+            ref="form"
+            type={foodCoupon}
+            options={options}
+            value={this.state.coupon}
+          />
 
           <Button
             style={styles.button}
