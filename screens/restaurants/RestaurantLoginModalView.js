@@ -40,6 +40,7 @@ class ModalView extends React.Component {
   }
 
   saveRestaurantToDB(item){
+    console.log('itemid', item.id)
     axios
       .get(`http://${rootIP}:3001/api/restaurants/yelpid/${item.id}`)
       .then((itemID) => {
