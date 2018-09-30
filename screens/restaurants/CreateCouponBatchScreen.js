@@ -128,10 +128,6 @@ export default class CreateCouponBatchScreen extends React.Component {
       this.setState({ image: result.uri });
     }
   };
-  _clearForm() {
-    // clear content from all textbox
-    this.setState({ value: null });
-  }
 
   onPress() {
     let coupon = this.refs.form.getValue();
@@ -141,12 +137,17 @@ export default class CreateCouponBatchScreen extends React.Component {
         modalVisible: true,
         coupon: coupon
       });
-      // this._clearForm();
     }
   }
 
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
+  }
+
+  navToCouponBatch() {
+    this.setModalVisible(false);
+    console.log("has connected to navToCouponBatch");
+    this.props.navigation.navigate("RestaurantNav");
   }
 
   render() {
@@ -161,8 +162,14 @@ export default class CreateCouponBatchScreen extends React.Component {
               this.setModalVisible(vis);
             }}
             coupon={this.state.coupon}
+            savedDB={() => this.navToCouponBatch()}
           />
-          <Form ref="form" type={foodCoupon} options={options} />
+          <Form
+            ref="form"
+            type={foodCoupon}
+            options={options}
+            value={this.state.coupon}
+          />
 
           <Button
             style={styles.button}

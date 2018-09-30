@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import axios from "axios";
 import navigation from "react-navigation";
-import { rootIP } from 'react-native-dotenv'
 
 export default class ModalView extends React.Component {
   constructor() {
@@ -31,7 +30,7 @@ export default class ModalView extends React.Component {
   saveCouponBatchToDB(coupon) {
     console.log("saveCouponBatchtoDB function", coupon);
     axios
-      .post(`http://${rootIP}:3001/api/coupon_batches/`, {
+      .post("http://192.168.88.244:3001/api/restaurants/1/coupon_batches", {
         dish_name: coupon.dish_name,
         description: coupon.description,
         image: null,
@@ -39,12 +38,11 @@ export default class ModalView extends React.Component {
         time_limit: coupon.time_limit,
         quantity: coupon.quantity,
         price: coupon.price,
-        discount: coupon.discount
+        discount: coupon.discount,
+        impression: 0
       })
       .then(() => {
-        this.setState({
-          modalVisible: false
-        });
+        this.props.savedDB();
       })
       .catch(function(error) {
         console.log(error);
@@ -78,7 +76,6 @@ export default class ModalView extends React.Component {
             />
             <Button
               onPress={() => {
-                //need to save the coupon data, currently clears the form
                 this.props.setModalVisible(false);
               }}
               title="Continue Editing"
