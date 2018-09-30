@@ -144,6 +144,12 @@ export default class CreateCouponBatchScreen extends React.Component {
     this.setState({ modalVisible: visible });
   }
 
+  navToCouponBatch() {
+    this.setModalVisible(false);
+    console.log("has connected to navToCouponBatch");
+    this.props.navigation.navigate("RestaurantNav");
+  }
+
   render() {
     let { image } = this.state;
 
@@ -156,6 +162,7 @@ export default class CreateCouponBatchScreen extends React.Component {
               this.setModalVisible(vis);
             }}
             coupon={this.state.coupon}
+            savedDB={() => this.navToCouponBatch()}
           />
           <Form
             ref="form"
@@ -169,12 +176,7 @@ export default class CreateCouponBatchScreen extends React.Component {
             title="Pick an image from camera roll"
             onPress={this._pickImage}
           />
-          {image && (
-            <Image
-              source={{ uri: image }}
-              style={{ width: 200, height: 200 }}
-            />
-          )}
+          {image && <Image source={{ uri: image }} style={styles.button} />}
 
           <TouchableHighlight
             style={styles.button}
