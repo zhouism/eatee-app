@@ -12,8 +12,10 @@ import {
 import axios from "axios";
 import ModalView from "./CouponBatchDetailsModal.js";
 import { rootIP } from "react-native-dotenv";
+import { connect } from 'react-redux';
+import * as actions from '../../actions';
 
-export default class CouponBatchesScreen extends React.Component {
+class CouponBatchesScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,7 +31,7 @@ export default class CouponBatchesScreen extends React.Component {
 
   componentDidMount() {
     axios
-      .get(`http://${rootIP}:3001/api/restaurants/2/coupon_batches`)
+      .get(`http://${rootIP}:3001/api/restaurants/${this.props.currentRestaurant}/coupon_batches`)
       .then(response => {
         this.setState({
           data: response.data
@@ -100,3 +102,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   }
 });
+
+function mapStateToProps({ currentRestaurant }) {
+  return { currentRestaurant };
+}
+
+export default connect(mapStateToProps, actions)(CouponBatchesScreen);
