@@ -81,10 +81,10 @@ export default class CreateCouponBatchScreen extends React.Component {
   }
 
   _pickImage = async () => {
-    let {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    if(status !== "granted") {
+    let { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status !== "granted") {
       console.error("Camera roll perms not granted");
-      return
+      return;
     }
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -97,20 +97,18 @@ export default class CreateCouponBatchScreen extends React.Component {
   };
 
   _showCamera = async () => {
-    let { status } = await Permissions.askAsync(
-      Permissions.CAMERA
-    );
+    let { status } = await Permissions.askAsync(Permissions.CAMERA);
 
-    if(status !== "granted") {
+    if (status !== "granted") {
       console.error("Camera perms not granted");
-      return
+      return;
     }
 
-    let image = await ImagePicker.launchCameraAsync()
+    let image = await ImagePicker.launchCameraAsync();
     this.setState({
       image: image.uri
-    })
-  }
+    });
+  };
 
   onPress() {
     let coupon = this.refs.form.getValue();
@@ -148,21 +146,17 @@ export default class CreateCouponBatchScreen extends React.Component {
             image={this.state.image}
             savedDB={() => this.navToCouponBatch()}
           />
-          <Form
-            ref="form"
-            type={foodCoupon}
-            options={options}
-            value={this.state.coupon}
-          />
           <Button
             style={styles.button}
             title="Pick an image from camera roll"
             onPress={this._pickImage}
           />
-          <Button 
+          <Button
             style={styles.button}
             title="Take a picture"
-            onPress={() => {this._showCamera()}}
+            onPress={() => {
+              this._showCamera();
+            }}
           />
           {image && (
             <Image
@@ -170,6 +164,12 @@ export default class CreateCouponBatchScreen extends React.Component {
               style={{ width: 300, height: 300 }}
             />
           )}
+          <Form
+            ref="form"
+            type={foodCoupon}
+            options={options}
+            value={this.state.coupon}
+          />
           <TouchableHighlight
             style={styles.button}
             onPress={this.onPress.bind(this)}

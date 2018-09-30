@@ -14,7 +14,6 @@ import navigation from "react-navigation";
 import { rootIP } from "react-native-dotenv";
 import { RNS3 } from 'react-native-aws3';
 import { accessKeyId, secretAccessKey } from "react-native-dotenv";
-ApiClient.init(accessKeyId, secretAccessKey);
 
 export default class ModalView extends React.Component {
   constructor() {
@@ -39,9 +38,8 @@ export default class ModalView extends React.Component {
     console.log("image", image);
 
     const file = {
-      // `uri` can also be a file system path (i.e. file://)
       uri: image,
-      name: "image.png",
+      name: new Date().toISOString() + "_" + coupon.dish_name + ".png",
       type: "image/png"
     }
     
@@ -58,7 +56,7 @@ export default class ModalView extends React.Component {
       if (response.status !== 201)
         throw new Error("Failed to upload image to S3");
       else {
-        console.log(response.body);
+        console.log(response.body.postResponse.location);
         /**
          * {
          *   postResponse: {
