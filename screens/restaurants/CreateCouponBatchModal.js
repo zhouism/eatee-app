@@ -6,48 +6,89 @@ import {
   Button,
   FlatList,
   StyleSheet,
-  TouchableHighlight
+  TouchableHighlight,
+  Image
 } from "react-native";
 import axios from "axios";
 import navigation from "react-navigation";
-import { rootIP } from 'react-native-dotenv'
+import { rootIP } from "react-native-dotenv";
+import { RNS3 } from 'react-native-aws3';
+import { accessKeyId, secretAccessKey } from "react-native-dotenv";
+ApiClient.init(accessKeyId, secretAccessKey);
 
 export default class ModalView extends React.Component {
   constructor() {
     super();
     this.state = {
       modalVisible: false,
-      coupon: {}
+      coupon: {},
+      image: ""
     };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       modalVisible: nextProps.modalVisible,
-      coupon: nextProps.coupon
+      coupon: nextProps.coupon,
+      image: nextProps.image
     });
   }
 
-  saveCouponBatchToDB(coupon) {
+  saveCouponBatchToDB(coupon, image) {
     console.log("saveCouponBatchtoDB function", coupon);
-    axios
-      .post(`http://${rootIP}:3001/api/restaurants/1/coupon_batches`, {
-        dish_name: coupon.dish_name,
-        description: coupon.description,
-        image: 'https://s3-media1.fl.yelpcdn.com/bphoto/NCX50ST3Hjg7y8wTcwQXog/o.jpg',
-        timestamp: new Date().toISOString(),
-        time_limit: coupon.time_limit,
-        quantity: coupon.quantity,
-        price: coupon.price,
-        discount: coupon.discount,
-        impression: 0
-      })
-      .then(() => {
-        this.props.savedDB();
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    console.log("image", image);
+
+    const file = {
+      // `uri` can also be a file system path (i.e. file://)
+      uri: image,
+      name: "image.png",
+      type: "image/png"
+    }
+    
+    const options = {
+      keyPrefix: "Images/",
+      bucket: "eatee",
+      region: "ca-central-1",
+      accessKey: accessKeyId,
+      secretKey: secretAccessKey,
+      successActionStatus: 201
+    }
+    
+    RNS3.put(file, options).then(response => {
+      if (response.status !== 201)
+        throw new Error("Failed to upload image to S3");
+      else {
+        console.log(response.body);
+        /**
+         * {
+         *   postResponse: {
+         *     bucket: "your-bucket",
+         *     etag : "9f620878e06d28774406017480a59fd4",
+         *     key: "uploads/image.png",
+         *     location: "https://your-bucket.s3.amazonaws.com/uploads%2Fimage.png"
+         *   }
+         * }
+         */
+        axios
+        .post(`http://${rootIP}:3001/api/restaurants/1/coupon_batches`, {
+          dish_name: coupon.dish_name,
+          description: coupon.description,
+          image: response.body.postResponse.location,
+          timestamp: new Date().toISOString(),
+          time_limit: coupon.time_limit,
+          quantity: coupon.quantity,
+          price: coupon.price,
+          discount: coupon.discount,
+          impression: 0
+        })
+        .then(() => {
+          this.props.savedDB();
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+      }
+    });
   }
 
   render() {
@@ -63,6 +104,10 @@ export default class ModalView extends React.Component {
         <View>
           <View>
             <Text>Confirm your coupon</Text>
+            <Image
+              source={{ uri: this.state.image }}
+              style={{ width: 300, height: 300 }}
+            />
             <Text>Dish Name: {this.state.coupon.dish_name}</Text>
             <Text>Dish Description: {this.state.coupon.description}</Text>
             <Text>Time Limit: {this.state.coupon.time_limit}</Text>
@@ -71,7 +116,7 @@ export default class ModalView extends React.Component {
             <Text>Percentage Off: {this.state.coupon.discount}</Text>
             <Button
               onPress={() => {
-                this.saveCouponBatchToDB(this.state.coupon);
+                this.saveCouponBatchToDB(this.state.coupon, this.state.image);
               }}
               title="Confirm"
             />
