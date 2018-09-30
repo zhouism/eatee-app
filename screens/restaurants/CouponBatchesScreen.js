@@ -66,18 +66,20 @@ export default class CouponBatchesScreen extends React.Component {
         <Text>Total Impressions:</Text>
         <Text>Total # of Swipes: </Text>
         <Text>Total # of redeemed ads:</Text>
-        <FlatList
-          data={this.state.data}
-          renderItem={({ item }) => (
-            <TouchableHighlight onPress={() => this._onPressItem(item)}>
-              <View>
-                <Text>Dish Name: {item.dish_name}</Text>
-                <Text>Total Impressions: {item.impression}</Text>
-              </View>
-            </TouchableHighlight>
-          )}
-          keyExtractor={item => item.id.toString()}
-        />
+        <ScrollView>
+          <FlatList
+            data={this.state.data}
+            renderItem={({ item }) => (
+              <TouchableHighlight onPress={() => this._onPressItem(item)}>
+                <View>
+                  <Text>Dish Name: {item.dish_name}</Text>
+                  <Text>Total Impressions: {item.impression}</Text>
+                </View>
+              </TouchableHighlight>
+            )}
+            keyExtractor={item => item.id.toString()}
+          />
+        </ScrollView>
         <Button
           onPress={() => {
             navigate("CreateCouponBatch");
