@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import navigation from "react-navigation";
+import { rootIP } from 'react-native-dotenv'
 
 export default class ModalView extends React.Component {
   constructor() {
@@ -30,10 +31,10 @@ export default class ModalView extends React.Component {
   saveCouponBatchToDB(coupon) {
     console.log("saveCouponBatchtoDB function", coupon);
     axios
-      .post("http://192.168.88.244:3001/api/restaurants/1/coupon_batches", {
+      .post(`http://${rootIP}:3001/api/restaurants/1/coupon_batches`, {
         dish_name: coupon.dish_name,
         description: coupon.description,
-        image: null,
+        image: 'https://s3-media1.fl.yelpcdn.com/bphoto/NCX50ST3Hjg7y8wTcwQXog/o.jpg',
         timestamp: new Date().toISOString(),
         time_limit: coupon.time_limit,
         quantity: coupon.quantity,
