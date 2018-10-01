@@ -7,7 +7,8 @@ import {
   FlatList,
   StyleSheet,
   TouchableHighlight,
-  Image
+  Image,
+  ScrollView
 } from "react-native";
 import axios from "axios";
 import ModalView from './CouponDetailModalView.js';
@@ -84,7 +85,9 @@ class CouponListScreen extends React.Component {
           item={this.state.item}
           updateDB={() => this._refreshScreen()}
         />
-        <FlatList
+        {this.state.data && (
+          <ScrollView>
+          <FlatList
           data={this.state.data}
           renderItem={({ item }) => (
             <TouchableHighlight onPress={() => this._onPressItem(item)}>
@@ -103,8 +106,9 @@ class CouponListScreen extends React.Component {
           )}
           keyExtractor={item => item.id.toString()}
         />
+        </ScrollView>)}
       </View>
-    );
+    )
   }
 }
 

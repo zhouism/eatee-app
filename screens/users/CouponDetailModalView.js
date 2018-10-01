@@ -23,14 +23,14 @@ export default class ModalView extends React.Component {
       item: {},
       is_redeemed: false,
       region: {
-        latitude: null,
-        longitude: null,
+        latitude: 49.283573,
+        longitude: -123.115137,
         latitudeDelta: 0.005,
         longitudeDelta: 0.005
       },
       coordinate: {
-        latitude: null,
-        longitude: null,
+        latitude: 49.283573,
+        longitude: -123.115137,
       }
     };
   }
@@ -76,7 +76,8 @@ export default class ModalView extends React.Component {
           this.props.updateDB()
         }}
       >
-      <ScrollView>
+      {this.state.item && (
+        <ScrollView>
       <View>
           <View>
           <Image source={{uri: this.state.item.image}} style={{width: 400, height: 300}} />
@@ -108,7 +109,8 @@ export default class ModalView extends React.Component {
             <Text>Your Coupon Has Been Redeemed</Text> : <Button onPress={() => this._redeemCoupon()} title="Redeem Coupon"/> }
           </View>
         </View>
-      </ScrollView>
+      </ScrollView>)}
+
       </Modal>
     );
   }
