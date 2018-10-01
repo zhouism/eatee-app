@@ -6,32 +6,17 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions'
 import { Ionicons } from '@expo/vector-icons';
 
-
-const DATA = [
-  { id: 1, text: 'Card #1', uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-04.jpg' },
-  { id: 2, text: 'Card #2', uri: 'http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg' },
-  { id: 3, text: 'Card #3', uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-09.jpg' },
-  { id: 4, text: 'Card #4', uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-01.jpg' },
-  { id: 5, text: 'Card #5', uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-04.jpg' },
-  { id: 6, text: 'Card #6', uri: 'http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg' },
-  { id: 7, text: 'Card #7', uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-09.jpg' },
-  { id: 8, text: 'Card #8', uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-01.jpg' },
-];
-
 class SwipeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: <Ionicons name="ios-restaurant" size={32} color="red" onPress={() => navigation.navigate('Swipe')} />,
       headerLeft: <Ionicons name="md-settings" size={32} color="red" onPress={() => navigation.navigate('Settings')} />,
       headerRight: <Ionicons name="md-list" size={32} color="red" onPress={() => navigation.navigate('CouponList')} />
     }
   }
 
-
   componentDidMount() {
     this.props.fetchCouponBatches();
   }
-
 
   renderCard(item) {
     const discountPrice =  parseFloat(item.price) - (parseFloat(item.price) * parseFloat(item.discount) / 100);
