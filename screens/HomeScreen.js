@@ -3,26 +3,15 @@ import { Text, View, Image, StyleSheet } from "react-native";
 import { Button } from 'react-native-elements';
 
 export default class HomeScreen extends Component {
-  static navigationOptions = {
-    title: 'Welcome to the app!',
-  };
-
   render() {
+    const { navigate } = this.props.navigation
     return (
       <View style={styles.container}>
-        <Button title="User Login" onPress={this._showUserLogin} />
-        <Button title="Restaurant Login" onPress={this._showRestaurantLogin} />
+        <Button title="User Login" onPress={() => navigate('User')} />
+        <Button title="Restaurant Login" onPress={() => navigate('Restaurant')} />
       </View>
     );
   }
-
-  _showUserLogin = () => {
-    this.props.navigation.navigate('User');
-  };
-
-  _showRestaurantLogin = () => {
-    this.props.navigation.navigate('Restaurant');
-  };
 }
 
 const styles = StyleSheet.create({
