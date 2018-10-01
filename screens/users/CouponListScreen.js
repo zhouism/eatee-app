@@ -21,6 +21,12 @@ import { rootIP } from 'react-native-dotenv'
 const LIGHTHOUSE_IP = `http://${rootIP}:3001/api`;
 
 class CouponListScreen extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: 'Your Coupons',
+    }
+  }
+
   constructor(props) {
     super(props);
     this.state = {

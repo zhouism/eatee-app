@@ -4,6 +4,7 @@ import { Card, Button } from 'react-native-elements';
 import Deck from '../../components/Deck.js';
 import { connect } from 'react-redux';
 import * as actions from '../../actions'
+import { Ionicons } from '@expo/vector-icons';
 
 
 const DATA = [
@@ -18,6 +19,15 @@ const DATA = [
 ];
 
 class SwipeScreen extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: <Ionicons name="ios-restaurant" size={32} color="red" onPress={() => navigation.navigate('Swipe')} />,
+      headerLeft: <Ionicons name="md-settings" size={32} color="red" onPress={() => navigation.navigate('Settings')} />,
+      headerRight: <Ionicons name="md-list" size={32} color="red" onPress={() => navigation.navigate('CouponList')} />
+    }
+  }
+
+
   componentDidMount() {
     this.props.fetchCouponBatches();
   }
