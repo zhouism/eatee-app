@@ -10,17 +10,23 @@ import {
   TouchableHighlight
 } from "react-native";
 import axios from "axios";
-import ModalView from "./CouponBatchDetailsModal.js";
+import ModalView from "./CouponBatchDetailsScreen.js";
 import { rootIP } from "react-native-dotenv";
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 
 class CouponBatchesScreen extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: 'Coupon Batches',
+      headerLeft: <Ionicons name="md-settings" size={32} color="red" onPress={() => navigation.navigate('CreateCouponBatch')} />,
+    }
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       data: {},
-      modalVisible: false,
       item: {}
     };
   }
@@ -42,28 +48,10 @@ class CouponBatchesScreen extends React.Component {
       });
   }
 
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
-  }
-
-  _onPressItem(item) {
-    this.setState({
-      modalVisible: true,
-      item: item
-    });
-  }
-
   render() {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <ModalView
-          modalVisible={this.state.modalVisible}
-          setModalVisible={vis => {
-            this.setModalVisible(vis);
-          }}
-          item={this.state.item}
-        />
         <Text>STATISTICS FOR ALL ADS</Text>
         <Text>Total Impressions:</Text>
         <Text>Total # of Swipes: </Text>
@@ -72,7 +60,9 @@ class CouponBatchesScreen extends React.Component {
           <FlatList
             data={this.state.data}
             renderItem={({ item }) => (
-              <TouchableHighlight onPress={() => this._onPressItem(item)}>
+              <TouchableHighlight onPress={() => navigate('CouponBatchDetail',
+                {item: item} 
+              )}>
                 <View>
                   <Text>Dish Name: {item.dish_name}</Text>
                   <Text>Total Impressions: {item.impression}</Text>

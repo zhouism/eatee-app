@@ -3,9 +3,11 @@ import { Text, View, Button } from "react-native";
 
 
 class SettingsScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Settings',
-  };
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: 'Settings',
+    }
+  }
 
   render() {
     /* Go ahead and delete ExpoConfigView and replace it with your
