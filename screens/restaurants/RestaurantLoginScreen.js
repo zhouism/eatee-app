@@ -22,7 +22,7 @@ export default class RestaurantLoginScreen extends React.PureComponent {
     this.state = {
       isLoading: false,
       data: {},
-      query: "",
+      query: "+1",
       result: {},
       modalVisible: false
     };
