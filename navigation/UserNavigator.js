@@ -4,16 +4,18 @@ import SettingsScreen from '../screens/users/SettingsScreen';
 import SwipeScreen from '../screens/users/SwipeScreen';
 import CouponDetailScreen from '../screens/users/CouponDetailScreen';
 
-const Coupon = createSwitchNavigator({
-  CouponList: CouponListScreen,
-  CouponDetail: CouponDetailScreen
-})
+// const Coupon = createSwitchNavigator({
+//   CouponList: CouponListScreen,
+//   CouponDetail: CouponDetailScreen
+// })
 
 export default UserStack = createStackNavigator(
   {
   Swipe: SwipeScreen,
   Settings: SettingsScreen,
-  CouponNav: Coupon
+  CouponList: CouponListScreen,
+  CouponDetail: CouponDetailScreen
+  // CouponNav: Coupon
   },
   {
     initialRouteName: 'Swipe',
