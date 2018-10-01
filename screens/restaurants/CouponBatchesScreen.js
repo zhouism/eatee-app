@@ -19,7 +19,6 @@ class CouponBatchesScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: 'Coupon Batches',
-      headerLeft: <Ionicons name="md-settings" size={32} color="red" onPress={() => navigation.navigate('CreateCouponBatch')} />,
     }
   }
   constructor(props) {

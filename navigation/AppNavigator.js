@@ -1,5 +1,4 @@
-import React from 'react';
-import { createSwitchNavigator, createStackNavigator } from 'react-navigation';
+import { createSwitchNavigator } from 'react-navigation';
 import RestaurantNavigator from './RestaurantNavigator';
 import UserNavigator from './UserNavigator';
 import HomeNavigator from './HomeNavigator';
