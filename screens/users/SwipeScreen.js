@@ -10,7 +10,7 @@ class SwipeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerLeft: <Ionicons name="md-settings" size={32} color="red" onPress={() => navigation.navigate('Settings')} />,
-      headerRight: <Ionicons name="md-list" size={32} color="red" onPress={() => navigation.navigate('CouponList')} />
+      headerRight: <Ionicons name="md-list" size={32} color="red" onPress={() => navigation.navigate('CouponNav')} />
     }
   }
 

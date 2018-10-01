@@ -24,11 +24,6 @@ class UserLogin extends React.Component {
     this.onAuthComplete(nextProps);
   }
 
-
-  _showHomeScreen = async () => {
-    this.props.navigation.navigate('Home')
-  }
-
   _signInAsync = async () => {
     this.props.navigation.navigate('UserNav');
   };
@@ -44,7 +39,6 @@ class UserLogin extends React.Component {
     return (
       <View style={styles.container}>
         <Button title="User Sign in!" onPress={ () => { this.props.facebookLogin() }} />
-        <Button title="Go Back" onPress={this._showHomeScreen} />
       </View>
     );
   }
