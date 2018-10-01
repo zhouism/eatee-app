@@ -28,7 +28,7 @@ class SwipeScreen extends React.Component {
         image={{ uri: item.image }}
       >
         <Text style={{ marginBottom: 10 }}>
-          I can customize the Card further.
+         { item.dish_name }
         </Text>
         <Text>
           quantity: { item.quantity }
