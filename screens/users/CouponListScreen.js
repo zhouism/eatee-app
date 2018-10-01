@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Modal,
   Text,
   View,
   Button,
@@ -32,40 +31,27 @@ class CouponListScreen extends React.Component {
     };
   }
 
-  static navigationOptions = {
-    title: "Your Food Options"
-  };
-
   componentDidMount() {
-    axios
-      .get(`${LIGHTHOUSE_IP}/users/${this.props.currentUser}/coupon_list`)
-      .then(response => {
-        console.log(response.data);
-        this.setState({
-          data: response.data
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  _refreshScreen() {
-    axios
-      .get(`${LIGHTHOUSE_IP}/users/${this.props.currentUser}/coupon_list`)
-      .then(response => {
-        console.log(response.data);
-        this.setState({
-          data: response.data
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this._onFocusListener = this.props.navigation.addListener(
+      "didFocus",
+      payload => {
+        axios
+          .get(`${LIGHTHOUSE_IP}/users/${this.props.currentUser}/coupon_list`)
+          .then(response => {
+            console.log(response.data);
+            this.setState({
+              data: response.data
+            });
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    );
   }
 
   render() {
-    const { navigate } = this.props.navigation
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
         {this.state.data && (
@@ -73,9 +59,9 @@ class CouponListScreen extends React.Component {
             <FlatList
               data={this.state.data}
               renderItem={({ item }) => (
-                <TouchableHighlight onPress={() => navigate('CouponDetail', 
-                  {item: item}
-                )}>
+                <TouchableHighlight
+                  onPress={() => navigate("CouponDetail", { item: item })}
+                >
                   <View>
                     <Image
                       source={{ uri: item.image }}
