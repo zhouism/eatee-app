@@ -1,15 +1,11 @@
 import React from "react";
 import {
-  Modal,
   Text,
   View,
   Button,
-  FlatList,
   StyleSheet,
-  TouchableHighlight,
   ScrollView,
-  Image,
-  StatusBar
+  Image
 } from "react-native";
 import { MapView } from "expo";
 import { Marker } from "react-native-maps";

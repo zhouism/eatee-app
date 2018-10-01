@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Modal,
   Text,
   View,
   Button,
@@ -51,25 +50,10 @@ class CouponListScreen extends React.Component {
     );
   }
 
-  _refreshScreen() {
-    axios
-      .get(`${LIGHTHOUSE_IP}/users/${this.props.currentUser}/coupon_list`)
-      .then(response => {
-        console.log(response.data);
-        this.setState({
-          data: response.data
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
   render() {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <Text>Your Coupons:</Text>
         {this.state.data && (
           <ScrollView>
             <FlatList
