@@ -15,6 +15,7 @@ import axios from "axios";
 import { ImagePicker, Camera, Permissions } from "expo";
 import t from "tcomb-form-native";
 import ModalView from "./CreateCouponBatchModal";
+import moment from "moment";
 
 // Functions setting up the form
 
@@ -37,7 +38,7 @@ const foodCoupon = t.struct({
   price: Positive,
   discount: Percent,
   quantity: t.Number,
-  time_limit: Positive
+  time_limit: t.Date
 });
 
 // Form options
@@ -55,7 +56,14 @@ const options = {
       help: "How many coupons are you creating?"
     },
     time_limit: {
-      help: "How many hours are these coupons available for?"
+      mode: "date", // display the Date field as a DatePickerAndroid
+      help: "When does this coupon expire?",
+      config: {
+        format: date =>
+          moment(date)
+            .startOf("day")
+            .fromNow()
+      }
     }
   }
 };
