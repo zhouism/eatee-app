@@ -1,11 +1,11 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
-
+import { createStackNavigator, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation';
 import TabBarIcon from '../components/TabBarIcon';
 import CouponListScreen from '../screens/users/CouponListScreen';
 import SettingsScreen from '../screens/users/SettingsScreen';
 import SwipeScreen from '../screens/users/SwipeScreen';
+
 
 const SettingsStack = createStackNavigator({
   Settings: SettingsScreen,
