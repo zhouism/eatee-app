@@ -12,14 +12,20 @@ import {
 import axios from "axios";
 import ModalView from "./CouponBatchDetailsModal.js";
 import { rootIP } from "react-native-dotenv";
+import { connect } from 'react-redux';
+import * as actions from '../../actions'
 
-export default class CouponBatchesScreen extends React.Component {
+
+class CouponBatchesScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: {},
       modalVisible: false,
-      item: {}
+      item: {},
+      res_swipe: '',
+      res_impression: '',
+      res_redeem: ''
     };
   }
 
@@ -29,13 +35,53 @@ export default class CouponBatchesScreen extends React.Component {
 
   componentDidMount() {
     axios
-      .get(`http://${rootIP}:3001/api/restaurants/2/coupon_batches`)
+      .get(`http://${rootIP}:3001/api/restaurants/${this.props.currentRestaurant}/coupon_batches`)
       .then(response => {
         this.setState({
           data: response.data
         });
       })
       .catch(error => {
+        console.log(error);
+      });
+
+    axios
+      .get(`http://${rootIP}:3001/api/restaurants/${this.props.currentRestaurant}/swipe`)
+      .then(response => {
+        this.setState({
+          res_swipe: (response.data)[0].count
+        })
+      }).catch(error => {
+        console.log(error);
+      });
+
+    axios
+      .get(`http://${rootIP}:3001/api/restaurants/${this.props.currentRestaurant}/impression`)
+      .then(response => {
+        this.setState({
+          res_impression: (response.data)[0].sum
+        })
+      }).catch(error => {
+        console.log(error);
+      });
+
+    axios
+      .get(`http://${rootIP}:3001/api/restaurants/${this.props.currentRestaurant}/redeem`)
+      .then(response => {
+        this.setState({
+          res_redeem: (response.data)[0].count
+        })
+      }).catch(error => {
+        console.log(error);
+      });
+
+    axios
+      .get(`http://${rootIP}:3001/api/coupon_batches/${this.state}/swipe`)
+      .then(response => {
+        this.setState({
+          couponSwipe: (response.data)[0].count
+        })
+      }).catch(error => {
         console.log(error);
       });
   }
@@ -53,6 +99,7 @@ export default class CouponBatchesScreen extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
+    const { res_impression, res_swipe, res_redeem } = this.state
     return (
       <View style={styles.container}>
         <ModalView
@@ -63,9 +110,9 @@ export default class CouponBatchesScreen extends React.Component {
           item={this.state.item}
         />
         <Text>STATISTICS FOR ALL ADS</Text>
-        <Text>Total Impressions:</Text>
-        <Text>Total # of Swipes: </Text>
-        <Text>Total # of redeemed ads:</Text>
+        <Text>Total Impressions: {res_impression}</Text>
+        <Text>Total # of Swipes: {res_swipe}</Text>
+        <Text>Total # of redeemed ads: {res_redeem}</Text>
         <ScrollView>
           <FlatList
             data={this.state.data}
@@ -73,7 +120,6 @@ export default class CouponBatchesScreen extends React.Component {
               <TouchableHighlight onPress={() => this._onPressItem(item)}>
                 <View>
                   <Text>Dish Name: {item.dish_name}</Text>
-                  <Text>Total Impressions: {item.impression}</Text>
                 </View>
               </TouchableHighlight>
             )}
@@ -100,3 +146,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   }
 });
+
+
+function mapStateToProps({ currentRestaurant }) {
+  return { currentRestaurant };
+}
+
+export default connect(mapStateToProps, actions)(CouponBatchesScreen);

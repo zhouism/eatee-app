@@ -15,8 +15,6 @@ import { rootIP } from 'react-native-dotenv'
 import { connect } from 'react-redux';
 import * as actions from '../actions'
 
-
-
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
 const SWIPE_OUT_DURATION = 250;
@@ -95,8 +93,10 @@ class Deck extends Component {
             { cancelable: false }
           )
         }
+        this.updateImpression(item);
       });
-
+    } else {
+      this.updateImpression(item);
     }
   }
 
@@ -147,6 +147,14 @@ class Deck extends Component {
       quantity: updateCouponQuantity
     })
     console.log("quantity is updated");
+  }
+
+  updateImpression = async (coupon) => {
+    addImpression = coupon.impression + 1;
+    await axios.post(`${LIGHTHOUSE_IP}/coupon_batches/${coupon.id}/impression`, {
+      impression: addImpression
+    })
+    console.log("impression is updated");
   }
 
 
