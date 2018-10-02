@@ -38,8 +38,10 @@ class ModalView extends React.Component {
     });
   }
 
+
   saveRestaurantToDB(item) {
     console.log("itemid", item.id);
+
     axios
       .get(`http://${rootIP}:3001/api/restaurants/yelpid/${item.id}`)
       .then(itemID => {
@@ -69,10 +71,14 @@ class ModalView extends React.Component {
             });
         } else {
           console.log("restaurant exists");
+          console.log('-- item id:', item.id);
+          console.log(typeof item.id);
           axios
             .get(`http://${rootIP}:3001/api/restaurants/yelpid/${item.id}`)
-            .then(restaurantID => {
-              this.props.restaurantLogin(restaurantID.data[0].id);
+
+            .then((restaurantID) => {
+              console.log('restaurant ID: ', (restaurantID.data)[0].id);``
+              this.props.restaurantLogin((restaurantID.data)[0].id);
               this.props.savedDB();
             });
         }
