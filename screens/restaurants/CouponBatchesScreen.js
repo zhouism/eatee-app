@@ -7,12 +7,21 @@ import {
   FlatList,
   Alert,
   StyleSheet,
-  TouchableHighlight
+  TouchableHighlight,
+  Image
 } from "react-native";
 import axios from "axios";
 import { rootIP } from "react-native-dotenv";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
+import {
+  Card,
+  CardTitle,
+  CardContent,
+  CardAction,
+  CardButton,
+  CardImage
+} from "react-native-material-cards";
 
 class CouponBatchesScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -112,21 +121,27 @@ class CouponBatchesScreen extends React.Component {
         <Text>Total Impressions: {res_impression}</Text>
         <Text>Total # of Swipes: {res_swipe}</Text>
         <Text>Total # of redeemed ads: {res_redeem}</Text>
-        <ScrollView>
-          <FlatList
-            data={this.state.data}
-            renderItem={({ item }) => (
-              <TouchableHighlight
-                onPress={() => navigate("CouponBatchDetail", { item: item })}
-              >
-                <View>
-                  <Text>Dish Name: {item.dish_name}</Text>
-                </View>
-              </TouchableHighlight>
-            )}
-            keyExtractor={item => item.id.toString()}
-          />
-        </ScrollView>
+        {this.state.data && (
+          <ScrollView>
+            <FlatList
+              data={this.state.data}
+              renderItem={({ item }) => (
+                <TouchableHighlight
+                  onPress={() => navigate("CouponBatchDetail", { item: item })}
+                >
+                  <Card>
+                  <CardImage source={{ uri: item.image }} resizeMode="center" />
+                    <CardTitle
+                      title={item.dish_name}
+                      subtitle={item.description}
+                    />
+                  </Card>
+                </TouchableHighlight>
+              )}
+              keyExtractor={item => item.id.toString()}
+            />
+          </ScrollView>
+        )}
         <Button
           onPress={() => {
             navigate("CreateCouponBatch");
