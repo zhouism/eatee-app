@@ -2,16 +2,17 @@ import React from "react";
 import {
   TouchableHighlight,
   FlatList,
-  ActivityIndicator,
   Text,
   View,
-  Image
+  Image,
+  StyleSheet,
+  ScrollView
 } from "react-native";
 import axios from "axios";
 import { SearchBar, Button } from "react-native-elements";
 import ModalView from "./RestaurantLoginModalView.js";
 import { TextInputMask } from "react-native-masked-text";
-
+import LoadingScreen from "../LoadingScreen.js";
 
 const authToken =
   "Bearer JIba6FRPuS1u8_G-7HeYFxOEn1hP8OiBz8SNySU0VlWpzKY8hx0E9hJulfTId43tLaDk-0inreQzymHn54GF5wGULtbEUy8yggF0564R5ESptLfg4X9m_mA0FJ6mW3Yx";
@@ -81,12 +82,12 @@ export default class RestaurantLoginScreen extends React.PureComponent {
     if (this.state.isLoading) {
       return (
         <View style={{ flex: 1, padding: 20 }}>
-          <ActivityIndicator />
+          <LoadingScreen />
         </View>
       );
     }
     return (
-      <View>
+      <View style={styles.container}>
         <ModalView
           modalVisible={this.state.modalVisible}
           setModalVisible={vis => {
@@ -95,12 +96,7 @@ export default class RestaurantLoginScreen extends React.PureComponent {
           result={this.state.result}
           savedDB={() => this.navToCouponBatch()}
         />
-        {/* <SearchBar
-          onChangeText={this._handleQueryChange}
-          onCancel={this._handleSearchCancel}
-          onClear={this._handleSearchClear}
-          value={this.state.query}
-        /> */}
+
         <TextInputMask
           ref={ref => (this.yelpPhoneNumber = ref)}
           type={"custom"}
@@ -110,19 +106,15 @@ export default class RestaurantLoginScreen extends React.PureComponent {
               return "+" + value.replace(/\D/g, "");
             }
           }}
-          placeholder="Restaurant Phone Number"
-          placeholderTextColor="#DBCCC0"
-          selectionColor="#CF0821"
+          placeholder="INPUT PHONE NUMBER"
+          placeholderTextColor="black"
           underlineColorAndroid="transparent"
+          style={styles.input}
           keyboardType="numeric"
           onChangeText={query => {
             this.setState({
               query
             });
-
-            // console.log(this.yelpPhoneNumber.getElement());
-            // console.log(this.yelpPhoneNumber.isValid());
-            // console.log(this.yelpPhoneNumber.getRawValue());
           }}
           onCancel={this._handleSearchCancel}
           onClear={this._handleSearchClear}
@@ -133,24 +125,68 @@ export default class RestaurantLoginScreen extends React.PureComponent {
           onPress={() =>
             this.getRestaurantData(this.yelpPhoneNumber.getRawValue())
           }
-          title="Look for my restaurant"
+          buttonStyle={styles.button}
+          title="LOOK FOR MY RESTAURANT"
         />
-        <FlatList
-          data={this.state.data}
-          renderItem={({ item }) => (
-            <TouchableHighlight onPress={() => this._onPressItem(item)}>
-              <View>
-                <Text>Restaurant: {item.name}</Text>
-                <Text>Phone: {item.display_phone}</Text>
-                <Text>Price Range: {item.price}</Text>
-                <Text>Address: {item.location.address1}</Text>
-                <Text>City: {item.location.city}</Text>
-              </View>
-            </TouchableHighlight>
-          )}
-          keyExtractor={item => item.name}
-        />
+        {/* CHRIS can you put the restaurant search result in the card format? */}
+        <ScrollView>
+          <FlatList
+            data={this.state.data}
+            renderItem={({ item }) => (
+              <TouchableHighlight onPress={() => this._onPressItem(item)}>
+                <View>
+                  <Image
+                    style={styles.image}
+                    source={{ uri: item.image_url }}
+                  />
+                  <Text style={styles.text}>Restaurant: {item.name}</Text>
+                  <Text style={styles.text}>
+                    Address: {item.location.address1}
+                  </Text>
+                  <Text style={styles.text}>City: {item.location.city}</Text>
+                </View>
+              </TouchableHighlight>
+            )}
+            keyExtractor={item => item.id}
+          />
+        </ScrollView>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FC4E3E"
+  },
+  image: {
+    width: 300,
+    height: 200
+  },
+  text: {
+    color: "white",
+    fontSize: 15
+  },
+  input: {
+    marginTop: 20,
+    padding: 10,
+    width: 300,
+    height: 50,
+    color: "black",
+    fontSize: 20,
+    backgroundColor: "white",
+    borderRadius: 30,
+    textAlign: "center"
+  },
+  button: {
+    backgroundColor: "#000000",
+    marginTop: 10,
+    width: 300,
+    borderRadius: 30,
+    margin: 10,
+    borderColor: "#FC4E3E"
+  }
+});
