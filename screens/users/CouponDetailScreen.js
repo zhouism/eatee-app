@@ -1,12 +1,9 @@
 import React from "react";
 import {
-  Modal,
   Text,
   View,
   Button,
-  FlatList,
   StyleSheet,
-  TouchableHighlight,
   ScrollView,
   Image
 } from "react-native";
@@ -14,14 +11,20 @@ import { MapView } from "expo";
 import { Marker } from "react-native-maps";
 import axios from "axios";
 import { rootIP } from "react-native-dotenv";
+import { Ionicons } from '@expo/vector-icons';
 
 export default class CouponDetailScreen extends React.Component {
-  
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerLeft: <Ionicons name="md-list" size={32} color="red" onPress={() => navigation.goBack()} />
+    };
+  };
+
   _redeemCoupon(itemid) {
     axios
       .post(`http://${rootIP}:3001/api/coupon_details/redeem/${itemid}`)
       .then(() => {
-        this.props.navigation.navigate('CouponList')
+        this.props.navigation.goBack()
       })
       .catch(function(error) {
         console.log(error);
@@ -33,6 +36,7 @@ export default class CouponDetailScreen extends React.Component {
     const item = navigation.getParam("item");
 
     return (
+      <View>
       <ScrollView>
         <View>
           <View>
@@ -75,9 +79,12 @@ export default class CouponDetailScreen extends React.Component {
                 title="Redeem Coupon"
               />
             )}
+            <Button title="Go Back" onPress={() => navigation.goBack()} />
           </View>
         </View>
       </ScrollView>
+      </View>
+
     );
   }
 }

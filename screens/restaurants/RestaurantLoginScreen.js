@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import { SearchBar, Button } from "react-native-elements";
 import ModalView from "./RestaurantLoginModalView.js";
+import { TextInputMask } from "react-native-masked-text";
 
 
 const authToken =
@@ -24,6 +25,7 @@ export default class RestaurantLoginScreen extends React.PureComponent {
       isLoading: false,
       data: {},
       query: "",
+      rawText: "",
       result: {},
       modalVisible: false
     };
@@ -50,8 +52,12 @@ export default class RestaurantLoginScreen extends React.PureComponent {
       });
   }
 
-  _handleQueryChange = query =>
-    this.setState(state => ({ ...state, query: query || "" }));
+  // _handleQueryChange = query => {
+  //   this.setState(state => ({ ...state, query: query || "" }));
+  //   console.log(this.yelpPhoneNumber.getRawValue());
+  // };
+
+  // query => console.log(this.yelpPhoneNumber.getRawValue());
 
   _handleSearchCancel = () => this._handleQueryChange("");
   _handleSearchClear = () => this._handleQueryChange("");
@@ -91,17 +97,46 @@ export default class RestaurantLoginScreen extends React.PureComponent {
           result={this.state.result}
           savedDB={() => this.navToCouponBatch()}
         />
-        <SearchBar
+        {/* <SearchBar
           onChangeText={this._handleQueryChange}
           onCancel={this._handleSearchCancel}
           onClear={this._handleSearchClear}
           value={this.state.query}
-        />
-        <Button
-          onPress={() => this.getRestaurantData(this.state.query)}
-          title="Look for my restaurant"
+        /> */}
+        <TextInputMask
+          ref={ref => (this.yelpPhoneNumber = ref)}
+          type={"custom"}
+          options={{
+            mask: "+1 (999) 999-9999",
+            getRawValue: function(value, settings) {
+              return "+" + value.replace(/\D/g, "");
+            }
+          }}
+          placeholder="Restaurant Phone Number"
+          placeholderTextColor="#DBCCC0"
+          selectionColor="#CF0821"
+          underlineColorAndroid="transparent"
+          keyboardType="numeric"
+          onChangeText={query => {
+            this.setState({
+              query
+            });
+
+            // console.log(this.yelpPhoneNumber.getElement());
+            // console.log(this.yelpPhoneNumber.isValid());
+            // console.log(this.yelpPhoneNumber.getRawValue());
+          }}
+          onCancel={this._handleSearchCancel}
+          onClear={this._handleSearchClear}
+          value={this.state.query}
         />
 
+        <Button
+          onPress={() =>
+            this.getRestaurantData(this.yelpPhoneNumber.getRawValue())
+          }
+          title="Look for my restaurant"
+        />
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => (

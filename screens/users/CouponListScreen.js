@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Modal,
   Text,
   View,
   Button,
@@ -14,6 +13,14 @@ import axios from "axios";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
 import { rootIP } from "react-native-dotenv";
+import {
+  Card,
+  CardTitle,
+  CardContent,
+  CardAction,
+  CardButton,
+  CardImage
+} from "react-native-material-cards";
 
 const LIGHTHOUSE_IP = `http://${rootIP}:3001/api`;
 
@@ -32,40 +39,27 @@ class CouponListScreen extends React.Component {
     };
   }
 
-  static navigationOptions = {
-    title: "Your Food Options"
-  };
-
   componentDidMount() {
-    axios
-      .get(`${LIGHTHOUSE_IP}/users/${this.props.currentUser}/coupon_list`)
-      .then(response => {
-        console.log(response.data);
-        this.setState({
-          data: response.data
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  _refreshScreen() {
-    axios
-      .get(`${LIGHTHOUSE_IP}/users/${this.props.currentUser}/coupon_list`)
-      .then(response => {
-        console.log(response.data);
-        this.setState({
-          data: response.data
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this._onFocusListener = this.props.navigation.addListener(
+      "didFocus",
+      payload => {
+        axios
+          .get(`${LIGHTHOUSE_IP}/users/${this.props.currentUser}/coupon_list`)
+          .then(response => {
+            console.log(response.data);
+            this.setState({
+              data: response.data
+            });
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    );
   }
 
   render() {
-    const { navigate } = this.props.navigation
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
         {this.state.data && (
@@ -73,28 +67,18 @@ class CouponListScreen extends React.Component {
             <FlatList
               data={this.state.data}
               renderItem={({ item }) => (
-                <TouchableHighlight onPress={() => navigate('CouponDetail', 
-                  {item: item}
-                )}>
-                  <View>
-                    <Image
+                <TouchableHighlight
+                  onPress={() => navigate("CouponDetail", { item: item })}
+                >
+                  <Card>
+                    <CardImage
                       source={{ uri: item.image }}
-                      style={{ width: 400, height: 300 }}
                     />
-                    <Text>Id: {item.id}</Text>
-                    <Text>Dish Name: {item.dish_name}</Text>
-                    <Text>Restaurant Name: {item.name}</Text>
-                    <Text>Restaurants Address: {item.address}</Text>
-                    <Text>Time Limit: {item.time_limit}</Text>
-                    <Text>Unit Price: ${item.price.toFixed(2)}</Text>
-                    <Text>
-                      Your Price: $
-                      {(item.price * (item.discount / 100)).toFixed(2)}
-                    </Text>
-                    {item.is_redeemed && (
-                      <Text>Your Coupon Has Been Redeemed</Text>
-                    )}
-                  </View>
+                    <CardTitle
+                      title={item.dish_name}
+                    />
+                    <CardContent text={item.description} />
+                  </Card>
                 </TouchableHighlight>
               )}
               keyExtractor={item => item.id.toString()}
@@ -125,3 +109,25 @@ export default connect(
   mapStateToProps,
   actions
 )(CouponListScreen);
+
+{
+  /* <View>
+<Image
+  source={{ uri: item.image }}
+  style={{ width: 400, height: 300 }}
+/>
+<Text>Id: {item.id}</Text>
+<Text>Dish Name: {item.dish_name}</Text>
+<Text>Restaurant Name: {item.name}</Text>
+<Text>Restaurants Address: {item.address}</Text>
+<Text>Time Limit: {item.time_limit}</Text>
+<Text>Unit Price: ${item.price.toFixed(2)}</Text>
+<Text>
+  Your Price: $
+  {(item.price * (item.discount / 100)).toFixed(2)}
+</Text>
+{item.is_redeemed && (
+  <Text>Your Coupon Has Been Redeemed</Text>
+)}
+</View> */
+}

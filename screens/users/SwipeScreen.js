@@ -10,16 +10,17 @@ class SwipeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerLeft: <Ionicons name="md-settings" size={32} color="red" onPress={() => navigation.navigate('Settings')} />,
-      headerRight: <Ionicons name="md-list" size={32} color="red" onPress={() => navigation.navigate('CouponNav')} />
+      headerRight: <Ionicons name="md-list" size={32} color="red" onPress={() => navigation.navigate('CouponList')} />
     }
   }
-
+  
   componentDidMount() {
     this.props.fetchCouponBatches();
   }
 
   renderCard(item) {
     const discountPrice =  parseFloat(item.price) - (parseFloat(item.price) * parseFloat(item.discount) / 100);
+    
 
     return(
       <Card
@@ -45,17 +46,12 @@ class SwipeScreen extends React.Component {
         <Text>
           price now: { discountPrice }
         </Text>
-        <Button
-          icon={{ name: 'code' }}
-          backgroundColor='#03A9F4'
-          title="View Coupon!"
-          onPress={() => console.log('click view')}
-        />
       </Card>
     );
   }
 
   render() {
+
     return (
       <View style={styles.container}>
         <Deck

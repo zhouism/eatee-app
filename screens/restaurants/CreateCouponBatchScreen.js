@@ -38,7 +38,7 @@ const foodCoupon = t.struct({
   price: Positive,
   discount: Percent,
   quantity: t.Number,
-  time_limit: t.Date
+  time_limit: t.Number
 });
 
 // Form options
@@ -56,14 +56,7 @@ const options = {
       help: "How many coupons are you creating?"
     },
     time_limit: {
-      mode: "date", // display the Date field as a DatePickerAndroid
-      help: "When does this coupon expire?",
-      config: {
-        format: date =>
-          moment(date)
-            .startOf("day")
-            .fromNow()
-      }
+      help: "How many days from now will this coupon expire?"
     }
   }
 };
@@ -80,7 +73,7 @@ export default class CreateCouponBatchScreen extends React.Component {
   }
 
   static navigationOptions = {
-    title: "Create Your Ad Here"
+    title: "Create Your Coupon Here"
   };
 
   componentDidMount() {
@@ -121,7 +114,7 @@ export default class CreateCouponBatchScreen extends React.Component {
   onPress() {
     let coupon = this.refs.form.getValue();
     if (coupon) {
-      // console.log(coupon);
+      console.log(coupon);
       this.setState({
         modalVisible: true,
         coupon: coupon
