@@ -10,8 +10,6 @@ import {
 import { rootIP } from 'react-native-dotenv'
 console.log("this is rootIP", rootIP)
 
-// const CHRIS_IP = 'http://192.168.0.191:3001/api';
-// const HOME_IP = 'http://192.168.1.97:3001/api';
 const LIGHTHOUSE_IP = `http://${rootIP}:3001/api`;
 console.log('LIGHTHOUSEIP', LIGHTHOUSE_IP)
 // How to use AsyncStorage:
@@ -22,9 +20,7 @@ console.log('LIGHTHOUSEIP', LIGHTHOUSE_IP)
 export const facebookLogin = () => async dispatch => {
   let token = await AsyncStorage.getItem('fb_token');
   if (token) {
-
     dispatch({ type: FACEBOOK_LOGIN_SUCCESS, payload: token });
-
   } else {
     doFacebookLogin(dispatch);
   }
@@ -60,7 +56,7 @@ doFacebookLogin = async dispatch => {
           city: userInfo.location.name
         })
       } else {
-        console.log("user exist");
+        console.log("user exists");
       }
       dispatch({ type: CURRENT_USER, payload: userInfo.id });
   }

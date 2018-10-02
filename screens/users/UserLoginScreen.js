@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps({ auth }) {
-  console.log('user logged in. Current user token:', auth.token);
+  console.log('Current user token:', auth.token);
   return { token: auth.token };
 }
 
