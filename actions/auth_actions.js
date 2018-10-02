@@ -30,6 +30,10 @@ export const facebookLogin = () => async dispatch => {
   }
 };
 
+export const facebookLogout = () => dispatch => {
+  dispatch({ type: FACEBOOK_LOGIN_FAIL });
+}
+
 doFacebookLogin = async dispatch => {
   let { type, token } = await Facebook.logInWithReadPermissionsAsync('295626764586477', {
     permissions: ['public_profile','user_location']
