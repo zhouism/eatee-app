@@ -141,6 +141,7 @@ class ModalView extends React.Component {
 }
 
 function mapStateToProps({ currentRestaurant }) {
+  console.log('current restaurant id in create coupon batch modal: ',currentRestaurant)
   return { currentRestaurant };
 }
 
