@@ -128,22 +128,19 @@ export default class RestaurantLoginScreen extends React.PureComponent {
           buttonStyle={styles.button}
           title="LOOK FOR MY RESTAURANT"
         />
-        {/* CHRIS can you put the restaurant search result in the card format? */}
         <ScrollView>
           <FlatList
             data={this.state.data}
             renderItem={({ item }) => (
               <TouchableHighlight onPress={() => this._onPressItem(item)}>
-                <View>
+                <View style={styles.result}>
                   <Image
                     style={styles.image}
                     source={{ uri: item.image_url }}
                   />
-                  <Text style={styles.text}>Restaurant: {item.name}</Text>
-                  <Text style={styles.text}>
-                    Address: {item.location.address1}
-                  </Text>
-                  <Text style={styles.text}>City: {item.location.city}</Text>
+                  <Text style={styles.header}>{item.name}</Text>
+                  <Text style={styles.text}>{item.location.address1}</Text>
+                  <Text style={styles.text}>{item.location.city}</Text>
                 </View>
               </TouchableHighlight>
             )}
@@ -162,9 +159,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#FC4E3E"
   },
+  result: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 15
+  },
   image: {
     width: 300,
-    height: 200
+    height: 200,
+    borderRadius: 10
+  },
+  header: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 25
   },
   text: {
     color: "white",
