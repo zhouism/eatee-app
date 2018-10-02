@@ -29,6 +29,7 @@ export default class CouponDetailScreen extends React.Component {
           name="md-list"
           size={32}
           color="red"
+          style={{ padding: 10}}
           onPress={() => navigation.goBack()}
         />
       )

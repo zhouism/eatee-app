@@ -43,7 +43,7 @@ class UserLogin extends React.Component {
           type="facebook"
           underlayColor="black"
           style={{ width: 300,
-          backgroundColor: "black",
+          backgroundColor: "black"
            }}
           onPress={() => {
             this.props.facebookLogin();

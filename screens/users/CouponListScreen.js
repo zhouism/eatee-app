@@ -71,8 +71,8 @@ class CouponListScreen extends React.Component {
                 <TouchableHighlight
                   onPress={() => navigate("CouponDetail", { item: item })}
                 >
-                  <Card>
-                    <CardImage source={{ uri: item.image }} />
+                  <Card style={{ borderRadius: 10, overflow: 'hidden', borderWidth: 1.25, borderColor: '#d3d3d3'}}>
+                    <CardImage source={{ uri: item.image }} style={{shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2}}/>
                     <CardTitle title={item.dish_name} subtitle={item.description} />
                     {item.is_redeemed ? (<CardContent text="Your Coupon Has Been Redeemed"/>) : (<CardContent text=""/>)}
                   </Card>

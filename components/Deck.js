@@ -233,7 +233,7 @@ class Deck extends Component {
                 </Animated.View>
                 <Animated.View style={{ position: 'absolute', bottom: 75, right: 10, zIndex: 1000}}>
                   <Text style={{ color: 'white', fontSize: 18, fontWeight: '900',
-                  padding: 10 }}>{item.quantity} remainings</Text>
+                  padding: 10 }}>{item.quantity} remaining</Text>
                 </Animated.View>
                 <Animated.View style={{ position: 'absolute', bottom: 75, left: 10, zIndex: 1000}}>
                   <Text style={{ color: 'white', fontSize: 20, fontWeight: '900',
