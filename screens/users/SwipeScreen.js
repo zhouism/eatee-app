@@ -12,9 +12,13 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 class SwipeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-
-      headerLeft: <Ionicons name="md-settings" size={32} color="red" onPress={() => navigation.navigate('Settings')} />,
-      headerRight: <Ionicons name="md-list" size={32} color="red" onPress={() => navigation.navigate('CouponList')} />
+      headerLeft: (<Ionicons name="md-settings" size={32} color="red" style={{ padding: 10}} onPress={() => navigation.navigate('Settings')} />),
+      headerRight: (<Ionicons name="md-list" size={32} color="red" style={{ padding: 10}} onPress={() => navigation.navigate('CouponList')} />),
+      headerStyle: {
+        elevation: 0,
+        shadowOpacity: 0,
+        borderBottomWidth: 0
+      }
     }
   }
 
@@ -22,6 +26,8 @@ class SwipeScreen extends React.Component {
   componentDidMount() {
     this.props.fetchCouponBatches();
   }
+
+
 
   renderCard(item) {
     return(

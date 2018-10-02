@@ -17,7 +17,7 @@ class UserLogin extends React.Component {
 
   //use AsyncStorage.removeItem('fb_token') for testing logging in again, otherwise it stays login 4ever after first try
   componentDidMount() {
-    AsyncStorage.removeItem('fb_token');
+    // AsyncStorage.removeItem('fb_token');
   }
 
   componentWillReceiveProps(nextProps) {
