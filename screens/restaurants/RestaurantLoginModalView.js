@@ -101,7 +101,9 @@ class ModalView extends React.Component {
           <Text style={styles.info}>
             Restaurant Name: {this.state.result.name}
           </Text>
-          <Text style={styles.info}>Address: {this.state.address1}</Text>
+          <Text style={styles.info}>
+            Phone Number: {this.state.result.display_phone}
+          </Text>
           <Button
             buttonStyle={styles.button}
             title="Confirm"
@@ -157,7 +159,7 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   info: {
-    fontSize: 25,
+    fontSize: 20,
     color: "white",
     fontWeight: "bold"
   },
@@ -165,6 +167,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000",
     width: 200,
     borderRadius: 30,
+    marginTop: 20,
     margin: 10,
     borderColor: "#FC4E3E"
   }
