@@ -1,57 +1,38 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import Deck from '../../components/Deck.js';
 import { connect } from 'react-redux';
 import * as actions from '../../actions'
 import { Ionicons } from '@expo/vector-icons';
 
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
+
 class SwipeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerLeft: <Ionicons name="md-settings" size={32} color="red" onPress={() => navigation.navigate('Settings')} />,
+      headerTitle: "Eatee",
+      headerLeft:
+      <Ionicons name="md-settings" size={32} color="red"  onPress={() => navigation.navigate('Settings')} />,
       headerRight: <Ionicons name="md-list" size={32} color="red" onPress={() => navigation.navigate('CouponNav')} />
     }
   }
 
+  static navigatorStyle = {
+    drawUnderNavBar: true,
+    navBarTranslucent: true
+  };
   componentDidMount() {
     this.props.fetchCouponBatches();
   }
 
   renderCard(item) {
-    const discountPrice =  parseFloat(item.price) - (parseFloat(item.price) * parseFloat(item.discount) / 100);
-
     return(
-      <Card
-        key={ item.id }
-        title={ item.name }
-        image={{ uri: item.image }}
-      >
-        <Text style={{ marginBottom: 10 }}>
-         { item.dish_name }
-        </Text>
-        <Text>
-          quantity: { item.quantity }
-        </Text>
-        <Text>
-          time remaining: { item.time_limit }
-        </Text>
-        <Text>
-          price: { item.price }
-        </Text>
-        <Text>
-          discount: { item.discount }%
-        </Text>
-        <Text>
-          price now: { discountPrice }
-        </Text>
-        <Button
-          icon={{ name: 'code' }}
-          backgroundColor='#03A9F4'
-          title="View Coupon!"
-          onPress={() => console.log('click view')}
+      <Image
+        style={ styles.cardStyle }
+        source={{ uri: item.image }}
         />
-      </Card>
     );
   }
 
@@ -74,6 +55,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  cardStyle: {
+    flex: 1,
+    height: null,
+    width: null,
+    resizeMode: 'cover',
+    borderRadius: 20
+  }
 });
 
 function mapStateToProps({ coupons, currentUser }) {
