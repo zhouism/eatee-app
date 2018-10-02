@@ -60,6 +60,7 @@ class CouponListScreen extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
+
     return (
       <View style={styles.container}>
         {this.state.data && (
@@ -71,13 +72,9 @@ class CouponListScreen extends React.Component {
                   onPress={() => navigate("CouponDetail", { item: item })}
                 >
                   <Card>
-                    <CardImage
-                      source={{ uri: item.image }}
-                    />
-                    <CardTitle
-                      title={item.dish_name}
-                    />
-                    <CardContent text={item.description} />
+                    <CardImage source={{ uri: item.image }} />
+                    <CardTitle title={item.dish_name} subtitle={item.description} />
+                    {item.is_redeemed ? (<CardContent text="Your Coupon Has Been Redeemed"/>) : (<CardContent text=""/>)}
                   </Card>
                 </TouchableHighlight>
               )}
