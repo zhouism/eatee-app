@@ -21,6 +21,7 @@ class CouponBatchesScreen extends React.Component {
       headerTitle: 'Coupon Batches',
     }
   }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -73,16 +74,6 @@ class CouponBatchesScreen extends React.Component {
       .then(response => {
         this.setState({
           res_redeem: (response.data)[0].count
-        })
-      }).catch(error => {
-        console.log(error);
-      });
-
-    axios
-      .get(`http://${rootIP}:3001/api/coupon_batches/${this.state}/swipe`)
-      .then(response => {
-        this.setState({
-          couponSwipe: (response.data)[0].count
         })
       }).catch(error => {
         console.log(error);

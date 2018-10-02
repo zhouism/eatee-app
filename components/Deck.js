@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions'
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
 const SWIPE_OUT_DURATION = 250;
 
@@ -48,7 +49,33 @@ class Deck extends Component {
     });
 
     this.state = { panResponder, position, index: 0 };
+
+    this.likeOpacity = this.state.position.x.interpolate({
+      inputRange: [-SCREEN_WIDTH * 1.5, 0, SCREEN_WIDTH * 1.5],
+      outputRange: [0, 0, 1],
+      extrapolate: 'clamp'
+    })
+
+    this.dislikeOpacity = this.state.position.x.interpolate({
+      inputRange: [-SCREEN_WIDTH * 1.5, 0, SCREEN_WIDTH * 1.5],
+      outputRange: [1, 0, 0],
+      extrapolate: 'clamp'
+    })
+
+    this.nextCardOpacity = this.state.position.x.interpolate({
+      inputRange: [-SCREEN_WIDTH * 1.5, 0, SCREEN_WIDTH * 1.5],
+      outputRange: [1, 0, 1],
+      extrapolate: 'clamp'
+    })
+
+    this.nextCardScale = this.state.position.x.interpolate({
+      inputRange: [-SCREEN_WIDTH * 1.5, 0, SCREEN_WIDTH * 1.5],
+      outputRange: [1, 0.8, 1],
+      extrapolate: 'clamp'
+    })
   }
+
+
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.data !== this.props.data) {
@@ -104,9 +131,9 @@ class Deck extends Component {
     const { position } = this.state;
     const rotate = position.x.interpolate({
       inputRange: [-SCREEN_WIDTH * 1.5, 0, SCREEN_WIDTH * 1.5],
-      outputRange: ['-120deg', '0deg', '120deg']
+      outputRange: ['-120deg', '0deg', '120deg'],
+      extrapolate: 'clamp'
     });
-
 
     return {
       ...position.getLayout(),
@@ -158,7 +185,12 @@ class Deck extends Component {
   }
 
 
+  getDiscount(price, discount) {
+    return (price * discount / 100).toFixed(2);
+  }
+
   renderCards() {
+
     if (this.state.index >= this.props.data.length) {
       console.log("all coupons taken!!!")
       return (
@@ -185,7 +217,42 @@ class Deck extends Component {
                 style={[ this.getCardStyle(), styles.cardStyle, { zIndex: i * -1 } ]}
                 { ...this.state.panResponder.panHandlers }
               >
+                <Animated.View style={{ opacity: this.likeOpacity, transform: [{ rotate: '-30deg' }], position: 'absolute', top: 50, left: 30, zIndex: 1000}}>
+                  <Text style={{ borderWidth: 1, borderColor: 'green', color: 'green', fontSize: 28, fontWeight: '900',
+                  padding: 10 }}>LIKE</Text>
+                </Animated.View>
+                <Animated.View style={{ opacity: this.dislikeOpacity, transform: [{ rotate: '30deg' }], position: 'absolute', top: 50, right: 30, zIndex: 1000}}>
+                  <Text style={{ borderWidth: 1, borderColor: 'red', color: 'red', fontSize: 28, fontWeight: '900',
+                  padding: 10 }}>NOPE</Text>
+                </Animated.View>
                 {this.props.renderCard(item)}
+
+                <Animated.View style={{ position: 'absolute', bottom: 100, left: 10, zIndex: 1000}}>
+                  <Text style={{ color: 'white', fontSize: 30, fontWeight: '900',
+                  padding: 10 }}>{item.dish_name}</Text>
+                </Animated.View>
+                <Animated.View style={{ position: 'absolute', bottom: 80, right: 10, zIndex: 1000}}>
+                  <Text style={{ color: 'white', fontSize: 18, fontWeight: '900',
+                  padding: 10 }}>{item.quantity} remainings</Text>
+                </Animated.View>
+                <Animated.View style={{ position: 'absolute', bottom: 70, left: 10, zIndex: 1000}}>
+                  <Text style={{ color: 'white', fontSize: 20, fontWeight: '900',
+                  padding: 10 }}>${item.price.toFixed(2)}</Text>
+                </Animated.View>
+                <Animated.View style={{ position: 'absolute', bottom: 40, left: 10, zIndex: 1000}}>
+                  <Text style={{ color: 'red', fontSize: 20, fontWeight: '900',
+                  padding: 10 }}>NOW</Text>
+                </Animated.View>
+
+                <Animated.View style={{ position: 'absolute', bottom: 10, left: 10, zIndex: 1000}}>
+                  <Text style={{ color: 'red', fontSize: 30, fontWeight: '900',
+                  padding: 10 }}>${this.getDiscount(item.price,item.discount)}</Text>
+                </Animated.View>
+
+                <Animated.View style={{ position: 'absolute', bottom: 10, right: 10, zIndex: 1000}}>
+                  <Text style={{ borderWidth: 1, borderColor: 'red', borderRadius: 20, color: 'red', fontSize: 40, fontWeight: '900',
+                  padding: 10 }}>{item.discount}% Off</Text>
+                </Animated.View>
               </Animated.View>
             );
           }
@@ -193,8 +260,16 @@ class Deck extends Component {
           return (
             <Animated.View
               key={ item.id }
-              style={[ styles.cardStyle, { top: 10 * (i - this.state.index) }, { zIndex: i * -1 } ]}
+              style={[ styles.cardStyle,  { zIndex: i * -1, opacity: this.nextCardOpacity, transform: [{ scale: this.nextCardScale }] }]}
             >
+              <Animated.View style={{ opacity: 0, transform: [{ rotate: '-30deg' }], position: 'absolute', top: 50, left: 40, zIndex: 1000}}>
+                  <Text style={{ borderWidth: 1, borderColor: 'green', color: 'green', fontSize: 28, fontWeight: '800',
+                  padding: 10 }}>LIKE</Text>
+                </Animated.View>
+              <Animated.View style={{ opacity: this.dislikeOpacity, transform: [{ rotate: '30deg' }], position: 'absolute', top: 50, right: 40, zIndex: 1000}}>
+                  <Text style={{ borderWidth: 1, borderColor: 'red', color: 'red', fontSize: 28, fontWeight: '800',
+                  padding: 10 }}>NOPE</Text>
+                </Animated.View>
               {this.props.renderCard(item)}
 
             </Animated.View>
@@ -205,9 +280,13 @@ class Deck extends Component {
 
   render() {
     return (
-      <View>
-        <Text>Current User: {this.props.curUser}</Text>
-        { this.renderCards() }
+      <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
+
+          { this.renderCards() }
+        </View>
+        <View style={{ height: 60 }}>
+        </View>
       </View>
     );
   }
@@ -216,7 +295,10 @@ class Deck extends Component {
 const styles = {
   cardStyle: {
     position: "absolute",
-    width: SCREEN_WIDTH
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT - 130,
+    padding: 8
+
   }
 }
 
