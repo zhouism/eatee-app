@@ -126,12 +126,12 @@ class CouponBatchesScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     const { res_impression, res_swipe, res_redeem } = this.state;
+
+    const metrics = `Total # of Impressions: ${res_impression}\nTotal # of Swipes: ${res_swipe}\nTotal # of redeemed ads: ${res_redeem}`;
+
     return (
       <View style={styles.container}>
-        <Text>STATISTICS FOR ALL ADS</Text>
-        <Text>Total Impressions: {res_impression}</Text>
-        <Text>Total # of Swipes: {res_swipe}</Text>
-        <Text>Total # of redeemed ads: {res_redeem}</Text>
+        <CardContent text={metrics} />
         {this.state.data && (
           <ScrollView>
             <FlatList
