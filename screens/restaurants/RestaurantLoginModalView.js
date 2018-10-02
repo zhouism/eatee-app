@@ -63,7 +63,7 @@ class ModalView extends React.Component {
               latitude: item.coordinates.latutde
             })
             .then(resultID => {
-              this.props.restaurantLogin(resultID.data[0]);
+              this.props.restaurantLogin(resultID.data[0].id);
               this.props.savedDB();
             })
             .catch(function(error) {
@@ -124,7 +124,7 @@ class ModalView extends React.Component {
 }
 
 function mapStateToProps({ currentRestaurant }) {
-  console.log("current restaurant id: ", currentRestaurant);
+  console.log("current restaurant id in restaurant login modal view: ", currentRestaurant);
   return { currentRestaurant };
 }
 
