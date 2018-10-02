@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -15,7 +14,6 @@ import axios from "axios";
 import { ImagePicker, Camera, Permissions } from "expo";
 import t from "tcomb-form-native";
 import ModalView from "./CreateCouponBatchModal";
-import moment from "moment";
 
 // Functions setting up the form
 
@@ -114,7 +112,7 @@ export default class CreateCouponBatchScreen extends React.Component {
   onPress() {
     let coupon = this.refs.form.getValue();
     if (coupon) {
-      console.log(coupon);
+      // console.log(coupon);
       this.setState({
         modalVisible: true,
         coupon: coupon
@@ -128,7 +126,7 @@ export default class CreateCouponBatchScreen extends React.Component {
 
   navToCouponBatch() {
     this.setModalVisible(false);
-    console.log("has connected to navToCouponBatch");
+    // console.log("has connected to navToCouponBatch");
     this.props.navigation.navigate("CouponBatchesStack");
   }
 
