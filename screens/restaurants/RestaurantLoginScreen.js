@@ -1,13 +1,11 @@
 import React from "react";
 import {
-  Modal,
   TouchableHighlight,
-  Alert,
   FlatList,
   ActivityIndicator,
   Text,
   View,
-  AsyncStorage
+  Image
 } from "react-native";
 import axios from "axios";
 import { SearchBar, Button } from "react-native-elements";
