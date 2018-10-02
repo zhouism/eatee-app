@@ -3,6 +3,9 @@ import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Button } from "react-native-elements";
 
 export default class HomeScreen extends Component {
+  static navigationOptions = {
+    header: null
+  };
   render() {
     const { navigate } = this.props.navigation;
     return (
