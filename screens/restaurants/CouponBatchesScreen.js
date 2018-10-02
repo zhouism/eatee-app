@@ -11,25 +11,24 @@ import {
 } from "react-native";
 import axios from "axios";
 import { rootIP } from "react-native-dotenv";
-import { connect } from 'react-redux';
-import * as actions from '../../actions';
-
+import { connect } from "react-redux";
+import * as actions from "../../actions";
 
 class CouponBatchesScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: 'Coupon Batches',
-    }
-  }
+      headerTitle: "Coupon Batches"
+    };
+  };
 
   constructor(props) {
     super(props);
     this.state = {
       data: {},
       item: {},
-      res_swipe: '',
-      res_impression: '',
-      res_redeem: ''
+      res_swipe: "",
+      res_impression: "",
+      res_redeem: ""
     };
   }
 
@@ -38,51 +37,75 @@ class CouponBatchesScreen extends React.Component {
   };
 
   componentDidMount() {
-    axios
-      .get(`http://${rootIP}:3001/api/restaurants/${this.props.currentRestaurant}/coupon_batches`)
-      .then(response => {
-        this.setState({
-          data: response.data
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this._onFocusListener = this.props.navigation.addListener(
+      "didFocus",
+      payload => {
+        axios
+          .get(
+            `http://${rootIP}:3001/api/restaurants/${
+              this.props.currentRestaurant
+            }/coupon_batches`
+          )
+          .then(response => {
+            this.setState({
+              data: response.data
+            });
+          })
+          .catch(error => {
+            console.log(error);
+          });
 
-    axios
-      .get(`http://${rootIP}:3001/api/restaurants/${this.props.currentRestaurant}/swipe`)
-      .then(response => {
-        this.setState({
-          res_swipe: (response.data)[0].count
-        })
-      }).catch(error => {
-        console.log(error);
-      });
+        axios
+          .get(
+            `http://${rootIP}:3001/api/restaurants/${
+              this.props.currentRestaurant
+            }/swipe`
+          )
+          .then(response => {
+            this.setState({
+              res_swipe: response.data[0].count
+            });
+          })
+          .catch(error => {
+            console.log(error);
+          });
 
-    axios
-      .get(`http://${rootIP}:3001/api/restaurants/${this.props.currentRestaurant}/impression`)
-      .then(response => {
-        this.setState({
-          res_impression: (response.data)[0].sum
-        })
-      }).catch(error => {
-        console.log(error);
-      });
+        axios
+          .get(
+            `http://${rootIP}:3001/api/restaurants/${
+              this.props.currentRestaurant
+            }/impression`
+          )
+          .then(response => {
+            this.setState({
+              res_impression: response.data[0].sum
+            });
+          })
+          .catch(error => {
+            console.log(error);
+          });
 
-    axios
-      .get(`http://${rootIP}:3001/api/restaurants/${this.props.currentRestaurant}/redeem`)
-      .then(response => {
-        this.setState({
-          res_redeem: (response.data)[0].count
-        })
-      }).catch(error => {
-        console.log(error);
-      });
+        axios
+          .get(
+            `http://${rootIP}:3001/api/restaurants/${
+              this.props.currentRestaurant
+            }/redeem`
+          )
+          .then(response => {
+            this.setState({
+              res_redeem: response.data[0].count
+            });
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    );
   }
 
   render() {
     const { navigate } = this.props.navigation;
-    const { res_impression, res_swipe, res_redeem } = this.state
+    const { res_impression, res_swipe, res_redeem } = this.state;
     return (
       <View style={styles.container}>
         <Text>STATISTICS FOR ALL ADS</Text>
@@ -93,9 +116,9 @@ class CouponBatchesScreen extends React.Component {
           <FlatList
             data={this.state.data}
             renderItem={({ item }) => (
-              <TouchableHighlight onPress={() => navigate('CouponBatchDetail',
-                {item: item}
-              )}>
+              <TouchableHighlight
+                onPress={() => navigate("CouponBatchDetail", { item: item })}
+              >
                 <View>
                   <Text>Dish Name: {item.dish_name}</Text>
                 </View>
@@ -125,9 +148,11 @@ const styles = StyleSheet.create({
   }
 });
 
-
 function mapStateToProps({ currentRestaurant }) {
   return { currentRestaurant };
 }
 
-export default connect(mapStateToProps, actions)(CouponBatchesScreen);
+export default connect(
+  mapStateToProps,
+  actions
+)(CouponBatchesScreen);

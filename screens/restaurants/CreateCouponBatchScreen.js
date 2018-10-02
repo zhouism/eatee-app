@@ -127,7 +127,7 @@ export default class CreateCouponBatchScreen extends React.Component {
   navToCouponBatch() {
     this.setModalVisible(false);
     // console.log("has connected to navToCouponBatch");
-    this.props.navigation.navigate("CouponBatchesStack");
+    this.props.navigation.navigate("CouponBatch");
   }
 
   render() {
