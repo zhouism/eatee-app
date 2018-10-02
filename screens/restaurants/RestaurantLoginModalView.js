@@ -3,26 +3,20 @@ import {
   Modal,
   Text,
   View,
-  Button,
   FlatList,
   StyleSheet,
+  Image,
   TouchableHighlight
 } from "react-native";
 import _ from "lodash";
 import axios from "axios";
-import navigation from "react-navigation";
+import { Button } from "react-native-elements";
 
 import { connect } from "react-redux";
 import * as actions from "../../actions";
 import { rootIP } from "react-native-dotenv";
 
 class ModalView extends React.Component {
-  // static navigationOptions = ({ navigation }) => {
-  //   return {
-  //     RestaurantAU: RestaurantAU,
-  //   }
-  // }
-
   constructor() {
     super();
     this.state = {
@@ -36,6 +30,7 @@ class ModalView extends React.Component {
       modalVisible: nextProps.modalVisible,
       result: nextProps.result
     });
+    console.log(nextProps.result);
   }
 
   saveRestaurantToDB(item) {
@@ -96,27 +91,33 @@ class ModalView extends React.Component {
           this.props.setModalVisible(false);
         }}
       >
-        <View>
-          <View>
-            <Text>Is this your restaurant?</Text>
-            <Text>Restaurant: {this.state.result.name}</Text>
-            <Text>Phone Number: {this.state.result.phone}</Text>
+        <View style={styles.container}>
+          <Text style={styles.header}>Is this your restaurant?</Text>
+          <Image
+            style={styles.image}
+            source={{ uri: this.state.result.image_url }}
+          />
 
-            <Button
-              onPress={() => {
-                this.saveRestaurantToDB(this.state.result);
-              }}
-              title="Confirm"
-            />
-            <Button
-              onPress={() => {
-                this.props.setModalVisible(false);
-              }}
-              title="Go Back"
-            >
-              <Text>Hide Modal</Text>
-            </Button>
-          </View>
+          <Text style={styles.info}>
+            Restaurant Name: {this.state.result.name}
+          </Text>
+          <Text style={styles.info}>Address: {this.state.address1}</Text>
+          <Button
+            buttonStyle={styles.button}
+            title="Confirm"
+            onPress={() => {
+              this.saveRestaurantToDB(this.state.result);
+            }}
+          />
+          <Button
+            buttonStyle={styles.button}
+            title="Go Back"
+            onPress={() => {
+              this.props.setModalVisible(false);
+            }}
+          >
+            <Text>Hide Modal</Text>
+          </Button>
         </View>
       </Modal>
     );
@@ -124,7 +125,10 @@ class ModalView extends React.Component {
 }
 
 function mapStateToProps({ currentRestaurant }) {
-  console.log("current restaurant id in restaurant login modal view: ", currentRestaurant);
+  console.log(
+    "current restaurant id in restaurant login modal view: ",
+    currentRestaurant
+  );
   return { currentRestaurant };
 }
 
@@ -132,3 +136,36 @@ export default connect(
   mapStateToProps,
   actions
 )(ModalView);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FC4E3E"
+  },
+  header: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 30,
+    textAlign: "center"
+  },
+  image: {
+    marginTop: 20,
+    width: 400,
+    height: 300,
+    borderRadius: 10
+  },
+  info: {
+    fontSize: 25,
+    color: "white",
+    fontWeight: "bold"
+  },
+  button: {
+    backgroundColor: "#000000",
+    width: 200,
+    borderRadius: 30,
+    margin: 10,
+    borderColor: "#FC4E3E"
+  }
+});
