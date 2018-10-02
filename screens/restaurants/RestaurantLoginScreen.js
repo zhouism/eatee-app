@@ -106,8 +106,8 @@ export default class RestaurantLoginScreen extends React.PureComponent {
               return "+" + value.replace(/\D/g, "");
             }
           }}
-          placeholder="INPUT PHONE NUMBER"
-          placeholderTextColor="black"
+          placeholder="🔍 INPUT PHONE NUMBER"
+          placeholderTextColor="#D3D3D3"
           underlineColorAndroid="transparent"
           style={styles.input}
           keyboardType="numeric"
