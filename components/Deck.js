@@ -186,7 +186,7 @@ class Deck extends Component {
 
 
   getDiscount(price, discount) {
-    return (price * discount / 100).toFixed(2);
+    return (price - (price * discount / 100)).toFixed(2);
   }
 
   renderCards() {
@@ -217,41 +217,41 @@ class Deck extends Component {
                 style={[ this.getCardStyle(), styles.cardStyle, { zIndex: i * -1 } ]}
                 { ...this.state.panResponder.panHandlers }
               >
-                <Animated.View style={{ opacity: this.likeOpacity, transform: [{ rotate: '-30deg' }], position: 'absolute', top: 50, left: 30, zIndex: 1000}}>
-                  <Text style={{ borderWidth: 1, borderColor: 'green', color: 'green', fontSize: 28, fontWeight: '900',
+                <Animated.View style={{ opacity: this.likeOpacity, transform: [{ rotate: '-30deg' }], position: 'absolute', top: 50, left: 20, zIndex: 1000}}>
+                  <Text style={{ borderWidth: 1, borderColor: 'green', color: 'black', backgroundColor: 'green', fontSize: 28, fontWeight: '900',
                   padding: 10 }}>LIKE</Text>
                 </Animated.View>
-                <Animated.View style={{ opacity: this.dislikeOpacity, transform: [{ rotate: '30deg' }], position: 'absolute', top: 50, right: 30, zIndex: 1000}}>
-                  <Text style={{ borderWidth: 1, borderColor: 'red', color: 'red', fontSize: 28, fontWeight: '900',
+                <Animated.View style={{ opacity: this.dislikeOpacity, transform: [{ rotate: '30deg' }], position: 'absolute', top: 50, right: 20, zIndex: 1000}}>
+                  <Text style={{ borderWidth: 1, borderColor: 'red', color: 'black', backgroundColor: 'red', fontSize: 28, fontWeight: '900',
                   padding: 10 }}>NOPE</Text>
                 </Animated.View>
                 {this.props.renderCard(item)}
 
-                <Animated.View style={{ position: 'absolute', bottom: 100, left: 10, zIndex: 1000}}>
-                  <Text style={{ color: 'white', fontSize: 30, fontWeight: '900',
+                <Animated.View style={{ position: 'absolute', bottom: 110, left: 10, zIndex: 1000}}>
+                  <Text style={{ color: 'white', fontSize: 35, fontWeight: '900',
                   padding: 10 }}>{item.dish_name}</Text>
                 </Animated.View>
-                <Animated.View style={{ position: 'absolute', bottom: 80, right: 10, zIndex: 1000}}>
+                <Animated.View style={{ position: 'absolute', bottom: 75, right: 10, zIndex: 1000}}>
                   <Text style={{ color: 'white', fontSize: 18, fontWeight: '900',
                   padding: 10 }}>{item.quantity} remainings</Text>
                 </Animated.View>
-                <Animated.View style={{ position: 'absolute', bottom: 70, left: 10, zIndex: 1000}}>
+                <Animated.View style={{ position: 'absolute', bottom: 75, left: 10, zIndex: 1000}}>
                   <Text style={{ color: 'white', fontSize: 20, fontWeight: '900',
-                  padding: 10 }}>${item.price.toFixed(2)}</Text>
+                  padding: 10, textDecorationLine: 'line-through' }}>${item.price.toFixed(2)}</Text>
                 </Animated.View>
-                <Animated.View style={{ position: 'absolute', bottom: 40, left: 10, zIndex: 1000}}>
-                  <Text style={{ color: 'red', fontSize: 20, fontWeight: '900',
+                <Animated.View style={{ position: 'absolute', bottom: 45, left: 10, zIndex: 1000}}>
+                  <Text style={{ color: 'red', fontSize: 23, fontWeight: '900',
                   padding: 10 }}>NOW</Text>
                 </Animated.View>
 
-                <Animated.View style={{ position: 'absolute', bottom: 10, left: 10, zIndex: 1000}}>
-                  <Text style={{ color: 'red', fontSize: 30, fontWeight: '900',
+                <Animated.View style={{ position: 'absolute', bottom: 5, left: 10, zIndex: 1000}}>
+                  <Text style={{ color: 'red', fontSize: 35, fontWeight: '900',
                   padding: 10 }}>${this.getDiscount(item.price,item.discount)}</Text>
                 </Animated.View>
 
-                <Animated.View style={{ position: 'absolute', bottom: 10, right: 10, zIndex: 1000}}>
-                  <Text style={{ borderWidth: 1, borderColor: 'red', borderRadius: 20, color: 'red', fontSize: 40, fontWeight: '900',
-                  padding: 10 }}>{item.discount}% Off</Text>
+                <Animated.View style={{ position: 'absolute', bottom: 10, right: 10, borderRadius: 20, overflow: 'hidden', zIndex: 1000}}>
+                  <Text style={{ borderWidth: 2, borderColor: 'red',  color: 'white', fontSize: 40, fontWeight: '900',
+                  padding: 10, backgroundColor: "red" }}>{item.discount}% Off</Text>
                 </Animated.View>
               </Animated.View>
             );
@@ -271,7 +271,6 @@ class Deck extends Component {
                   padding: 10 }}>NOPE</Text>
                 </Animated.View>
               {this.props.renderCard(item)}
-
             </Animated.View>
           );
         });
@@ -297,7 +296,11 @@ const styles = {
     position: "absolute",
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT - 130,
-    padding: 8
+    padding: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2
 
   }
 }
