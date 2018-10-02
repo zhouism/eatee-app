@@ -22,18 +22,26 @@ import {
   CardButton,
   CardImage
 } from "react-native-material-cards";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 
 class CouponBatchesScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: "Coupon Batches",
-      headerRight: (<Ionicons name="md-list" size={32} color="red" style={{ padding: 10}} onPress={() => navigation.navigate('CreateCouponBatch')} />),
+      headerRight: (
+        <Ionicons
+          name="md-list"
+          size={32}
+          color="red"
+          style={{ padding: 10 }}
+          onPress={() => navigation.navigate("CreateCouponBatch")}
+        />
+      ),
       headerStyle: {
         elevation: 0,
         shadowOpacity: 0,
         borderBottomWidth: 0
-      } 
+      }
     };
   };
 
@@ -132,8 +140,24 @@ class CouponBatchesScreen extends React.Component {
                 <TouchableHighlight
                   onPress={() => navigate("CouponBatchDetail", { item: item })}
                 >
-                  <Card>
-                  <CardImage source={{ uri: item.image }} resizeMode="center" />
+                  <Card
+                    style={{
+                      borderRadius: 10,
+                      overflow: "hidden",
+                      borderWidth: 1.25,
+                      borderColor: "#d3d3d3"
+                    }}
+                  >
+                    <CardImage
+                      source={{ uri: item.image }}
+                      resizeMode="cover"
+                      style={{
+                        shadowColor: "#000",
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: 0.8,
+                        shadowRadius: 2
+                      }}
+                    />
                     <CardTitle
                       title={item.dish_name}
                       subtitle={item.description}
