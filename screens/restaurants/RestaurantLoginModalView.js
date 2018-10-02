@@ -38,7 +38,6 @@ class ModalView extends React.Component {
     });
   }
 
-
   saveRestaurantToDB(item) {
     console.log("itemid", item.id);
 
@@ -59,6 +58,7 @@ class ModalView extends React.Component {
               country: item.location.country,
               phone: item.phone,
               yelp_id: item.id,
+              price: item.price,
               longitude: item.coordinates.longitude,
               latitude: item.coordinates.latutde
             })
@@ -71,14 +71,15 @@ class ModalView extends React.Component {
             });
         } else {
           console.log("restaurant exists");
-          console.log('-- item id:', item.id);
+          console.log("-- item id:", item.id);
           console.log(typeof item.id);
           axios
             .get(`http://${rootIP}:3001/api/restaurants/yelpid/${item.id}`)
 
-            .then((restaurantID) => {
-              console.log('restaurant ID: ', (restaurantID.data)[0].id);``
-              this.props.restaurantLogin((restaurantID.data)[0].id);
+            .then(restaurantID => {
+              console.log("restaurant ID: ", restaurantID.data[0].id);
+              ``;
+              this.props.restaurantLogin(restaurantID.data[0].id);
               this.props.savedDB();
             });
         }
