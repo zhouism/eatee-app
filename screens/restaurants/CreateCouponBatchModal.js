@@ -12,10 +12,10 @@ import {
 import axios from "axios";
 import navigation from "react-navigation";
 import { rootIP } from "react-native-dotenv";
-import { RNS3 } from 'react-native-aws3';
+import { RNS3 } from "react-native-aws3";
 import { accessKeyId, secretAccessKey } from "react-native-dotenv";
-import { connect } from 'react-redux';
-import * as actions from '../../actions';
+import { connect } from "react-redux";
+import * as actions from "../../actions";
 
 class ModalView extends React.Component {
   constructor() {
@@ -36,15 +36,15 @@ class ModalView extends React.Component {
   }
 
   saveCouponBatchToDB(coupon, image) {
-    console.log("saveCouponBatchtoDB function", coupon);
-    console.log("image", image);
+    // console.log("saveCouponBatchtoDB function", coupon);
+    // console.log("image", image);
 
     const file = {
       uri: image,
       name: new Date().toISOString() + "_" + coupon.dish_name + ".png",
       type: "image/png"
-    }
-    
+    };
+
     const options = {
       keyPrefix: "Images/",
       bucket: "eatee",
@@ -52,13 +52,13 @@ class ModalView extends React.Component {
       accessKey: accessKeyId,
       secretKey: secretAccessKey,
       successActionStatus: 201
-    }
-    
+    };
+
     RNS3.put(file, options).then(response => {
       if (response.status !== 201)
         throw new Error("Failed to upload image to S3");
       else {
-        console.log(response.body.postResponse.location);
+        // console.log(response.body.postResponse.location);
         /**
          * {
          *   postResponse: {
@@ -70,23 +70,28 @@ class ModalView extends React.Component {
          * }
          */
         axios
-        .post(`http://${rootIP}:3001/api/restaurants/${this.props.currentRestaurant}/coupon_batches`, {
-          dish_name: coupon.dish_name,
-          description: coupon.description,
-          image: response.body.postResponse.location,
-          timestamp: new Date().toISOString(),
-          time_limit: coupon.time_limit,
-          quantity: coupon.quantity,
-          price: coupon.price,
-          discount: coupon.discount,
-          impression: 0
-        })
-        .then(() => {
-          this.props.savedDB();
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+          .post(
+            `http://${rootIP}:3001/api/restaurants/${
+              this.props.currentRestaurant
+            }/coupon_batches`,
+            {
+              dish_name: coupon.dish_name,
+              description: coupon.description,
+              image: response.body.postResponse.location,
+              timestamp: new Date().toISOString(),
+              time_limit: coupon.time_limit,
+              quantity: coupon.quantity,
+              price: coupon.price,
+              discount: coupon.discount,
+              impression: 0
+            }
+          )
+          .then(() => {
+            this.props.savedDB();
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
       }
     });
   }
@@ -139,5 +144,7 @@ function mapStateToProps({ currentRestaurant }) {
   return { currentRestaurant };
 }
 
-export default connect(mapStateToProps, actions)(ModalView);
-
+export default connect(
+  mapStateToProps,
+  actions
+)(ModalView);
