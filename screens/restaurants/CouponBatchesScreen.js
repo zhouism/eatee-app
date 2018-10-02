@@ -22,11 +22,18 @@ import {
   CardButton,
   CardImage
 } from "react-native-material-cards";
+import { Ionicons } from '@expo/vector-icons';
 
 class CouponBatchesScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: "Coupon Batches"
+      headerTitle: "Coupon Batches",
+      headerRight: (<Ionicons name="md-list" size={32} color="red" style={{ padding: 10}} onPress={() => navigation.navigate('CreateCouponBatch')} />),
+      headerStyle: {
+        elevation: 0,
+        shadowOpacity: 0,
+        borderBottomWidth: 0
+      } 
     };
   };
 
@@ -40,10 +47,6 @@ class CouponBatchesScreen extends React.Component {
       res_redeem: ""
     };
   }
-
-  static navigationOptions = {
-    title: "Your Coupon Ads"
-  };
 
   componentDidMount() {
     this._onFocusListener = this.props.navigation.addListener(
@@ -142,12 +145,6 @@ class CouponBatchesScreen extends React.Component {
             />
           </ScrollView>
         )}
-        <Button
-          onPress={() => {
-            navigate("CreateCouponBatch");
-          }}
-          title="Create a new coupon"
-        />
       </View>
     );
   }
