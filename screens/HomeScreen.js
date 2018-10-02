@@ -15,12 +15,12 @@ export default class HomeScreen extends Component {
         />
         <Button
           buttonStyle={styles.button}
-          title="I am Hungry"
+          title="I AM HUNGRY"
           onPress={() => navigate("User")}
         />
         <Button
           buttonStyle={styles.button}
-          title="I have Food"
+          title="I HAVE FOOD"
           onPress={() => navigate("Restaurant")}
         />
       </View>
@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#000000",
-    borderRadius: 10,
+    width: 200,
+    borderRadius: 30,
     margin: 10,
     borderColor: "#FC4E3E"
   }
