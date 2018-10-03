@@ -172,6 +172,7 @@ class CouponBatchesScreen extends React.Component {
                       title={item.dish_name}
                       subtitle={item.description}
                     />
+                    <CardContent text={`Impressions: ${item.impression}`}/>
                   </Card>
                 </TouchableHighlight>
               )}
