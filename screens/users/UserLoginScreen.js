@@ -10,8 +10,11 @@ class UserLogin extends React.Component {
     header: null
   };
 
+  componentDidMount() {
+    // AsyncStorage.removeItem("fb_token");
+  }
+
   componentWillReceiveProps(nextProps) {
-    console.log('next props: ', nextProps);
     this.onAuthComplete(nextProps);
   }
 
@@ -60,7 +63,7 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps({ auth }) {
-  console.log('Current user token:', auth.token);
+  console.log('Current user token in login screen:', auth.token);
   return { token: auth.token };
 }
 

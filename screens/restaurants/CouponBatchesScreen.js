@@ -3,14 +3,11 @@ import {
   Text,
   ScrollView,
   View,
-  Button,
   FlatList,
   Alert,
   StyleSheet,
   TouchableHighlight,
-  Image,
-  Platform,
-  ProgressBarAndroid
+  Image
 } from "react-native";
 import axios from "axios";
 import { rootIP } from "react-native-dotenv";
@@ -20,11 +17,10 @@ import {
   Card,
   CardTitle,
   CardContent,
-  CardAction,
-  CardButton,
   CardImage
 } from "react-native-material-cards";
 import { Ionicons } from "@expo/vector-icons";
+import { Button } from "react-native-elements";
 
 class CouponBatchesScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -56,8 +52,7 @@ class CouponBatchesScreen extends React.Component {
       item: {},
       res_swipe: "",
       res_impression: "",
-      res_redeem: "",
-      progress: true
+      res_redeem: ""
     };
   }
 
@@ -73,8 +68,7 @@ class CouponBatchesScreen extends React.Component {
           )
           .then(response => {
             this.setState({
-              data: response.data,
-              progress: false
+              data: response.data
             });
           })
           .catch(error => {
@@ -132,20 +126,32 @@ class CouponBatchesScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     const { res_impression, res_swipe, res_redeem } = this.state;
+
+    const metrics = `Total # of Impressions: ${res_impression}\nTotal # of Swipes: ${res_swipe}\nTotal # of redeemed ads: ${res_redeem}`;
+
     return (
       <View style={styles.container}>
-        <ScrollView>
-          <View style={styles.metrics}>
-            {res_impression ? (
-              <Text>Total # of Impressions: {res_impression}</Text>
-            ) : (
-              <Text>Total # of Impressions: 0</Text>
-            )}
-            <Text>Total # of Swipes: {res_swipe}</Text>
-            <Text>Total # of redeemed ads: {res_redeem}</Text>
-          </View>
-          <ProgressBarAndroid animating={this.state.progress} />
-          {this.state.data && (
+        <View>
+          <Text style={styles.text}>Total Coupon Impressions</Text>
+          {res_impression ? (
+            <Text style={styles.metrics}>{res_impression}</Text>
+          ) : (
+            <Text style={styles.metrics}>0</Text>
+          )}
+          <Text style={styles.text}>Total Coupon Swipes</Text>
+          <Text style={styles.metrics}>{res_swipe}</Text>
+          <Text style={styles.text}>Total Coupons Redeemed</Text>
+          <Text style={styles.metrics}>{res_redeem}</Text>
+          <Button
+            buttonStyle={styles.button}
+            onPress={() => {
+              navigate("CreateCouponBatch");
+            }}
+            title="CREATE A NEW COUPON"
+          />
+        </View>
+        {this.state.data && (
+          <ScrollView>
             <FlatList
               data={this.state.data}
               renderItem={({ item }) => (
@@ -180,8 +186,8 @@ class CouponBatchesScreen extends React.Component {
               )}
               keyExtractor={item => item.id.toString()}
             />
-          )}
-        </ScrollView>
+          </ScrollView>
+        )}
       </View>
     );
   }
@@ -193,10 +199,25 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   text: {
-    fontWeight: "bold"
+    fontSize: 14,
+    paddingTop: 5,
+    alignSelf: "center"
   },
   metrics: {
-    marginLeft: 20
+    fontWeight: "bold",
+    fontSize: 22,
+    paddingTop: 5,
+    alignSelf: "center"
+  },
+  button: {
+    backgroundColor: "#000000",
+    marginTop: 10,
+    width: 300,
+    height: 40,
+    borderRadius: 30,
+    margin: 10,
+    borderColor: "#FC4E3E",
+    alignSelf: "center"
   }
 });
 

@@ -84,6 +84,7 @@ class ModalView extends React.Component {
     return (
       <View>
         <ScrollView>
+
           <Card
             style={{
               borderRadius: 10,
@@ -103,12 +104,14 @@ class ModalView extends React.Component {
                   shadowRadius: 2
                 }}
               />
+
             ) : (
               <Text>No Image</Text>
             )}
             <CardTitle title={item.name} />
             <CardContent
-              text={`Phone Number: ${item.phone}\n${
+              text={`${item.display_phone}\n${
+
                 item.location.display_address[0]
               }\n${item.location.display_address[1]}\n${
                 item.location.display_address[2]

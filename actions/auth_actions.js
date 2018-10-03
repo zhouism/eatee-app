@@ -60,10 +60,8 @@ doFacebookLogin = async dispatch => {
       }
       dispatch({ type: CURRENT_USER, payload: userInfo.id });
   }
-
   await AsyncStorage.setItem('fb_token', token);
   dispatch({ type: FACEBOOK_LOGIN_SUCCESS, payload: token });
-
 };
 
 

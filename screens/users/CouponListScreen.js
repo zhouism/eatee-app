@@ -10,6 +10,7 @@ import {
   ScrollView
 } from "react-native";
 import axios from "axios";
+import { AppLoading } from 'expo';
 import { connect } from "react-redux";
 import * as actions from "../../actions";
 import { rootIP } from "react-native-dotenv";
@@ -52,7 +53,8 @@ class CouponListScreen extends React.Component {
     super(props);
     this.state = {
       data: {},
-      item: {}
+      item: {},
+      isReady: false
     };
   }
 
@@ -63,21 +65,26 @@ class CouponListScreen extends React.Component {
         axios
           .get(`${LIGHTHOUSE_IP}/users/${this.props.currentUser}/coupon_list`)
           .then(response => {
-            console.log("response.data", response.data);
             this.setState({
               data: response.data
+
             });
           })
           .catch(error => {
             console.log(error);
           });
-      }
+      },
+      this.setState({
+        isReady: true
+      })
     );
   }
 
   render() {
     const { navigate } = this.props.navigation;
-
+    // if (!this.state.isReady) {
+    //   console.log("in apploading");
+    //   return <AppLoading />
     return (
       <View style={styles.container}>
         {this.state.data && (
@@ -96,35 +103,44 @@ class CouponListScreen extends React.Component {
                       borderColor: "#d3d3d3"
                     }}
                   >
-                    <CardImage
-                      resizeMode="cover"
-                      source={{ uri: item.image }}
+                    <Card
                       style={{
-                        shadowColor: "#000",
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowOpacity: 0.8,
-                        shadowRadius: 2
+                        borderRadius: 10,
+                        overflow: "hidden",
+                        borderWidth: 1.25,
+                        borderColor: "#d3d3d3"
                       }}
-                    />
-                    <CardTitle
-                      title={item.dish_name}
-                      subtitle={item.description}
-                    />
-                    {item.is_redeemed ? (
-                      <CardContent text="Your Coupon Has Been Redeemed" />
-                    ) : (
-                      <CardContent text="" />
-                    )}
-                  </Card>
-                </TouchableHighlight>
-              )}
-              keyExtractor={item => item.id.toString()}
-            />
-          </ScrollView>
-        )}
-      </View>
-    );
-  }
+                    >
+                      <CardImage
+                        resizeMode="cover"
+                        source={{ uri: item.image }}
+                        style={{
+                          shadowColor: "#000",
+                          shadowOffset: { width: 0, height: 2 },
+                          shadowOpacity: 0.8,
+                          shadowRadius: 2
+                        }}
+                      />
+                      <CardTitle
+                        title={item.dish_name}
+                        subtitle={item.description}
+                      />
+                      {item.is_redeemed ? (
+                        <CardContent text="Your Coupon Has Been Redeemed" />
+                      ) : (
+                        <CardContent text="" />
+                      )}
+                    </Card>
+                  </TouchableHighlight>
+                )}
+                keyExtractor={item => item.id.toString()}
+              />
+            </ScrollView>
+          )}
+        </View>
+      );
+    }
+  // }
 }
 
 const styles = StyleSheet.create({
@@ -143,25 +159,3 @@ export default connect(
   mapStateToProps,
   actions
 )(CouponListScreen);
-
-{
-  /* <View>
-<Image
-  source={{ uri: item.image }}
-  style={{ width: 400, height: 300 }}
-/>
-<Text>Id: {item.id}</Text>
-<Text>Dish Name: {item.dish_name}</Text>
-<Text>Restaurant Name: {item.name}</Text>
-<Text>Restaurants Address: {item.address}</Text>
-<Text>Time Limit: {item.time_limit}</Text>
-<Text>Unit Price: ${item.price.toFixed(2)}</Text>
-<Text>
-  Your Price: $
-  {(item.price * (item.discount / 100)).toFixed(2)}
-</Text>
-{item.is_redeemed && (
-  <Text>Your Coupon Has Been Redeemed</Text>
-)}
-</View> */
-}
