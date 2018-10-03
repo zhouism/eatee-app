@@ -42,7 +42,7 @@ class CouponListScreen extends React.Component {
           name="md-restaurant"
           size={32}
           color="white"
-          style={{ padding: 10 }}
+          style={{ padding: 20 }}
           onPress={() => navigation.goBack()}
         />
       )
