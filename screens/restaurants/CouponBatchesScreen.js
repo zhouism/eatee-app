@@ -7,7 +7,9 @@ import {
   Alert,
   StyleSheet,
   TouchableHighlight,
-  Image
+  Image,
+  Platform,
+  ProgressBarAndroid
 } from "react-native";
 import axios from "axios";
 import { rootIP } from "react-native-dotenv";
@@ -52,7 +54,8 @@ class CouponBatchesScreen extends React.Component {
       item: {},
       res_swipe: "",
       res_impression: "",
-      res_redeem: ""
+      res_redeem: "",
+      progress: true
     };
   }
 
@@ -68,7 +71,8 @@ class CouponBatchesScreen extends React.Component {
           )
           .then(response => {
             this.setState({
-              data: response.data
+              data: response.data,
+              progress: false
             });
           })
           .catch(error => {
@@ -127,6 +131,7 @@ class CouponBatchesScreen extends React.Component {
     const { navigate } = this.props.navigation;
     const { res_impression, res_swipe, res_redeem } = this.state;
 
+
     const metrics = `Total # of Impressions: ${res_impression}\nTotal # of Swipes: ${res_swipe}\nTotal # of redeemed ads: ${res_redeem}`;
 
     return (
@@ -152,6 +157,7 @@ class CouponBatchesScreen extends React.Component {
         </View>
         {this.state.data && (
           <ScrollView>
+
             <FlatList
               data={this.state.data}
               renderItem={({ item }) => (
@@ -180,13 +186,14 @@ class CouponBatchesScreen extends React.Component {
                       title={item.dish_name}
                       subtitle={item.description}
                     />
+                    <CardContent text={`Impressions: ${item.impression}`}/>
                   </Card>
                 </TouchableHighlight>
               )}
               keyExtractor={item => item.id.toString()}
             />
-          </ScrollView>
-        )}
+          )}
+        </ScrollView>
       </View>
     );
   }

@@ -73,15 +73,34 @@ class ModalView extends React.Component {
     return (
       <View>
         <ScrollView>
-          <Card>
+
+          <Card
+            style={{
+              borderRadius: 10,
+              overflow: "hidden",
+              borderWidth: 1.25,
+              borderColor: "#d3d3d3"
+            }}
+          >
             {item.image_url ? (
-              <CardImage source={{ uri: item.image_url }} />
+              <CardImage
+                resizeMode="cover"
+                source={{ uri: item.image_url }}
+                style={{
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.8,
+                  shadowRadius: 2
+                }}
+              />
+
             ) : (
               <Text>No Image</Text>
             )}
             <CardTitle title={item.name} />
             <CardContent
               text={`${item.display_phone}\n${
+
                 item.location.display_address[0]
               }\n${item.location.display_address[1]}\n${
                 item.location.display_address[2]
