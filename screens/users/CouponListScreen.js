@@ -46,7 +46,7 @@ class CouponListScreen extends React.Component {
         axios
           .get(`${LIGHTHOUSE_IP}/users/${this.props.currentUser}/coupon_list`)
           .then(response => {
-            console.log(response.data);
+            console.log('response.data', response.data);
             this.setState({
               data: response.data
             });

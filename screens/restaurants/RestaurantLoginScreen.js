@@ -10,14 +10,32 @@ import {
 } from "react-native";
 import axios from "axios";
 import { SearchBar, Button } from "react-native-elements";
-import ModalView from "./RestaurantLoginModalView.js";
 import { TextInputMask } from "react-native-masked-text";
 import LoadingScreen from "../LoadingScreen.js";
+import {
+  Card,
+  CardTitle,
+  CardContent,
+  CardAction,
+  CardButton,
+  CardImage
+} from "react-native-material-cards";
 
 const authToken =
   "Bearer JIba6FRPuS1u8_G-7HeYFxOEn1hP8OiBz8SNySU0VlWpzKY8hx0E9hJulfTId43tLaDk-0inreQzymHn54GF5wGULtbEUy8yggF0564R5ESptLfg4X9m_mA0FJ6mW3Yx";
 
 export default class RestaurantLoginScreen extends React.PureComponent {
+  static navigationOptions = {
+    title: 'Restaurant Search',
+    headerStyle: {
+      backgroundColor: '#FC4E3E',
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -26,7 +44,6 @@ export default class RestaurantLoginScreen extends React.PureComponent {
       query: "",
       rawText: "",
       result: {},
-      modalVisible: false
     };
   }
 
@@ -51,32 +68,8 @@ export default class RestaurantLoginScreen extends React.PureComponent {
       });
   }
 
-  // _handleQueryChange = query => {
-  //   this.setState(state => ({ ...state, query: query || "" }));
-  //   console.log(this.yelpPhoneNumber.getRawValue());
-  // };
-
-  // query => console.log(this.yelpPhoneNumber.getRawValue());
-
   _handleSearchCancel = () => this._handleQueryChange("");
   _handleSearchClear = () => this._handleQueryChange("");
-
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
-  }
-
-  _onPressItem(item) {
-    this.setState({
-      modalVisible: true,
-      result: item
-    });
-  }
-
-  navToCouponBatch() {
-    this.setModalVisible(false);
-    console.log("has connected to navToCouponBatch");
-    this.props.navigation.navigate("RestaurantNav");
-  }
 
   render() {
     if (this.state.isLoading) {
@@ -87,16 +80,8 @@ export default class RestaurantLoginScreen extends React.PureComponent {
       );
     }
     return (
-      <View style={styles.container}>
-        <ModalView
-          modalVisible={this.state.modalVisible}
-          setModalVisible={vis => {
-            this.setModalVisible(vis);
-          }}
-          result={this.state.result}
-          savedDB={() => this.navToCouponBatch()}
-        />
-
+      <ScrollView >
+        <View style={styles.container}>
         <TextInputMask
           ref={ref => (this.yelpPhoneNumber = ref)}
           type={"custom"}
@@ -120,7 +105,6 @@ export default class RestaurantLoginScreen extends React.PureComponent {
           onClear={this._handleSearchClear}
           value={this.state.query}
         />
-
         <Button
           onPress={() =>
             this.getRestaurantData(this.yelpPhoneNumber.getRawValue())
@@ -128,52 +112,52 @@ export default class RestaurantLoginScreen extends React.PureComponent {
           buttonStyle={styles.button}
           title="LOOK FOR MY RESTAURANT"
         />
-        <ScrollView>
+        </View>
           <FlatList
             data={this.state.data}
             renderItem={({ item }) => (
-              <TouchableHighlight onPress={() => this._onPressItem(item)}>
-                <View style={styles.result}>
-                  <Image
-                    style={styles.image}
+              <TouchableHighlight onPress={() => this.props.navigation.navigate('RestaurantConfirm', {item: item})}>
+              <Card
+                  style={{
+                    borderRadius: 10,
+                    overflow: "hidden",
+                    borderWidth: 1.25,
+                    borderColor: "#d3d3d3"
+                  }}
+                >
+                {item.image_url ? (
+                  <CardImage
                     source={{ uri: item.image_url }}
+                    resizeMode="cover"
+                    style={{
+                      shadowColor: "#000",
+                      shadowOffset: { width: 0, height: 2 },
+                      shadowOpacity: 0.8,
+                      shadowRadius: 2
+                    }}
                   />
-                  <Text style={styles.header}>{item.name}</Text>
-                  <Text style={styles.text}>{item.location.address1}</Text>
-                  <Text style={styles.text}>{item.location.city}</Text>
-                </View>
+                ) : (<Text>No Image :(</Text>)}
+
+                  <CardTitle
+                    title={item.name}
+                    subtitle={item.description}
+                  />
+                  <CardContent 
+                    text={`${item.location.address1}\n${item.location.city}`}
+                  />
+                </Card>
               </TouchableHighlight>
             )}
             keyExtractor={item => item.id}
           />
-        </ScrollView>
-      </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#FC4E3E"
-  },
-  result: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 15
-  },
-  image: {
-    width: 300,
-    height: 200,
-    borderRadius: 10
-  },
-  header: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 25
   },
   text: {
     color: "white",

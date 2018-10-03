@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Text,
-  View,
-  Button,
-  StyleSheet,
-  ScrollView,
-  Image
-} from "react-native";
+import { Text, View, StyleSheet, ScrollView } from "react-native";
 import { MapView } from "expo";
 import { Marker } from "react-native-maps";
 import axios from "axios";
@@ -29,7 +22,7 @@ export default class CouponDetailScreen extends React.Component {
           name="md-list"
           size={32}
           color="red"
-          style={{ padding: 10}}
+          style={{ padding: 10 }}
           onPress={() => navigation.goBack()}
         />
       )
@@ -50,11 +43,12 @@ export default class CouponDetailScreen extends React.Component {
   render() {
     const { navigation } = this.props;
     const item = navigation.getParam("item");
+    const discount_price = (item.price - (item.price * (item.discount/100))).toFixed(2)
 
-    const info = `Restaurant: ${item.name}\nRestaurant Address: ${
-      item.address
-    }\nYour Price: $${(item.price * (item.discount / 100)).toFixed(2)}`;
+    const info = `Restaurant: ${item.name}\nRestaurant Address: ${item.address}\nYour Price: $${discount_price}`
 
+    console.log(info);
+    console.log('item', item);
     return (
       <View>
         <ScrollView>
@@ -65,20 +59,22 @@ export default class CouponDetailScreen extends React.Component {
                 <CardTitle title={item.dish_name} subtitle={item.description} />
                 <CardContent text={info} />
                 <CardAction separator={true} inColumn={false}>
-                {item.is_redeemed ? <Text>Your Coupon Has Been Redeemed</Text> : (
-                  <CardButton
-                    onPress={() => this._redeemCoupon(item.id)}
-                    title="Redeem Coupon"
-                    color="green"
-                  />
-                )}
+                  {item.is_redeemed ? (
+                    <Text>Your Coupon Has Been Redeemed</Text>
+                  ) : (
+                    <CardButton
+                      onPress={() => this._redeemCoupon(item.id)}
+                      title="Redeem Coupon"
+                      color="green"
+                    />
+                  )}
                   <CardButton
                     onPress={() => navigation.goBack()}
                     title="Go Back"
                     color="blue"
                   />
                 </CardAction>
-                {item.latitude && (
+                {item.latitude ? (
                   <MapView
                     style={{ width: 400, height: 300 }}
                     initialRegion={{
@@ -95,7 +91,7 @@ export default class CouponDetailScreen extends React.Component {
                       }}
                     />
                   </MapView>
-                )}
+                ) : (<Text></Text>)}
               </Card>
             </View>
           </View>
