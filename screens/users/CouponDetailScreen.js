@@ -43,19 +43,40 @@ export default class CouponDetailScreen extends React.Component {
   render() {
     const { navigation } = this.props;
     const item = navigation.getParam("item");
-    const discount_price = (item.price - (item.price * (item.discount/100))).toFixed(2)
+    const discount_price = (
+      item.price -
+      item.price * (item.discount / 100)
+    ).toFixed(2);
 
-    const info = `Restaurant: ${item.name}\nRestaurant Address: ${item.address}\nYour Price: $${discount_price}`
+    const info = `Restaurant: ${item.name}\nRestaurant Address: ${
+      item.address
+    }\nYour Price: $${discount_price}`;
 
     console.log(info);
-    console.log('item', item);
+    console.log("item", item);
     return (
       <View>
         <ScrollView>
           <View>
             <View>
-              <Card>
-                <CardImage source={{ uri: item.image }} />
+              <Card
+                style={{
+                  borderRadius: 10,
+                  overflow: "hidden",
+                  borderWidth: 1.25,
+                  borderColor: "#d3d3d3"
+                }}
+              >
+                <CardImage
+                  resizeMode="cover"
+                  source={{ uri: item.image }}
+                  style={{
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.8,
+                    shadowRadius: 2
+                  }}
+                />
                 <CardTitle title={item.dish_name} subtitle={item.description} />
                 <CardContent text={info} />
                 <CardAction separator={true} inColumn={false}>
@@ -91,7 +112,9 @@ export default class CouponDetailScreen extends React.Component {
                       }}
                     />
                   </MapView>
-                ) : (<Text></Text>)}
+                ) : (
+                  <Text />
+                )}
               </Card>
             </View>
           </View>
@@ -99,20 +122,4 @@ export default class CouponDetailScreen extends React.Component {
       </View>
     );
   }
-}
-
-{
-  /* <Image
-source={{ uri: item.image }}
-style={{ width: 400, height: 300 }}
-/>
-<Text>Id: {item.id}</Text>
-<Text>Restaurant: {item.name}</Text>
-<Text>Restaurants Address: {item.address}</Text>
-<Text>Dish Name: {item.dish_name}</Text>
-<Text>Time Limit: {item.time_limit}</Text>
-<Text>Unit Price: ${(item.price * 1).toFixed(2)}</Text>
-<Text>
-Your Price: ${(item.price * (item.discount / 100)).toFixed(2)}{" "}
-</Text> */
 }

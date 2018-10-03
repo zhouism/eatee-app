@@ -8,7 +8,9 @@ import {
   Alert,
   StyleSheet,
   TouchableHighlight,
-  Image
+  Image,
+  Platform,
+  ProgressBarAndroid
 } from "react-native";
 import axios from "axios";
 import { rootIP } from "react-native-dotenv";
@@ -52,7 +54,8 @@ class CouponBatchesScreen extends React.Component {
       item: {},
       res_swipe: "",
       res_impression: "",
-      res_redeem: ""
+      res_redeem: "",
+      progress: true
     };
   }
 
@@ -68,7 +71,8 @@ class CouponBatchesScreen extends React.Component {
           )
           .then(response => {
             this.setState({
-              data: response.data
+              data: response.data,
+              progress: false
             });
           })
           .catch(error => {
@@ -126,20 +130,20 @@ class CouponBatchesScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     const { res_impression, res_swipe, res_redeem } = this.state;
-
-    
-
-    const metrics = `Total # of Impressions: ${res_impression}\nTotal # of Swipes: ${res_swipe}\nTotal # of redeemed ads: ${res_redeem}`;
-
     return (
       <View style={styles.container}>
-        <View style={styles.metrics}>
-        {res_impression ? (<Text>Total # of Impressions: {res_impression}</Text>) : (<Text>Total # of Impressions: 0</Text>)}
-          <Text>Total # of Swipes: {res_swipe}</Text>
-          <Text>Total # of redeemed ads: {res_redeem}</Text>
-        </View>
-        {this.state.data && (
-          <ScrollView>
+        <ScrollView>
+          <View style={styles.metrics}>
+            {res_impression ? (
+              <Text>Total # of Impressions: {res_impression}</Text>
+            ) : (
+              <Text>Total # of Impressions: 0</Text>
+            )}
+            <Text>Total # of Swipes: {res_swipe}</Text>
+            <Text>Total # of redeemed ads: {res_redeem}</Text>
+          </View>
+          <ProgressBarAndroid animating={this.state.progress} />
+          {this.state.data && (
             <FlatList
               data={this.state.data}
               renderItem={({ item }) => (
@@ -173,8 +177,8 @@ class CouponBatchesScreen extends React.Component {
               )}
               keyExtractor={item => item.id.toString()}
             />
-          </ScrollView>
-        )}
+          )}
+        </ScrollView>
       </View>
     );
   }
