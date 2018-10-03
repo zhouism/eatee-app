@@ -5,15 +5,12 @@ import {
   TouchableHighlight,
   View,
   ScrollView,
-  Button,
-  Modal,
-  Image,
-  TextInput
+  Image
 } from "react-native";
-import axios from "axios";
-import { ImagePicker, Camera, Permissions } from "expo";
+import { ImagePicker, Permissions } from "expo";
 import t from "tcomb-form-native";
 import ModalView from "./CreateCouponBatchModal";
+import { Button } from "react-native-elements";
 
 // Functions setting up the form
 
@@ -146,23 +143,18 @@ export default class CreateCouponBatchScreen extends React.Component {
             savedDB={() => this.navToCouponBatch()}
           />
           <Button
-            style={styles.button}
-            title="Pick an image from camera roll"
+            buttonStyle={styles.button}
+            title="PICK AN IMAGE"
             onPress={this._pickImage}
           />
           <Button
-            style={styles.button}
-            title="Take a picture"
+            buttonStyle={styles.button}
+            title="TAKE A PHONE"
             onPress={() => {
               this._showCamera();
             }}
           />
-          {image && (
-            <Image
-              source={{ uri: image }}
-              style={{ width: 300, height: 300 }}
-            />
-          )}
+          {image && <Image source={{ uri: image }} style={styles.image} />}
           <Form
             ref="form"
             type={foodCoupon}
@@ -172,9 +164,9 @@ export default class CreateCouponBatchScreen extends React.Component {
           <TouchableHighlight
             style={styles.button}
             onPress={this.onPress.bind(this)}
-            underlayColor="#99d9f4"
+            underlayColor="#FC4E3E"
           >
-            <Text style={styles.buttonText}>Save</Text>
+            <Text style={styles.buttonText}>SAVE</Text>
           </TouchableHighlight>
         </ScrollView>
       </View>
@@ -182,27 +174,30 @@ export default class CreateCouponBatchScreen extends React.Component {
   }
 }
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingVertical: 20,
     justifyContent: "center",
+    alignItems: "center",
     padding: 20,
     backgroundColor: "#ffffff"
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: 20,
+    padding: 5,
     color: "white",
     alignSelf: "center"
   },
   button: {
-    height: 36,
-    backgroundColor: "#48BBEC",
-    borderColor: "#48BBEC",
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
-    alignSelf: "stretch",
-    justifyContent: "center"
-  }
-};
+    backgroundColor: "#000000",
+    marginTop: 10,
+    width: 300,
+    height: 40,
+    borderRadius: 30,
+    margin: 10,
+    borderColor: "#FC4E3E",
+    alignSelf: "center"
+  },
+  image: { width: 400, height: 300, alignSelf: "center" }
+});
