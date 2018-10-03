@@ -3,7 +3,6 @@ import {
   Text,
   ScrollView,
   View,
-  Button,
   FlatList,
   Alert,
   StyleSheet,
@@ -23,6 +22,7 @@ import {
   CardImage
 } from "react-native-material-cards";
 import { Ionicons } from "@expo/vector-icons";
+import { Button } from "react-native-elements";
 
 class CouponBatchesScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -127,16 +127,28 @@ class CouponBatchesScreen extends React.Component {
     const { navigate } = this.props.navigation;
     const { res_impression, res_swipe, res_redeem } = this.state;
 
-    
-
     const metrics = `Total # of Impressions: ${res_impression}\nTotal # of Swipes: ${res_swipe}\nTotal # of redeemed ads: ${res_redeem}`;
 
     return (
       <View style={styles.container}>
-        <View style={styles.metrics}>
-        {res_impression ? (<Text>Total # of Impressions: {res_impression}</Text>) : (<Text>Total # of Impressions: 0</Text>)}
-          <Text>Total # of Swipes: {res_swipe}</Text>
-          <Text>Total # of redeemed ads: {res_redeem}</Text>
+        <View>
+          <Text style={styles.text}>Total Coupon Impressions</Text>
+          {res_impression ? (
+            <Text style={styles.metrics}>{res_impression}</Text>
+          ) : (
+            <Text>0</Text>
+          )}
+          <Text style={styles.text}>Total Coupon Swipes</Text>
+          <Text style={styles.metrics}>{res_swipe}</Text>
+          <Text style={styles.text}>Total Coupons Redeemed</Text>
+          <Text style={styles.metrics}>{res_redeem}</Text>
+          <Button
+            buttonStyle={styles.button}
+            onPress={() => {
+              navigate("CreateCouponBatch");
+            }}
+            title="CREATE A NEW COUPON"
+          />
         </View>
         {this.state.data && (
           <ScrollView>
@@ -186,10 +198,25 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   text: {
-    fontWeight: "bold"
+    fontSize: 14,
+    paddingTop: 5,
+    alignSelf: "center"
   },
   metrics: {
-    marginLeft: 20
+    fontWeight: "bold",
+    fontSize: 22,
+    paddingTop: 5,
+    alignSelf: "center"
+  },
+  button: {
+    backgroundColor: "#000000",
+    marginTop: 10,
+    width: 300,
+    height: 40,
+    borderRadius: 30,
+    margin: 10,
+    borderColor: "#FC4E3E",
+    alignSelf: "center"
   }
 });
 

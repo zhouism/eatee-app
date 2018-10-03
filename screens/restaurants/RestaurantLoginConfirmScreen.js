@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  ScrollView
-} from "react-native";
+import { Text, View, StyleSheet, ScrollView } from "react-native";
 import _ from "lodash";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -70,35 +65,43 @@ class ModalView extends React.Component {
   render() {
     const { navigation } = this.props;
     const item = navigation.getParam("item");
-    console.log('this is the item.location.display_address[0]', item.location.display_address[0])
-
+    console.log(
+      "this is the item.location.display_address[0]",
+      item.location.display_address[0]
+    );
 
     return (
       <View>
         <ScrollView>
-              <Card>
-                {item.image_url ? (
-                  <CardImage source={{ uri: item.image_url }} />
-                ) : (
-                  <Text>No Iamge</Text>
-                )}
-                <CardTitle title={item.name} />
-                <CardContent text={`Phone Number: ${item.phone}\n${item.location.display_address[0]}\n${item.location.display_address[1]}\n${item.location.display_address[2]}`} />
-                <CardAction separator={true} inColumn={false}>
-                  <CardButton
-                    onPress={() => {
-                      this.saveRestaurantToDB(item);
-                    }}
-                    title="Confirm"
-                    color="green"
-                  />
-                  <CardButton
-                    onPress={() => navigation.goBack()}
-                    title="Go Back"
-                    color="blue"
-                  />
-                </CardAction>
-              </Card>
+          <Card>
+            {item.image_url ? (
+              <CardImage source={{ uri: item.image_url }} />
+            ) : (
+              <Text>No Image</Text>
+            )}
+            <CardTitle title={item.name} />
+            <CardContent
+              text={`${item.display_phone}\n${
+                item.location.display_address[0]
+              }\n${item.location.display_address[1]}\n${
+                item.location.display_address[2]
+              }`}
+            />
+            <CardAction separator={true} inColumn={false}>
+              <CardButton
+                onPress={() => {
+                  this.saveRestaurantToDB(item);
+                }}
+                title="Confirm"
+                color="green"
+              />
+              <CardButton
+                onPress={() => navigation.goBack()}
+                title="Go Back"
+                color="blue"
+              />
+            </CardAction>
+          </Card>
         </ScrollView>
       </View>
     );
