@@ -149,7 +149,7 @@ export default class CreateCouponBatchScreen extends React.Component {
           />
           <Button
             buttonStyle={styles.button}
-            title="TAKE A PHONE"
+            title="TAKE A PHOTO"
             onPress={() => {
               this._showCamera();
             }}
