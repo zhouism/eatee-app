@@ -195,12 +195,13 @@ class Deck extends Component {
     if (this.state.index >= this.props.data.length) {
       return (
         <Card title="All Done!">
-          <Text style={{ marginBottom: 10 }}>
+          <Text style={{ marginBottom: 10, textAlign: 'center' }}>
             No Worries!!! Press button to refresh
           </Text>
           <Button
             backgroundColor="#FC4E3E"
             title="Get More"
+            style={{ borderRadius: 10 }}
             onPress={() => {
               this.props.fetchCouponBatches();
             }}
@@ -458,7 +459,7 @@ class Deck extends Component {
             </Animated.View>
             <Animated.View
               style={{
-                opacity: this.dislikeOpacity,
+                opacity: 0,
                 transform: [{ rotate: "30deg" }],
                 position: "absolute",
                 top: 50,
@@ -500,7 +501,7 @@ const styles = {
   cardStyle: {
     position: "absolute",
     width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT - 130,
+    height: SCREEN_HEIGHT - 120,
     padding: 8,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
