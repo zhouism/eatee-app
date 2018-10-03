@@ -21,7 +21,7 @@ class SettingsScreen extends React.Component {
           name="md-restaurant"
           size={32}
           color="white"
-          style={{ padding: 20 }}
+          style={{ paddingLeft: 20 }}
           onPress={() => navigation.navigate('Swipe')}
         />
       )

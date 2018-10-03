@@ -11,7 +11,7 @@ class UserLogin extends React.Component {
   };
 
   componentDidMount() {
-    // AsyncStorage.removeItem("fb_token");
+    AsyncStorage.removeItem("fb_token");
   }
 
   componentWillReceiveProps(nextProps) {

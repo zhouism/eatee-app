@@ -30,7 +30,7 @@ export default class CouponDetailScreen extends React.Component {
           name="md-list"
           size={32}
           color="white"
-          style={{ padding: 10 }}
+          style={{ paddingLeft: 20 }}
           onPress={() => navigation.goBack()}
         />
       )
@@ -56,7 +56,7 @@ export default class CouponDetailScreen extends React.Component {
       item.price * (item.discount / 100)
     ).toFixed(2);
 
-    const info = `${item.name}\n${item.address}\n${item.city}\nPrice: $${discount_price}`;
+    const info = `${item.name}\n${item.address}\n${item.city}\n$${discount_price}`;
 
     console.log(info);
     console.log("item", item);
