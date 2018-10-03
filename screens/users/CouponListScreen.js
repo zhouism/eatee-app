@@ -21,13 +21,30 @@ import {
   CardButton,
   CardImage
 } from "react-native-material-cards";
+import { Ionicons } from "@expo/vector-icons";
 
 const LIGHTHOUSE_IP = `http://${rootIP}:3001/api`;
 
 class CouponListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: "Your Coupons"
+      headerTitle: "My Coupons",
+      headerStyle: {
+        backgroundColor: "#FC4E3E",
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      },
+      headerLeft: (
+        <Ionicons
+          name="md-restaurant"
+          size={32}
+          color="white"
+          style={{ padding: 10 }}
+          onPress={() => navigation.goBack()}
+        />
+      )
     };
   };
 
@@ -46,7 +63,7 @@ class CouponListScreen extends React.Component {
         axios
           .get(`${LIGHTHOUSE_IP}/users/${this.props.currentUser}/coupon_list`)
           .then(response => {
-            console.log('response.data', response.data);
+            console.log("response.data", response.data);
             this.setState({
               data: response.data
             });
@@ -69,7 +86,7 @@ class CouponListScreen extends React.Component {
               data={this.state.data}
               renderItem={({ item }) => (
                 <TouchableHighlight
-                  onPress={() => navigate("CouponDetail", { item: item })}
+                  onPress={() => navigate("CouponDetail", { item: item, name: item.dish_name })}
                 >
                   <Card
                     style={{
