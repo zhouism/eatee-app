@@ -15,6 +15,17 @@ import {
 } from "react-native-material-cards";
 
 class ModalView extends React.Component {
+  static navigationOptions = {
+    title: "Restaurant Confirmation",
+    headerStyle: {
+      backgroundColor: "#FC4E3E"
+    },
+    headerTintColor: "#fff",
+    headerTitleStyle: {
+      fontWeight: "bold"
+    }
+  };
+
   saveRestaurantToDB(item) {
     console.log("itemid", item.id);
 
@@ -112,12 +123,12 @@ class ModalView extends React.Component {
                   this.saveRestaurantToDB(item);
                 }}
                 title="Confirm"
-                color="green"
+                color="#FC4E3E"
               />
               <CardButton
                 onPress={() => navigation.goBack()}
                 title="Go Back"
-                color="blue"
+                color="black"
               />
             </CardAction>
           </Card>

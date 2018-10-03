@@ -11,6 +11,7 @@ import { ImagePicker, Permissions } from "expo";
 import t from "tcomb-form-native";
 import ModalView from "./CreateCouponBatchModal";
 import { Button } from "react-native-elements";
+import { Ionicons } from "@expo/vector-icons";
 
 // Functions setting up the form
 
@@ -67,8 +68,26 @@ export default class CreateCouponBatchScreen extends React.Component {
     };
   }
 
-  static navigationOptions = {
-    title: "Create Your Coupon Here"
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: "Create Your Coupon Here",
+      headerStyle: {
+        backgroundColor: "#FC4E3E"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      },
+      headerLeft: (
+        <Ionicons
+          name="md-list"
+          size={32}
+          color="white"
+          style={{ padding: 10 }}
+          onPress={() => navigation.goBack()}
+        />
+      )
+    };
   };
 
   componentDidMount() {

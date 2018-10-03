@@ -17,11 +17,19 @@ import {
 export default class CouponDetailScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
+      headerTitle: navigation.getParam('name'),
+      headerStyle: {
+        backgroundColor: "#FC4E3E",
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      },
       headerLeft: (
         <Ionicons
           name="md-list"
           size={32}
-          color="red"
+          color="white"
           style={{ padding: 10 }}
           onPress={() => navigation.goBack()}
         />

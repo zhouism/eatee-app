@@ -25,21 +25,23 @@ import { Button } from "react-native-elements";
 class CouponBatchesScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: "Coupon Batches",
+      headerTitle: "My Active Coupons",
+      headerStyle: {
+        backgroundColor: "#FC4E3E"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      },
       headerRight: (
         <Ionicons
-          name="md-list"
+          name="ios-add-circle-outline"
           size={32}
-          color="red"
+          color="white"
           style={{ padding: 10 }}
           onPress={() => navigation.navigate("CreateCouponBatch")}
         />
-      ),
-      headerStyle: {
-        elevation: 0,
-        shadowOpacity: 0,
-        borderBottomWidth: 0
-      }
+      )
     };
   };
 

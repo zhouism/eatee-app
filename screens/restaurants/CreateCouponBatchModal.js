@@ -158,14 +158,14 @@ class ModalView extends React.Component {
                     this.saveCouponBatchToDB(coupon, this.state.image);
                   }}
                   title="Confirm"
-                  color="green"
+                  color="#FC4E3E"
                 />
                 <CardButton
                   onPress={() => {
                     this.props.setModalVisible(false);
                   }}
                   title="Go Back"
-                  color="blue"
+                  color="black"
                 />
               </CardAction>
             </Card>

@@ -22,13 +22,30 @@ import {
   CardButton,
   CardImage
 } from "react-native-material-cards";
+import { Ionicons } from "@expo/vector-icons";
 
 const LIGHTHOUSE_IP = `http://${rootIP}:3001/api`;
 
 class CouponListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: "Your Coupons"
+      headerTitle: "My Coupons",
+      headerStyle: {
+        backgroundColor: "#FC4E3E",
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      },
+      headerLeft: (
+        <Ionicons
+          name="md-restaurant"
+          size={32}
+          color="white"
+          style={{ padding: 10 }}
+          onPress={() => navigation.goBack()}
+        />
+      )
     };
   };
 
@@ -48,7 +65,6 @@ class CouponListScreen extends React.Component {
         axios
           .get(`${LIGHTHOUSE_IP}/users/${this.props.currentUser}/coupon_list`)
           .then(response => {
-            // console.log('response.data', response.data);
             this.setState({
               data: response.data
 
@@ -69,19 +85,23 @@ class CouponListScreen extends React.Component {
     // if (!this.state.isReady) {
     //   console.log("in apploading");
     //   return <AppLoading />
-
-    // }
-    // else {
-      console.log('loading is done');
-      return (
-        <View style={styles.container}>
-          {this.state.data && (
-            <ScrollView>
-              <FlatList
-                data={this.state.data}
-                renderItem={({ item }) => (
-                  <TouchableHighlight
-                    onPress={() => navigate("CouponDetail", { item: item })}
+    return (
+      <View style={styles.container}>
+        {this.state.data && (
+          <ScrollView>
+            <FlatList
+              data={this.state.data}
+              renderItem={({ item }) => (
+                <TouchableHighlight
+                  onPress={() => navigate("CouponDetail", { item: item, name: item.dish_name })}
+                >
+                  <Card
+                    style={{
+                      borderRadius: 10,
+                      overflow: "hidden",
+                      borderWidth: 1.25,
+                      borderColor: "#d3d3d3"
+                    }}
                   >
                     <Card
                       style={{
@@ -139,25 +159,3 @@ export default connect(
   mapStateToProps,
   actions
 )(CouponListScreen);
-
-{
-  /* <View>
-<Image
-  source={{ uri: item.image }}
-  style={{ width: 400, height: 300 }}
-/>
-<Text>Id: {item.id}</Text>
-<Text>Dish Name: {item.dish_name}</Text>
-<Text>Restaurant Name: {item.name}</Text>
-<Text>Restaurants Address: {item.address}</Text>
-<Text>Time Limit: {item.time_limit}</Text>
-<Text>Unit Price: ${item.price.toFixed(2)}</Text>
-<Text>
-  Your Price: $
-  {(item.price * (item.discount / 100)).toFixed(2)}
-</Text>
-{item.is_redeemed && (
-  <Text>Your Coupon Has Been Redeemed</Text>
-)}
-</View> */
-}
