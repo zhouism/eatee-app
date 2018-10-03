@@ -196,11 +196,11 @@ class Deck extends Component {
       return (
         <Card title="All Done!">
           <Text style={{ marginBottom: 10 }}>
-            There's no more content here!
+            No Worries!!! Press button to refresh
           </Text>
           <Button
-            backgroundColor="#03A9F4"
-            title="Get more!"
+            backgroundColor="#FC4E3E"
+            title="Get More"
             onPress={() => {
               this.props.fetchCouponBatches();
             }}

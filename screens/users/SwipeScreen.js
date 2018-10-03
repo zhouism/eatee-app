@@ -53,7 +53,6 @@ class SwipeScreen extends React.Component {
           data={this.props.coupons}
           curUser={this.props.currentUser}
           renderCard={this.renderCard}
-          renderNoMoreCards={this.renderNoMoreCards}
         />
       </View>
     );
