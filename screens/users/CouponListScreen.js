@@ -10,6 +10,7 @@ import {
   ScrollView
 } from "react-native";
 import axios from "axios";
+import { AppLoading } from 'expo';
 import { connect } from "react-redux";
 import * as actions from "../../actions";
 import { rootIP } from "react-native-dotenv";
@@ -35,7 +36,8 @@ class CouponListScreen extends React.Component {
     super(props);
     this.state = {
       data: {},
-      item: {}
+      item: {},
+      isReady: false
     };
   }
 
@@ -46,68 +48,79 @@ class CouponListScreen extends React.Component {
         axios
           .get(`${LIGHTHOUSE_IP}/users/${this.props.currentUser}/coupon_list`)
           .then(response => {
-            console.log('response.data', response.data);
+            // console.log('response.data', response.data);
             this.setState({
               data: response.data
+
             });
           })
           .catch(error => {
             console.log(error);
           });
-      }
+      },
+      this.setState({
+        isReady: true
+      })
     );
   }
 
   render() {
     const { navigate } = this.props.navigation;
+    // if (!this.state.isReady) {
+    //   console.log("in apploading");
+    //   return <AppLoading />
 
-    return (
-      <View style={styles.container}>
-        {this.state.data && (
-          <ScrollView>
-            <FlatList
-              data={this.state.data}
-              renderItem={({ item }) => (
-                <TouchableHighlight
-                  onPress={() => navigate("CouponDetail", { item: item })}
-                >
-                  <Card
-                    style={{
-                      borderRadius: 10,
-                      overflow: "hidden",
-                      borderWidth: 1.25,
-                      borderColor: "#d3d3d3"
-                    }}
+    // }
+    // else {
+      console.log('loading is done');
+      return (
+        <View style={styles.container}>
+          {this.state.data && (
+            <ScrollView>
+              <FlatList
+                data={this.state.data}
+                renderItem={({ item }) => (
+                  <TouchableHighlight
+                    onPress={() => navigate("CouponDetail", { item: item })}
                   >
-                    <CardImage
-                      resizeMode="cover"
-                      source={{ uri: item.image }}
+                    <Card
                       style={{
-                        shadowColor: "#000",
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowOpacity: 0.8,
-                        shadowRadius: 2
+                        borderRadius: 10,
+                        overflow: "hidden",
+                        borderWidth: 1.25,
+                        borderColor: "#d3d3d3"
                       }}
-                    />
-                    <CardTitle
-                      title={item.dish_name}
-                      subtitle={item.description}
-                    />
-                    {item.is_redeemed ? (
-                      <CardContent text="Your Coupon Has Been Redeemed" />
-                    ) : (
-                      <CardContent text="" />
-                    )}
-                  </Card>
-                </TouchableHighlight>
-              )}
-              keyExtractor={item => item.id.toString()}
-            />
-          </ScrollView>
-        )}
-      </View>
-    );
-  }
+                    >
+                      <CardImage
+                        resizeMode="cover"
+                        source={{ uri: item.image }}
+                        style={{
+                          shadowColor: "#000",
+                          shadowOffset: { width: 0, height: 2 },
+                          shadowOpacity: 0.8,
+                          shadowRadius: 2
+                        }}
+                      />
+                      <CardTitle
+                        title={item.dish_name}
+                        subtitle={item.description}
+                      />
+                      {item.is_redeemed ? (
+                        <CardContent text="Your Coupon Has Been Redeemed" />
+                      ) : (
+                        <CardContent text="" />
+                      )}
+                    </Card>
+                  </TouchableHighlight>
+                )}
+                keyExtractor={item => item.id.toString()}
+              />
+            </ScrollView>
+          )}
+        </View>
+      );
+    }
+  // }
 }
 
 const styles = StyleSheet.create({
