@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet, ScrollView } from "react-native";
+import { Text, View, StyleSheet, ScrollView, Alert } from "react-native";
 import { MapView } from "expo";
 import { Marker } from "react-native-maps";
 import axios from "axios";
@@ -48,6 +48,10 @@ export default class CouponDetailScreen extends React.Component {
       });
   }
 
+  printOk() {
+    console.log("ok")
+  }
+
   render() {
     const { navigation } = this.props;
     const item = navigation.getParam("item");
@@ -90,10 +94,23 @@ export default class CouponDetailScreen extends React.Component {
                     <Text>Your Coupon Has Been Redeemed</Text>
                   ) : (
                     <CardButton
-                      onPress={() => this._redeemCoupon(item.id)}
+                      onPress={() => {
+                        Alert.alert(
+                          'Redeem Coupon',
+                          'Delicious food is ready!!!',
+                          [
+                            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                            {text: 'OK', onPress: () => {this._redeemCoupon(item.id)}},
+                          ],
+                          { cancelable: false }
+                        )
+
+                      }}
                       title="Redeem Coupon"
                       color="#FC4E3E"
                     />
+
+
                   )}
                   <CardButton
                     onPress={() => navigation.goBack()}
