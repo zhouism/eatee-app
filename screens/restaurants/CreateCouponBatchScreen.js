@@ -177,7 +177,7 @@ export default class CreateCouponBatchScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 20,
+    paddingVertical: 30,
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
@@ -192,12 +192,12 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#000000",
     marginTop: 10,
-    width: 300,
+    width: 200,
     height: 40,
     borderRadius: 30,
     margin: 10,
     borderColor: "#FC4E3E",
     alignSelf: "center"
   },
-  image: { width: 400, height: 300, alignSelf: "center" }
+  image: { width: 300, height: 300, alignSelf: "center" }
 });
