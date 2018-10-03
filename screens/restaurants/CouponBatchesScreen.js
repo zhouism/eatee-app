@@ -134,7 +134,7 @@ class CouponBatchesScreen extends React.Component {
           {res_impression ? (
             <Text style={styles.metrics}>{res_impression}</Text>
           ) : (
-            <Text>0</Text>
+            <Text style={styles.metrics}>0</Text>
           )}
           <Text style={styles.text}>Total Coupon Swipes</Text>
           <Text style={styles.metrics}>{res_swipe}</Text>
