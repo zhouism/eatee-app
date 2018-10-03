@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import axios from "axios";
 import { SearchBar, Button } from "react-native-elements";
-import ModalView from "./RestaurantLoginModalView.js";
 import { TextInputMask } from "react-native-masked-text";
 import LoadingScreen from "../LoadingScreen.js";
 import {
@@ -45,10 +44,8 @@ export default class RestaurantLoginScreen extends React.PureComponent {
       query: "",
       rawText: "",
       result: {},
-      modalVisible: false
     };
   }
-
 
   getRestaurantData(phoneNumber) {
     axios
@@ -71,32 +68,8 @@ export default class RestaurantLoginScreen extends React.PureComponent {
       });
   }
 
-  // _handleQueryChange = query => {
-  //   this.setState(state => ({ ...state, query: query || "" }));
-  //   console.log(this.yelpPhoneNumber.getRawValue());
-  // };
-
-  // query => console.log(this.yelpPhoneNumber.getRawValue());
-
   _handleSearchCancel = () => this._handleQueryChange("");
   _handleSearchClear = () => this._handleQueryChange("");
-
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
-  }
-
-  _onPressItem(item) {
-    this.setState({
-      modalVisible: true,
-      result: item
-    });
-  }
-
-  navToCouponBatch() {
-    this.setModalVisible(false);
-    console.log("has connected to navToCouponBatch");
-    this.props.navigation.navigate("RestaurantNav");
-  }
 
   render() {
     if (this.state.isLoading) {
@@ -108,15 +81,6 @@ export default class RestaurantLoginScreen extends React.PureComponent {
     }
     return (
       <ScrollView >
-        <ModalView
-          modalVisible={this.state.modalVisible}
-          setModalVisible={vis => {
-            this.setModalVisible(vis);
-          }}
-          result={this.state.result}
-          savedDB={() => this.navToCouponBatch()}
-        />
-
         <View style={styles.container}>
         <TextInputMask
           ref={ref => (this.yelpPhoneNumber = ref)}
@@ -149,11 +113,10 @@ export default class RestaurantLoginScreen extends React.PureComponent {
           title="LOOK FOR MY RESTAURANT"
         />
         </View>
-
           <FlatList
             data={this.state.data}
             renderItem={({ item }) => (
-              <TouchableHighlight onPress={() => this._onPressItem(item)}>
+              <TouchableHighlight onPress={() => this.props.navigation.navigate('RestaurantConfirm', {item: item})}>
               <Card
                   style={{
                     borderRadius: 10,

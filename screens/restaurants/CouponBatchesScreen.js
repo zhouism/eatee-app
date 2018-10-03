@@ -127,11 +127,17 @@ class CouponBatchesScreen extends React.Component {
     const { navigate } = this.props.navigation;
     const { res_impression, res_swipe, res_redeem } = this.state;
 
+    
+
     const metrics = `Total # of Impressions: ${res_impression}\nTotal # of Swipes: ${res_swipe}\nTotal # of redeemed ads: ${res_redeem}`;
 
     return (
       <View style={styles.container}>
-        <CardContent text={metrics} />
+        <View style={styles.metrics}>
+        {res_impression ? (<Text>Total # of Impressions: {res_impression}</Text>) : (<Text>Total # of Impressions: 0</Text>)}
+          <Text>Total # of Swipes: {res_swipe}</Text>
+          <Text>Total # of redeemed ads: {res_redeem}</Text>
+        </View>
         {this.state.data && (
           <ScrollView>
             <FlatList
@@ -181,6 +187,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: "bold"
+  },
+  metrics: {
+    marginLeft: 20
   }
 });
 
