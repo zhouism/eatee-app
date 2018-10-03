@@ -193,7 +193,6 @@ class Deck extends Component {
 
   renderCards() {
     if (this.state.index >= this.props.data.length) {
-      console.log("all coupons taken!!!");
       return (
         <Card title="All Done!">
           <Text style={{ marginBottom: 10 }}>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, AsyncStorage } from "react-native";
 import { Button, Slider } from "react-native-elements";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
@@ -17,6 +17,7 @@ class SettingsScreen extends React.Component {
 
   _handleLogout() {
     this.props.facebookLogout();
+    AsyncStorage.removeItem("fb_token");
     this.props.navigation.navigate("Home");
   }
 

@@ -14,9 +14,7 @@ export default createSwitchNavigator(
     UserNav: UserStack,
     RestaurantNav: RestaurantStack,
   },
-  {
-    initialRouteName: 'Home',
-  },
+
   {
     lazy: true
   }
