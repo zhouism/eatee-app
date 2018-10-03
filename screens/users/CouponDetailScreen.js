@@ -17,9 +17,9 @@ import {
 export default class CouponDetailScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: navigation.getParam('name'),
+      headerTitle: navigation.getParam("name"),
       headerStyle: {
-        backgroundColor: "#FC4E3E",
+        backgroundColor: "#FC4E3E"
       },
       headerTintColor: "#fff",
       headerTitleStyle: {
@@ -56,9 +56,7 @@ export default class CouponDetailScreen extends React.Component {
       item.price * (item.discount / 100)
     ).toFixed(2);
 
-    const info = `Restaurant: ${item.name}\nRestaurant Address: ${
-      item.address
-    }\nYour Price: $${discount_price}`;
+    const info = `${item.name}\n${item.address}\n${item.city}\nPrice: $${discount_price}`;
 
     console.log(info);
     console.log("item", item);
@@ -94,13 +92,13 @@ export default class CouponDetailScreen extends React.Component {
                     <CardButton
                       onPress={() => this._redeemCoupon(item.id)}
                       title="Redeem Coupon"
-                      color="green"
+                      color="#FC4E3E"
                     />
                   )}
                   <CardButton
                     onPress={() => navigation.goBack()}
                     title="Go Back"
-                    color="blue"
+                    color="black"
                   />
                 </CardAction>
                 {item.latitude ? (

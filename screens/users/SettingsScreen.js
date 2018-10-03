@@ -3,13 +3,31 @@ import { Text, View, StyleSheet, AsyncStorage } from "react-native";
 import { Button, Slider } from "react-native-elements";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
+import { Ionicons } from "@expo/vector-icons";
 
 class SettingsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: "User Settings"
+      headerTitle: "Settings",
+      headerStyle: {
+        backgroundColor: "#FC4E3E"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      },
+      headerLeft: (
+        <Ionicons
+          name="md-restaurant"
+          size={32}
+          color="white"
+          style={{ padding: 20 }}
+          onPress={() => navigation.navigate('Swipe')}
+        />
+      )
     };
   };
+
 
   constructor(props) {
     super(props);
@@ -49,8 +67,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#FC4E3E"
+    justifyContent: "center"
   },
   button: {
     backgroundColor: "#000000",

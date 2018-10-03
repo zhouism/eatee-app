@@ -131,7 +131,9 @@ class CouponBatchesScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View>
+        
+        {this.state.data && (
+          <ScrollView>
           <Text style={styles.text}>Total Coupon Impressions</Text>
           {res_impression ? (
             <Text style={styles.metrics}>{res_impression}</Text>
@@ -142,16 +144,6 @@ class CouponBatchesScreen extends React.Component {
           <Text style={styles.metrics}>{res_swipe}</Text>
           <Text style={styles.text}>Total Coupons Redeemed</Text>
           <Text style={styles.metrics}>{res_redeem}</Text>
-          <Button
-            buttonStyle={styles.button}
-            onPress={() => {
-              navigate("CreateCouponBatch");
-            }}
-            title="CREATE A NEW COUPON"
-          />
-        </View>
-        {this.state.data && (
-          <ScrollView>
             <FlatList
               data={this.state.data}
               renderItem={({ item }) => (
@@ -188,6 +180,16 @@ class CouponBatchesScreen extends React.Component {
             />
           </ScrollView>
         )}
+        <View>
+         
+          <Button
+            buttonStyle={styles.button}
+            onPress={() => {
+              navigate("CreateCouponBatch");
+            }}
+            title="CREATE A NEW COUPON"
+          />
+        </View>
       </View>
     );
   }

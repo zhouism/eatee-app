@@ -193,21 +193,7 @@ class Deck extends Component {
 
   renderCards() {
     if (this.state.index >= this.props.data.length) {
-      return (
-        <Card title="All Done!">
-          <Text style={{ marginBottom: 10, textAlign: 'center' }}>
-            No Worries!!! Press button to refresh
-          </Text>
-          <Button
-            backgroundColor="#FC4E3E"
-            title="Get More"
-            style={{ borderRadius: 10 }}
-            onPress={() => {
-              this.props.fetchCouponBatches();
-            }}
-          />
-        </Card>
-      );
+          this.props.fetchCouponBatches()
     } else {
       return this.props.data.map((item, i) => {
         if (i < this.state.index) {
@@ -523,3 +509,22 @@ export default connect(
   mapStateToProps,
   actions
 )(Deck);
+
+
+
+
+{/*
+  This was after the cards were rendered in the swipe screen and the user was going to press the button to look at more coupons
+  <Card title="All Done!">
+<Text style={{ marginBottom: 10, textAlign: 'center' }}>
+  No Worries!!! Press button to refresh
+</Text>
+<Button
+  backgroundColor="#FC4E3E"
+  title="Get More"
+  style={{ borderRadius: 10 }}
+  onPress={() => {
+    this.props.fetchCouponBatches();
+  }}
+/>
+</Card> */}
