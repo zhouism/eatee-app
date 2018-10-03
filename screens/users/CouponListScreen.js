@@ -10,7 +10,7 @@ import {
   ScrollView
 } from "react-native";
 import axios from "axios";
-import { AppLoading } from 'expo';
+import { AppLoading } from "expo";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
 import { rootIP } from "react-native-dotenv";
@@ -31,7 +31,7 @@ class CouponListScreen extends React.Component {
     return {
       headerTitle: "My Coupons",
       headerStyle: {
-        backgroundColor: "#FC4E3E",
+        backgroundColor: "#FC4E3E"
       },
       headerTintColor: "#fff",
       headerTitleStyle: {
@@ -67,7 +67,6 @@ class CouponListScreen extends React.Component {
           .then(response => {
             this.setState({
               data: response.data
-
             });
           })
           .catch(error => {
@@ -82,9 +81,6 @@ class CouponListScreen extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
-    // if (!this.state.isReady) {
-    //   console.log("in apploading");
-    //   return <AppLoading />
     return (
       <View style={styles.container}>
         {this.state.data && (
@@ -93,7 +89,12 @@ class CouponListScreen extends React.Component {
               data={this.state.data}
               renderItem={({ item }) => (
                 <TouchableHighlight
-                  onPress={() => navigate("CouponDetail", { item: item, name: item.dish_name })}
+                  onPress={() =>
+                    navigate("CouponDetail", {
+                      item: item,
+                      name: item.dish_name
+                    })
+                  }
                 >
                   <Card
                     style={{
@@ -103,44 +104,35 @@ class CouponListScreen extends React.Component {
                       borderColor: "#d3d3d3"
                     }}
                   >
-                    <Card
+                    <CardImage
+                      resizeMode="cover"
+                      source={{ uri: item.image }}
                       style={{
-                        borderRadius: 10,
-                        overflow: "hidden",
-                        borderWidth: 1.25,
-                        borderColor: "#d3d3d3"
+                        shadowColor: "#000",
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: 0.8,
+                        shadowRadius: 2
                       }}
-                    >
-                      <CardImage
-                        resizeMode="cover"
-                        source={{ uri: item.image }}
-                        style={{
-                          shadowColor: "#000",
-                          shadowOffset: { width: 0, height: 2 },
-                          shadowOpacity: 0.8,
-                          shadowRadius: 2
-                        }}
-                      />
-                      <CardTitle
-                        title={item.dish_name}
-                        subtitle={item.description}
-                      />
-                      {item.is_redeemed ? (
-                        <CardContent text="Your Coupon Has Been Redeemed" />
-                      ) : (
-                        <CardContent text="" />
-                      )}
-                    </Card>
-                  </TouchableHighlight>
-                )}
-                keyExtractor={item => item.id.toString()}
-              />
-            </ScrollView>
-          )}
-        </View>
-      );
-    }
-  // }
+                    />
+                    <CardTitle
+                      title={item.dish_name}
+                      subtitle={item.description}
+                    />
+                    {item.is_redeemed ? (
+                      <CardContent text="Your Coupon Has Been Redeemed" />
+                    ) : (
+                      <CardContent text="" />
+                    )}
+                  </Card>
+                </TouchableHighlight>
+              )}
+              keyExtractor={item => item.id.toString()}
+            />
+          </ScrollView>
+        )}
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
