@@ -49,7 +49,7 @@ export default class CouponDetailScreen extends React.Component {
   }
 
   printOk() {
-    console.log("ok")
+    console.log("ok");
   }
 
   render() {
@@ -60,7 +60,9 @@ export default class CouponDetailScreen extends React.Component {
       item.price * (item.discount / 100)
     ).toFixed(2);
 
-    const info = `${item.name}\n${item.address}\n${item.city}\n$${discount_price}`;
+    const info = `${item.name}\n${item.address}\n${
+      item.city
+    }\n$${discount_price}`;
 
     console.log(info);
     console.log("item", item);
@@ -96,21 +98,27 @@ export default class CouponDetailScreen extends React.Component {
                     <CardButton
                       onPress={() => {
                         Alert.alert(
-                          'Redeem Coupon',
-                          'Delicious food is ready!!!',
+                          "Redeem Coupon",
+                          "🍴 time!",
                           [
-                            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                            {text: 'OK', onPress: () => {this._redeemCoupon(item.id)}},
+                            {
+                              text: "Cancel",
+                              onPress: () => console.log("Cancel Pressed"),
+                              style: "cancel"
+                            },
+                            {
+                              text: "OK",
+                              onPress: () => {
+                                this._redeemCoupon(item.id);
+                              }
+                            }
                           ],
                           { cancelable: false }
-                        )
-
+                        );
                       }}
                       title="Redeem Coupon"
                       color="#FC4E3E"
                     />
-
-
                   )}
                   <CardButton
                     onPress={() => navigation.goBack()}
