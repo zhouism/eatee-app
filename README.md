@@ -5,7 +5,7 @@ Mobile app for consumers to swipe on food deals and restaurants to make advertis
 
 ### Final Product
 
-!["Eatee UI"](https://github.com/zhouism/eatee-app/blob/master/docs/eatee-restaurant-resize.gif =250x250)
+!["Eatee UI"](https://github.com/zhouism/eatee-app/blob/master/docs/eatee-restaurant-resize.gif)
 !["Eatee Swipe"](https://github.com/zhouism/eatee-app/blob/master/docs/swipe_deck_ios.gif)
 !["Eatee Redeem"](https://github.com/zhouism/eatee-app/blob/master/docs/redeem_ios.gif)
 
