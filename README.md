@@ -13,7 +13,7 @@ React Native, Expo, Redux, Yelp API, FacebookAU, AWS S3, Express, Node, Knex and
 ## Getting Started
 
 1. Clone this repository
-2. Clone the eatee-server 
+2. Clone the eatee-server here: https://github.com/tienhoah/eatee-server 
 3. Navigate to eatee-app and install all dependencies by running ``npm install``
 4. Navigate to eatee-server and install all dependencies by running ``npm install``
 5. In a .env file in the root directory of the eatee-app repository add your AWS S3 credentials and your local IP address
