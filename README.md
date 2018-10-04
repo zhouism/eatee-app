@@ -1,19 +1,21 @@
 Eatee
 =====================
 
-Mobile app for consumers to swipe on food deals and restaurants to make advertisements. 
+Mobile app for consumers to swipe on food deals and restaurants to make advertisements.
 
 ### Final Product
 
+!["Eatee Swipe"](https://github.com/zhouism/eatee-app/blob/master/docs/swipe_deck_ios.gif)
+!["Eatee Redeem"](https://github.com/zhouism/eatee-app/blob/master/docs/redeem_ios.gif)
 
-## Built With 
+## Built With
 
 React Native, Expo, Redux, Yelp API, FacebookAU, AWS S3, Express, Node, Knex and PSQL
 
 ## Getting Started
 
 1. Clone this repository
-2. Clone the eatee-server here: https://github.com/tienhoah/eatee-server 
+2. Clone the eatee-server here: https://github.com/tienhoah/eatee-server
 3. Navigate to eatee-app and install all dependencies by running ``npm install``
 4. Navigate to eatee-server and install all dependencies by running ``npm install``
 5. In a .env file in the root directory of the eatee-app repository add your AWS S3 credentials and your local IP address
@@ -24,7 +26,7 @@ React Native, Expo, Redux, Yelp API, FacebookAU, AWS S3, Express, Node, Knex and
 
 1. In a terminal window, navigate to eatee-app and run ``expo start``
 2. In a separate terminal window, navigate to eatee-server and run ``PORT=3001 npm start``
-3. Android Users - scan the QR code and start the application 
+3. Android Users - scan the QR code and start the application
 4. iOS Users - press ``e`` in the terminal window of the eatee-app and send a link to your cellphone - then run the application
 5. Congratulations you can now start swiping on food deals or make ads!
 
