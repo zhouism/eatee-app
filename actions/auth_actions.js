@@ -54,6 +54,10 @@ doFacebookLogin = async dispatch => {
           age: userInfo.birthday,
           sex: userInfo.gender,
           city: userInfo.location.name
+        }).then(function(response) {
+          console.log(response);
+          console.log("-----------------");
+          console.log(response.data[0].id);
         })
       } else {
         console.log("user exists");
